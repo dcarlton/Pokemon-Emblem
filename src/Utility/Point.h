@@ -1,6 +1,8 @@
 #ifndef POINT_H
 #define POINT_H
 
+// TODO: Namespace Point
+
 class Point
 {
 public:

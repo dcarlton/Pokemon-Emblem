@@ -1,6 +1,5 @@
 #include "GameplayState.h"
 
-
 GameplayState::GameplayState()
 {
     initGenericMap();
@@ -11,14 +10,12 @@ void GameplayState::initGenericMap()
 {
     std::vector<Terrain> column;
     int size = 10;
-    Terrain terrain;
 
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
         {
-            terrain.image = GUI::getImage(Image::testTile);
-            column.push_back(terrain);
+            column.push_back(Terrain());
         }
         map.push_back(column);
     }
@@ -30,16 +27,16 @@ void GameplayState::draw()
     {
         for (unsigned int y = 0; y < map[x].size(); y++)
         {
-            GUI::drawImage(map[x][y].image, x * 24, y * 24, 24, 24);
+            GUI::drawImage(map[x][y].image, Point(x * 24, y * 24));
         }
     }
 
     for (Pokemon pokemon: allPokemon)
     {
-        GUI::drawImage(pokemon.image, pokemon.position.x * 24, pokemon.position.y * 24, 24, 24);
+        GUI::drawImage(pokemon.image, Point(pokemon.position.x * 24, pokemon.position.y * 24));
     }
 
-    GUI::drawImage(cursorImage, cursorPos.x * 24, cursorPos.y * 24, 24, 24);
+    GUI::drawImage(cursorImage, Point(cursorPos.x * 24, cursorPos.y * 24));
 }
 
 void GameplayState::moveDownPressed()

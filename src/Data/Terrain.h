@@ -1,15 +1,15 @@
 #ifndef TERRAIN_H
 #define TERRAIN_H
 
-#include <string>
+#include "../GUI/Image.h"
 
-#include "SDL.h"
+// TODO: Change namespace and folder to Gameplay
 
 class Terrain
 {
 public:
     Terrain();
-    SDL_Surface* image;
+    GUI::Image image;
 };
 
 #endif

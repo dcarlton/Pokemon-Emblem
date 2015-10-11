@@ -3,12 +3,12 @@
 
 #include <vector>
 
+#include "../GUI/GUI.h"
+#include "../GUI/Image.h"
+#include "../Utility/Point.h"
+#include "../Data/Pokemon.h"
 #include "State.h"
-#include "../../src/Data/Image.h"
-#include "../../src/Data/Pokemon.h"
-#include "../../src/Data/Terrain.h"
-#include "../../src/Utility/GUI.h"
-#include "../../src/Utility/Point.h"
+#include "../Data/Terrain.h"
 
 class GameplayState: public State
 {
@@ -23,7 +23,7 @@ public:
 
 private:
     std::vector<Pokemon> allPokemon;
-    SDL_Surface* cursorImage = GUI::getImage(Image::gameplayCursor);
+    GUI::Image cursorImage = GUI::getImage(GUI::ImageEnum::GameplayCursor);
     Point cursorPos = Point(0, 0);
     std::vector<std::vector<Terrain>> map;
 

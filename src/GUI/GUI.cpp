@@ -1,11 +1,10 @@
 // TODO: Probably shouldn't assert on error
 
 #include <assert.h>
-#include <string>
-
-#include "SDL.h"
 
 #include "GUI.h"
+#include "ImageFactory.h"
+#include "../Utility/Log.h"
 
 
 namespace
@@ -35,19 +34,23 @@ void GUI::deleteWindow()
     SDL_FreeSurface(windowSurface);
 }
 
-void GUI::drawImage(SDL_Surface* imageSurface, int x, int y, int width, int height)
+void GUI::drawImage(GUI::Image image, Point position)
 {
+    if (image.surface == nullptr || windowSurface == nullptr)
+        return;
+
     SDL_Rect targetRect;
-    targetRect.x = x;
-    targetRect.y = y;
-    targetRect.h = height;
-    targetRect.w = width;
-    SDL_BlitSurface(imageSurface, NULL, windowSurface, &targetRect);
+    targetRect.x = position.x;
+    targetRect.y = position.y;
+    targetRect.h = image.size.height;
+    targetRect.w = image.size.width;
+
+    SDL_BlitSurface(image.surface, NULL, windowSurface, &targetRect);
 }
 
-SDL_Surface* GUI::getImage(const std::string imageFilename)
+GUI::Image GUI::getImage(ImageEnum imageEnum)
 {
-    return SDL_LoadBMP(imageFilename.c_str());
+    return makeImage(imageEnum);
 }
 
 void GUI::loadAssets()
@@ -58,6 +61,15 @@ void GUI::loadEngine()
 {
     int error = SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO);
     assert(!error);
+}
+
+void GUI::showMessage(std::string message)
+{
+    SDL_ShowSimpleMessageBox(0,
+                             "",
+                             message.c_str(),
+                             window);
+
 }
 
 void GUI::updateWindow()

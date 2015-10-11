@@ -3,7 +3,7 @@
 
 #include "SDL.h"
 
-#include "src/Utility/GUI.h"
+#include "src/GUI/GUI.h"
 #include "src/State/GameplayState.h"
 #include "src/Utility/Log.h"
 
@@ -14,7 +14,13 @@ void cleanup();
 int main()
 {
     loadGame();
-    gameLoop();
+    try
+    {
+        gameLoop();
+    }
+    catch(...)
+    {
+    }
     cleanup();
     return 0;
 }
@@ -31,12 +37,13 @@ void gameLoop()
 {
     SDL_Event event;
     GameplayState state;
-    int startTime = 0;
-    int frameRate = 0;
+    //int startTime = 0;
+    //int frameRate = 0;
 
     for (;;)
     {
-        startTime = SDL_GetTicks();
+        //GUI::showMessage("Begin game loop");
+        //startTime = SDL_GetTicks();
         while (SDL_PollEvent(&event)) {
             switch (event.type)
             {
@@ -70,15 +77,18 @@ void gameLoop()
         }
 
         state.update();
+        //GUI::showMessage("Start drawing");
         state.draw();
+        //GUI::showMessage("Finished drawing");
         GUI::updateWindow();
+        //GUI::showMessage("Finish updating window");
 
-        frameRate = SDL_GetTicks() - startTime;
+        /*frameRate = SDL_GetTicks() - startTime;
         if (frameRate > 16)
             Utility::log("Frame rate below 60 FPS: last frame lasted " + std::to_string(frameRate) + " milliseconds");
         else
-            SDL_Delay(16 - frameRate);
-
+            SDL_Delay(16 - frameRate);*/
+        //GUI::showMessage("End game loop");
     }
 }
 

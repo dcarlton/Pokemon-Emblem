@@ -5,6 +5,11 @@
 
 #include "SDL.h"
 
+#include "Image.h"
+#include "ImageEnum.h"
+#include "../Utility/Point.h"
+
+
 
 namespace GUI
 {
@@ -13,10 +18,11 @@ namespace GUI
 		              int height,
 					  std::string title);
 	void deleteWindow();
-	void drawImage(SDL_Surface* image, int x, int y, int width, int height);
-	SDL_Surface* getImage(const std::string imageFilename);
+	void drawImage(Image image, Point position);
+	Image getImage(ImageEnum imageEnum);
     void loadAssets();
 	void loadEngine();
+	void showMessage(std::string message);
 	void updateWindow();
 };
 
