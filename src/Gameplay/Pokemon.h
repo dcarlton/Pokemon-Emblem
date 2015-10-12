@@ -2,8 +2,13 @@
 #define POKEMON_H
 
 #include "../GUI/GUI.h"
-#include "../GUI/Image.h"
+#include "../GUI/ImageEnum.h"
 #include "../Utility/Point.h"
+
+class GUI::Image;
+
+namespace Gameplay
+{
 
 class Pokemon
 {
@@ -13,5 +18,7 @@ public:
 
     Pokemon();
 };
+
+}
 
 #endif

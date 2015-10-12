@@ -6,9 +6,9 @@
 #include "../GUI/GUI.h"
 #include "../GUI/Image.h"
 #include "../Utility/Point.h"
-#include "../Data/Pokemon.h"
+#include "../Gameplay/Pokemon.h"
 #include "State.h"
-#include "../Data/Terrain.h"
+#include "../Gameplay/Terrain.h"
 
 class GameplayState: public State
 {
@@ -22,10 +22,10 @@ public:
     void update();
 
 private:
-    std::vector<Pokemon> allPokemon;
+    std::vector<Gameplay::Pokemon> allPokemon;
     GUI::Image cursorImage = GUI::getImage(GUI::ImageEnum::GameplayCursor);
     Point cursorPos = Point(0, 0);
-    std::vector<std::vector<Terrain>> map;
+    std::vector<std::vector<Gameplay::Terrain>> map;
 
     void initGenericMap();
 };

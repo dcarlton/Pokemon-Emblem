@@ -3,19 +3,19 @@
 GameplayState::GameplayState()
 {
     initGenericMap();
-    allPokemon.push_back(Pokemon());
+    allPokemon.push_back(Gameplay::Pokemon());
 }
 
 void GameplayState::initGenericMap()
 {
-    std::vector<Terrain> column;
+    std::vector<Gameplay::Terrain> column;
     int size = 10;
 
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
         {
-            column.push_back(Terrain());
+            column.push_back(Gameplay::Terrain());
         }
         map.push_back(column);
     }
@@ -31,7 +31,7 @@ void GameplayState::draw()
         }
     }
 
-    for (Pokemon pokemon: allPokemon)
+    for (Gameplay::Pokemon pokemon: allPokemon)
     {
         GUI::drawImage(pokemon.image, Point(pokemon.position.x * 24, pokemon.position.y * 24));
     }
