@@ -1,6 +1,8 @@
 #ifndef SIZE_H
 #define SIZE_H
 
+#include <string>
+
 // TODO: Namespace Utility
 
 class Size
@@ -11,6 +13,7 @@ public:
 
     Size() {};
     Size(int widthArg, int heightArg) {height = heightArg; width = widthArg;}
+    std::string to_string() {return std::to_string(width) + 'x' + std::to_string(height);}
 };
 
 #endif

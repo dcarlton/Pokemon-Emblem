@@ -1,10 +1,7 @@
-// TODO: Probably shouldn't assert on error
-
-#include <assert.h>
-
 #include "GUI.h"
 #include "ImageFactory.h"
 #include "../Utility/Log.h"
+#include "../Utility/Size.h"
 
 
 namespace
@@ -20,23 +17,29 @@ void GUI::cleanup()
     SDL_Quit();
 }
 
-void GUI::createWindow(int width, int height, std::string title)
+void GUI::createWindow(Size size, std::string title)
 {
     deleteWindow();
-    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, 0);
-    assert(window);
+    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, size.width, size.height, 0);
+    if (!window)
+        Utility::log("Failed to create a window with size " +
+                     size.to_string() +
+                     " and title " +
+                     title);
     windowSurface = SDL_GetWindowSurface(window);
 }
 
 void GUI::deleteWindow()
 {
+    if (!window || !windowSurface)
+        Utility::log("Attempting to delete a window when a window has not been created");
     SDL_DestroyWindow(window);
     SDL_FreeSurface(windowSurface);
 }
 
 void GUI::drawImage(GUI::Image image, Point position)
 {
-    if (image.surface == nullptr || windowSurface == nullptr)
+    if (!image.surface || !windowSurface)
         return;
 
     SDL_Rect targetRect;
@@ -60,7 +63,8 @@ void GUI::loadAssets()
 void GUI::loadEngine()
 {
     int error = SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO);
-    assert(!error);
+    if (error != 0)
+        Utility::log("Unabe to initialize SDL: " + std::string(SDL_GetError()));
 }
 
 void GUI::showMessage(std::string message)

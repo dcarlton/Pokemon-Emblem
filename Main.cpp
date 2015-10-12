@@ -6,6 +6,7 @@
 #include "src/GUI/GUI.h"
 #include "src/State/GameplayState.h"
 #include "src/Utility/Log.h"
+#include "src/Utility/Size.h"
 
 void gameLoop();
 void loadGame();
@@ -30,7 +31,7 @@ void loadGame()
     Utility::initLog();
     GUI::loadEngine();
     GUI::loadAssets();
-    GUI::createWindow(240, 240, "Pokemon Emblem");
+    GUI::createWindow(Size(240, 240), "Pokemon Emblem");
 }
 
 void gameLoop()

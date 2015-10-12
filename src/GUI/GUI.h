@@ -10,12 +10,13 @@
 #include "../Utility/Point.h"
 
 
+class Size;
+
 
 namespace GUI
 {
 	void cleanup();
-	void createWindow(int width,
-		              int height,
+	void createWindow(Size size,
 					  std::string title);
 	void deleteWindow();
 	void drawImage(Image image, Point position);
