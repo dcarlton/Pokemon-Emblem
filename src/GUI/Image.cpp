@@ -1,7 +1,5 @@
 #include "Image.h"
-#include "../Utility/Int.h"
 #include "../Utility/Log.h"
-// TODO: Deal with errors from invalid filenames
 
 GUI::Image::Image()
 {
