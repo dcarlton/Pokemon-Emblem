@@ -1,15 +1,15 @@
 #include "GameplayState.h"
 
-GameplayState::GameplayState()
+State::GameplayState::GameplayState()
 {
     initGenericMap();
     allPokemon.push_back(Gameplay::Pokemon());
 }
 
-void GameplayState::initGenericMap()
+void State::GameplayState::initGenericMap()
 {
     std::vector<Gameplay::Terrain> column;
-    int size = 10;
+    const int size = 10;
 
     for (int i = 0; i < size; i++)
     {
@@ -21,7 +21,7 @@ void GameplayState::initGenericMap()
     }
 }
 
-void GameplayState::draw()
+void State::GameplayState::draw()
 {
     for (unsigned int x = 0; x < map.size(); x++)
     {
@@ -39,30 +39,30 @@ void GameplayState::draw()
     GUI::drawImage(cursorImage, Point(cursorPos.x * 24, cursorPos.y * 24));
 }
 
-void GameplayState::moveDownPressed()
+void State::GameplayState::moveDownPressed()
 {
-    if (cursorPos.y < 9)
+    if (cursorPos.y < map.size() - 1)
         (cursorPos.y)++;
 }
 
-void GameplayState::moveLeftPressed()
+void State::GameplayState::moveLeftPressed()
 {
     if (cursorPos.x > 0)
         (cursorPos.x)--;
 }
 
-void GameplayState::moveRightPressed()
+void State::GameplayState::moveRightPressed()
 {
-    if (cursorPos.x < 9)
+    if (cursorPos.x < map.size() - 1)
         (cursorPos.x)++;
 }
 
-void GameplayState::moveUpPressed()
+void State::GameplayState::moveUpPressed()
 {
     if (cursorPos.y > 0)
         (cursorPos.y)--;
 }
 
-void GameplayState::update()
+void State::GameplayState::update()
 {
 }

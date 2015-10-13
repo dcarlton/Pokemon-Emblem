@@ -37,7 +37,7 @@ void loadGame()
 void gameLoop()
 {
     SDL_Event event;
-    GameplayState state;
+    State::GameplayState state;
     //int startTime = 0;
     //int frameRate = 0;
 

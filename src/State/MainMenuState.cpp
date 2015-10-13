@@ -1,7 +1,7 @@
 #include "MainMenuState.h"
 
 
-void MainMenuState::draw()
+void State::MainMenuState::draw()
 {
 	/*sf::Text text = GUI::getTextObject("New Game");
 	text.setColor(sf::Color::Black);
@@ -14,11 +14,11 @@ void MainMenuState::draw()
 	GUI::drawTextObject(text);*/
 }
 
-void MainMenuState::processInput()
+void State::MainMenuState::processInput()
 {
 
 }
 
-void MainMenuState::update()
+void State::MainMenuState::update()
 {
 }

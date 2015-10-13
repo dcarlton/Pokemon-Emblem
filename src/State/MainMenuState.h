@@ -3,6 +3,10 @@
 
 #include "State.h"
 
+
+namespace State
+{
+
 class MainMenuState: public State
 {
 public:
@@ -10,5 +14,7 @@ public:
 	void processInput();
 	void update();
 };
+
+}
 
 #endif

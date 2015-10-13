@@ -4,11 +4,17 @@
 #include <vector>
 
 #include "../GUI/GUI.h"
-#include "../GUI/Image.h"
-#include "../Utility/Point.h"
 #include "../Gameplay/Pokemon.h"
 #include "State.h"
 #include "../Gameplay/Terrain.h"
+
+
+class GUI::Image;
+class Point;
+
+
+namespace State
+{
 
 class GameplayState: public State
 {
@@ -29,5 +35,7 @@ private:
 
     void initGenericMap();
 };
+
+}
 
 #endif
