@@ -3,8 +3,7 @@
 
 GUI::Image::Image()
 {
-    size = Size(0, 0);
-    surface = nullptr;
+    Utility::log("Image object created without an image file");
 }
 
 GUI::Image::Image(std::string imageFilename, Utility::Color rgb, Size sizeArg)
@@ -22,6 +21,9 @@ GUI::Image::Image(std::string imageFilename, Utility::Color rgb, Size sizeArg)
     size = sizeArg;
 }
 
+// TODO: Clean up surfaces. Either taken care of once every tile isn't given
+// the default tile, or use a RAII hashmap system to delete surface when
+// nothing is using it
 GUI::Image::~Image()
 {
 }

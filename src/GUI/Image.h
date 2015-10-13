@@ -8,14 +8,15 @@
 #include "../Utility/Color.h"
 #include "../Utility/Size.h"
 
+
 namespace GUI
 {
 
 class Image
 {
 public:
-    Size size;
-    SDL_Surface* surface;
+    Size size = Size(0, 0);
+    SDL_Surface* surface = nullptr;
 
     Image();
     Image(std::string imageFilename, Utility::Color colorKey, Size sizeArg);

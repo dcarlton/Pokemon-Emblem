@@ -29,7 +29,7 @@ GUI::Image GUI::makeImage(GUI::ImageEnum imageEnum)
             break;
 
         default:
-            throw std::exception();
+            return Image();
             break;
     }
 }
