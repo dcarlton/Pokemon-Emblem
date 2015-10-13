@@ -15,11 +15,11 @@ namespace GUI
 class Image
 {
 public:
-    Size size = Size(0, 0);
+    Utility::Size size = Utility::Size(0, 0);
     SDL_Surface* surface = nullptr;
 
     Image();
-    Image(std::string imageFilename, Utility::Color colorKey, Size sizeArg);
+    Image(std::string imageFilename, Utility::Color colorKey, Utility::Size sizeArg);
     ~Image();
 };
 

@@ -17,7 +17,7 @@ void GUI::cleanup()
     SDL_Quit();
 }
 
-void GUI::createWindow(Size size, std::string title)
+void GUI::createWindow(Utility::Size size, std::string title)
 {
     deleteWindow();
     window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, size.width, size.height, 0);
@@ -37,7 +37,7 @@ void GUI::deleteWindow()
     SDL_FreeSurface(windowSurface);
 }
 
-void GUI::drawImage(GUI::Image image, Point position)
+void GUI::drawImage(GUI::Image image, Utility::Point position)
 {
     if (!image.surface || !windowSurface)
         return;

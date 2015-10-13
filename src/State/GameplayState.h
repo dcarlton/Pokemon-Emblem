@@ -10,7 +10,7 @@
 
 
 class GUI::Image;
-class Point;
+class Utility::Point;
 
 
 namespace State
@@ -30,7 +30,7 @@ public:
 private:
     std::vector<Gameplay::Pokemon> allPokemon;
     GUI::Image cursorImage = GUI::getImage(GUI::ImageEnum::GameplayCursor);
-    Point cursorPos = Point(0, 0);
+    Utility::Point cursorPos = Utility::Point(0, 0);
     std::vector<std::vector<Gameplay::Terrain>> map;
 
     void initGenericMap();

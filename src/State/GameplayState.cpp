@@ -27,16 +27,16 @@ void State::GameplayState::draw()
     {
         for (unsigned int y = 0; y < map[x].size(); y++)
         {
-            GUI::drawImage(map[x][y].image, Point(x * 24, y * 24));
+            GUI::drawImage(map[x][y].image, Utility::Point(x * 24, y * 24));
         }
     }
 
     for (Gameplay::Pokemon pokemon: allPokemon)
     {
-        GUI::drawImage(pokemon.image, Point(pokemon.position.x * 24, pokemon.position.y * 24));
+        GUI::drawImage(pokemon.image, Utility::Point(pokemon.position.x * 24, pokemon.position.y * 24));
     }
 
-    GUI::drawImage(cursorImage, Point(cursorPos.x * 24, cursorPos.y * 24));
+    GUI::drawImage(cursorImage, Utility::Point(cursorPos.x * 24, cursorPos.y * 24));
 }
 
 void State::GameplayState::moveDownPressed()

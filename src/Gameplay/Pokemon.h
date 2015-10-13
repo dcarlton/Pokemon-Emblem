@@ -14,7 +14,7 @@ class Pokemon
 {
 public:
     GUI::Image image = GUI::getImage(GUI::ImageEnum::TestPokemon);
-    Point position = Point(0, 0);
+    Utility::Point position = Utility::Point(0, 0);
 
     Pokemon();
 };

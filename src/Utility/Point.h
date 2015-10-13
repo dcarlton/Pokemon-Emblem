@@ -3,7 +3,9 @@
 
 #include "Int.h"
 
-// TODO: Namespace Point
+
+namespace Utility
+{
 
 class Point
 {
@@ -12,5 +14,7 @@ public:
     uint32 x = 0;
     uint32 y = 0;
 };
+
+}
 
 #endif

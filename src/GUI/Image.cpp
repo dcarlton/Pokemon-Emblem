@@ -6,7 +6,7 @@ GUI::Image::Image()
     Utility::log("Image object created without an image file");
 }
 
-GUI::Image::Image(std::string imageFilename, Utility::Color rgb, Size sizeArg)
+GUI::Image::Image(std::string imageFilename, Utility::Color rgb, Utility::Size sizeArg)
 {
     surface = SDL_LoadBMP(imageFilename.c_str());
     if (!surface)
