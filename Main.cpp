@@ -1,22 +1,28 @@
+#include <exception>
 #include <time.h>
 #include <windows.h>
 
 #include "SDL.h"
 
-#include "src/GUI/GUI.h"
 #include "src/State/GameplayState.h"
+#include "src/GUI/GUI.h"
 #include "src/Utility/Log.h"
 #include "src/Utility/Size.h"
+#include "src/State/State.h"
 
-void gameLoop();
+
+class QuitException: public std::exception{};
+
 void loadGame();
+void gameLoop();
+void processInput(State::State &state);
 void cleanup();
 
 int main()
 {
-    loadGame();
     try
     {
+        loadGame();
         gameLoop();
     }
     catch(...)
@@ -36,60 +42,66 @@ void loadGame()
 
 void gameLoop()
 {
-    SDL_Event event;
     State::GameplayState state;
-    //int startTime = 0;
-    //int frameRate = 0;
+    int frameRate = 0;
+    int startTime = 0;
 
-    for (;;)
+    try
     {
-        //GUI::showMessage("Begin game loop");
-        //startTime = SDL_GetTicks();
-        while (SDL_PollEvent(&event)) {
-            switch (event.type)
-            {
-                case SDL_KEYDOWN:
-                    switch (event.key.keysym.sym)
-                    {
-                        case SDLK_DOWN:
-                            state.moveDownPressed();
-                            break;
+        for (;;)
+        {
+            startTime = SDL_GetTicks();
 
-                        case SDLK_LEFT:
-                            state.moveLeftPressed();
-                            break;
+            processInput(state);
+            state.update();
+            state.draw();
+            GUI::updateWindow();
 
-                        case SDLK_RIGHT:
-                            state.moveRightPressed();
-                            break;
-
-                        case SDLK_UP:
-                            state.moveUpPressed();
-                            break;
-
-                        case SDLK_ESCAPE:
-                            return;
-                    }
-                    break;
-
-                case SDL_QUIT:
-                    return;
-            }
+            frameRate = SDL_GetTicks() - startTime;
+            if (frameRate > 16)
+                Utility::log("Frame rate below 60 FPS: last frame lasted " + std::to_string(frameRate) + " milliseconds");
+            else
+                SDL_Delay(16 - frameRate);
         }
+    }
+    catch (QuitException)
+    {
+    }
+}
 
-        state.update();
-        //GUI::showMessage("Start drawing");
-        state.draw();
-        //GUI::showMessage("Finished drawing");
-        GUI::updateWindow();
-        //GUI::showMessage("Finish updating window");
+void processInput(State::State &state)
+{
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+        switch (event.type)
+        {
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym)
+                {
+                    case SDLK_DOWN:
+                        state.moveDownPressed();
+                        break;
 
-        /*frameRate = SDL_GetTicks() - startTime;
-        if (frameRate > 16)
-            Utility::log("Frame rate below 60 FPS: last frame lasted " + std::to_string(frameRate) + " milliseconds");
-        else
-            SDL_Delay(16 - frameRate);*/
-        //GUI::showMessage("End game loop");
+                    case SDLK_LEFT:
+                        state.moveLeftPressed();
+                        break;
+
+                    case SDLK_RIGHT:
+                        state.moveRightPressed();
+                        break;
+
+                    case SDLK_UP:
+                        state.moveUpPressed();
+                        break;
+
+                    case SDLK_ESCAPE:
+                        throw QuitException();
+                }
+                break;
+
+            case SDL_QUIT:
+                throw QuitException();
+        }
     }
 }
 
