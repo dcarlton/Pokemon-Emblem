@@ -15,11 +15,15 @@ namespace
 
 void Utility::initLog()
 {
-    logfile.open(logFilename);
+    if (!logfile.is_open())
+        logfile.open(logFilename);
 }
 
 void Utility::log(std::string message)
 {
+    if (!logfile.is_open())
+        return;
+
     time_t timer = time(0);
     struct std::tm* now = localtime(&timer);
     logfile << now->tm_hour
@@ -36,4 +40,5 @@ void Utility::log(std::string message)
 void Utility::quitLog()
 {
     logfile.close();
+    logfile.clear();
 }
