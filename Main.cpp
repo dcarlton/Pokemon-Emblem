@@ -1,4 +1,5 @@
 #include <exception>
+#include <memory>
 #include <time.h>
 #include <windows.h>
 
@@ -8,14 +9,15 @@
 #include "src/GUI/GUI.h"
 #include "src/Utility/Log.h"
 #include "src/Utility/Size.h"
-#include "src/State/State.h"
+#include "src/State/StateStack.h"
 
 
+class State::State;
 class QuitException: public std::exception{};
 
 void loadGame();
 void gameLoop();
-void processInput(State::State &state);
+void processInput(std::shared_ptr<State::State> state);
 void cleanup();
 
 int main()
@@ -42,7 +44,9 @@ void loadGame()
 
 void gameLoop()
 {
-    State::GameplayState state;
+    State::StateStack stack;
+    std::shared_ptr<State::GameplayState> tempState = {std::make_shared<State::GameplayState> ()};
+    stack.addState(tempState);
     int frameRate = 0;
     int startTime = 0;
 
@@ -52,9 +56,9 @@ void gameLoop()
         {
             startTime = SDL_GetTicks();
 
-            processInput(state);
-            state.update();
-            state.draw();
+            processInput(stack.currentState);
+            stack.currentState->update();
+            stack.currentState->draw();
             GUI::updateWindow();
 
             frameRate = SDL_GetTicks() - startTime;
@@ -69,7 +73,7 @@ void gameLoop()
     }
 }
 
-void processInput(State::State &state)
+void processInput(std::shared_ptr<State::State> state)
 {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -79,19 +83,19 @@ void processInput(State::State &state)
                 switch (event.key.keysym.sym)
                 {
                     case SDLK_DOWN:
-                        state.moveDownPressed();
+                        state->moveDownPressed();
                         break;
 
                     case SDLK_LEFT:
-                        state.moveLeftPressed();
+                        state->moveLeftPressed();
                         break;
 
                     case SDLK_RIGHT:
-                        state.moveRightPressed();
+                        state->moveRightPressed();
                         break;
 
                     case SDLK_UP:
-                        state.moveUpPressed();
+                        state->moveUpPressed();
                         break;
 
                     case SDLK_ESCAPE:
