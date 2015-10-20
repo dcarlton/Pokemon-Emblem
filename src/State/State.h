@@ -1,6 +1,8 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include <memory>
+
 #include "../GUI/GUI.h"
 
 namespace State
@@ -15,6 +17,9 @@ public:
     virtual void moveRightPressed() {}
     virtual void moveUpPressed() {}
 	virtual void update() = 0;
+
+protected:
+    std::shared_ptr<State> _prevState;
 };
 
 }
