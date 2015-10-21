@@ -44,9 +44,8 @@ void loadGame()
 
 void gameLoop()
 {
-    State::StateStack stack;
     std::shared_ptr<State::GameplayState> tempState = {std::make_shared<State::GameplayState> ()};
-    stack.addState(tempState);
+    State::addState(tempState);
     int frameRate = 0;
     int startTime = 0;
 
@@ -56,9 +55,9 @@ void gameLoop()
         {
             startTime = SDL_GetTicks();
 
-            processInput(stack.currentState);
-            stack.currentState->update();
-            stack.currentState->draw();
+            processInput(State::getCurrentState());
+            State::getCurrentState()->update();
+            State::getCurrentState()->draw();
             GUI::updateWindow();
 
             frameRate = SDL_GetTicks() - startTime;

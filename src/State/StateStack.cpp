@@ -2,32 +2,36 @@
 #include "StateStack.h"
 
 
-void State::StateStack::addState(std::shared_ptr<State> state)
+namespace
 {
-    stack.push_back(state);
-    currentState = state;
+    static std::vector<std::shared_ptr<State::State>> stack;
 }
 
-void State::StateStack::exitState()
+void State::addState(std::shared_ptr<State> state)
+{
+    stack.push_back(state);
+}
+
+void State::exitState()
 {
     if (stack.empty())
         throw NoStateException();
 
     stack.pop_back();
-
-    if (stack.empty())
-        currentState = nullptr;
-    else
-        currentState = stack.back();
 }
 
-void State::StateStack::replaceState(std::shared_ptr<State> state)
+std::shared_ptr<State::State> State::getCurrentState()
+{
+    return stack.back();
+}
+
+void State::replaceState(std::shared_ptr<State> state)
 {
     exitState();
     addState(state);
 }
 
-void State::StateStack::resetState(std::shared_ptr<State> state)
+void State::resetState(std::shared_ptr<State> state)
 {
     while (!stack.empty())
         exitState();
