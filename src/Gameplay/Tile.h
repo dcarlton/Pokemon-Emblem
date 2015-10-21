@@ -1,14 +1,26 @@
+#ifndef TILE_H
+#define TILE_H
+
+#include <memory>
+
 #include "Pokemon.h"
 #include "Terrain.h"
 
 
+class Utility::Point;
+
 namespace Gameplay
 {
 
-typedef struct Tile
+class Tile
 {
-    Pokemon pokemon;
+public:
+    std::shared_ptr<Pokemon> pokemon = nullptr;
     Terrain terrain;
-} Tile;
+
+    void draw(Utility::Point const &pos);
+};
 
 }
+
+#endif

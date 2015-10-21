@@ -1,3 +1,7 @@
+#include <string>
+#include <typeinfo>
+
+#include "../Utility/Log.h"
 #include "State.h"
 #include "StateStack.h"
 
@@ -9,6 +13,8 @@ namespace
 
 void State::addState(std::shared_ptr<State> state)
 {
+    std::string stateName = std::string(typeid(*state).name());
+    Utility::log("Adding state " + stateName);
     stack.push_back(state);
 }
 
@@ -23,6 +29,8 @@ void State::exitState()
     if (stack.empty())
         throw NoStateException();
 
+    std::string stateName = std::string(typeid(*(stack.back())).name());
+    Utility::log("Exiting state " + stateName);
     stack.pop_back();
 }
 

@@ -15,15 +15,22 @@ namespace State
 class PokemonSelectedState: public State
 {
 public:
-    PokemonSelectedState(std::shared_ptr<State> prevState,
-                         std::vector<std::vector<Gameplay::Tile>> &map,
-                         Utility::Point pos);
+    PokemonSelectedState(State* prevState,
+                         std::vector<std::vector<Gameplay::Tile>>& map,
+                         Utility::Point& pos);
+    void backButtonPressed();
     void draw();
+    void moveDownPressed();
+    void moveLeftPressed();
+    void moveRightPressed();
+    void moveUpPressed();
+    void selectButtonPressed();
     void update();
 
 private:
-    Utility::Point _cursorPos = Utility::Point(0, 0);
-    std::vector<std::vector<Gameplay::Tile>> _map;
+    Utility::Point* _cursorPos;
+    std::vector<std::vector<Gameplay::Tile>>* _map;
+    Utility::Point _selectedPos = Utility::Point(0, 0);
 };
 
 }

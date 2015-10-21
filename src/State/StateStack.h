@@ -6,6 +6,7 @@
 #include <vector>
 
 
+// TODO: Add destructor that cleans up the stack
 // TODO: Find a reasonably clean and functional way so only states can access
 // the utility functions, and only Main can access getCurrentState
 

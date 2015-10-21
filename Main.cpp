@@ -97,6 +97,14 @@ void processInput(std::shared_ptr<State::State> state)
                         state->moveUpPressed();
                         break;
 
+                    case SDLK_z:
+                        state->selectButtonPressed();
+                        break;
+
+                    case SDLK_x:
+                        state->backButtonPressed();
+                        break;
+
                     case SDLK_ESCAPE:
                         throw QuitException();
                 }

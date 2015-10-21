@@ -2,6 +2,7 @@
 #include <time.h>
 
 #include "Log.h"
+#include "../GUI/GUI.h"
 
 namespace
 {
@@ -33,8 +34,7 @@ void Utility::log(std::string message)
             << now->tm_sec
             << " - "
             << message
-            << "\n";
-    delete now;
+            << "\n";\
 }
 
 void Utility::quitLog()

@@ -1,12 +1,13 @@
 #ifndef GAMEPLAYSTATE_H
 #define GAMEPLAYSTATE_H
 
+#include <memory>
 #include <vector>
 
 #include "../GUI/GUI.h"
 #include "../Gameplay/Pokemon.h"
 #include "State.h"
-#include "../Gameplay/Terrain.h"
+#include "../Gameplay/Tile.h"
 
 
 class GUI::Image;
@@ -25,13 +26,14 @@ public:
     void moveLeftPressed();
     void moveRightPressed();
     void moveUpPressed();
+    void selectButtonPressed();
     void update();
 
 private:
-    std::vector<Gameplay::Pokemon> allPokemon;
+    std::vector<std::shared_ptr<Gameplay::Pokemon>> allPokemon;
     GUI::Image cursorImage = GUI::getImage(GUI::ImageEnum::GameplayCursor);
     Utility::Point cursorPos = Utility::Point(0, 0);
-    std::vector<std::vector<Gameplay::Terrain>> map;
+    std::vector<std::vector<Gameplay::Tile>> map;
 
     void initGenericMap();
 };

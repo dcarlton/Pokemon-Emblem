@@ -12,14 +12,16 @@ class State
 {
 public:
 	virtual void draw() = 0;
+    virtual void backButtonPressed() {}
     virtual void moveDownPressed() {}
     virtual void moveLeftPressed() {}
     virtual void moveRightPressed() {}
     virtual void moveUpPressed() {}
+    virtual void selectButtonPressed() {}
 	virtual void update() = 0;
 
 protected:
-    std::shared_ptr<State> _prevState;
+    State* _prevState;
 };
 
 }
