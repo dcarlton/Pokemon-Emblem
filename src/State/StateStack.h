@@ -19,6 +19,7 @@ class NoStateException: public std::exception{};
 
 
 void addState(std::shared_ptr<State> state);
+void clearState();
 void exitState();
 std::shared_ptr<State> getCurrentState();
 void replaceState(std::shared_ptr<State> state);

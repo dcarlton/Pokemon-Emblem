@@ -12,6 +12,12 @@ void State::addState(std::shared_ptr<State> state)
     stack.push_back(state);
 }
 
+void State::clearState()
+{
+    while (!stack.empty())
+        exitState();
+}
+
 void State::exitState()
 {
     if (stack.empty())
@@ -22,6 +28,9 @@ void State::exitState()
 
 std::shared_ptr<State::State> State::getCurrentState()
 {
+    if (stack.empty())
+        throw NoStateException();
+
     return stack.back();
 }
 
@@ -33,8 +42,6 @@ void State::replaceState(std::shared_ptr<State> state)
 
 void State::resetState(std::shared_ptr<State> state)
 {
-    while (!stack.empty())
-        exitState();
-
+    clearState();
     addState(state);
 }
