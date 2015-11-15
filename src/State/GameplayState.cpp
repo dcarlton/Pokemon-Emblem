@@ -1,4 +1,5 @@
 #include "GameplayState.h"
+#include "Controller/MoveUtils.h"
 #include "PokemonSelectedState.h"
 #include "StateStack.h"
 
@@ -49,26 +50,22 @@ void State::GameplayState::draw()
 
 void State::GameplayState::moveDownPressed()
 {
-    if (cursorPos.y < map.size() - 1)
-        (cursorPos.y)++;
+    cursorPos.y = ::State::Controller::moveDown(cursorPos.y, map[0].size() - 1);
 }
 
 void State::GameplayState::moveLeftPressed()
 {
-    if (cursorPos.x > 0)
-        (cursorPos.x)--;
+    cursorPos.x = ::State::Controller::moveLeft(cursorPos.x, 0);
 }
 
 void State::GameplayState::moveRightPressed()
 {
-    if (cursorPos.x < map.size() - 1)
-        (cursorPos.x)++;
+    cursorPos.x = ::State::Controller::moveRight(cursorPos.x, map[0].size() - 1);
 }
 
 void State::GameplayState::moveUpPressed()
 {
-    if (cursorPos.y > 0)
-        (cursorPos.y)--;
+    cursorPos.y = ::State::Controller::moveUp(cursorPos.y, 0);
 }
 
 void State::GameplayState::selectButtonPressed()
