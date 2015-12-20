@@ -15,6 +15,7 @@ namespace State
 class PokemonSelectedState: public State
 {
 public:
+    PokemonSelectedState() {}; // Subclasses need a default constructor
     PokemonSelectedState(State* prevState,
                          std::vector<std::vector<Gameplay::Tile>>& map,
                          Utility::Point& pos);
@@ -27,7 +28,8 @@ public:
     void selectButtonPressed();
     void update();
 
-private:
+protected:
+    // TODO: Shared_ptr?
     Utility::Point* _cursorPos;
     std::vector<std::vector<Gameplay::Tile>>* _map;
     Utility::Point _selectedPos = Utility::Point(0, 0);
