@@ -15,11 +15,19 @@ TEST_CASE("Testing the PokemonSelectedState state")
     std::vector<std::vector<Gameplay::Tile>> map;
     Utility::Point pos(0, 0);
 
-    PokemonSelectedState pokemonSelectedState(&gameplayState, map, pos);
+    std::shared_ptr<PokemonSelectedState> pokemonSelectedState = {std::make_shared<PokemonSelectedState>(&gameplayState, map, pos)};
 
     SECTION("Pressing back when the state stack is down")
     {
-        REQUIRE_THROWS_AS(pokemonSelectedState.backButtonPressed(), NoStateException);
+        REQUIRE_THROWS_AS(pokemonSelectedState->backButtonPressed(), NoStateException);
+    }
+
+    SECTION("Pressing back exits the state")
+    {
+        addState(pokemonSelectedState);
+        REQUIRE(getCurrentState() == pokemonSelectedState);
+        pokemonSelectedState->backButtonPressed();
+        REQUIRE_THROWS_AS(getCurrentState(), NoStateException);
     }
 }
 
