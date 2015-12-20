@@ -1,3 +1,4 @@
+#include "Controller/MoveUtils.h"
 #include "../Gameplay/Pokemon.h"
 #include "PokemonSelectedState.h"
 #include "StateStack.h"
@@ -23,29 +24,24 @@ void State::PokemonSelectedState::draw()
     _prevState->draw();
 }
 
-// TODO: Component or some other way to reuse cursor movement
 void State::PokemonSelectedState::moveDownPressed()
 {
-    if (_cursorPos->y < _map->size() - 1)
-        (_cursorPos->y)++;
+    _cursorPos->y = ::State::Controller::moveDown(_cursorPos->y, _map[0].size() - 1);
 }
 
 void State::PokemonSelectedState::moveLeftPressed()
 {
-    if (_cursorPos->x > 0)
-        (_cursorPos->x)--;
+    _cursorPos->x = ::State::Controller::moveLeft(_cursorPos->x, 0);
 }
 
 void State::PokemonSelectedState::moveRightPressed()
 {
-    if (_cursorPos->x < _map->size() - 1)
-        (_cursorPos->x)++;
+    _cursorPos->x = ::State::Controller::moveRight(_cursorPos->x, _map[0].size() - 1);
 }
 
 void State::PokemonSelectedState::moveUpPressed()
 {
-    if (_cursorPos->y > 0)
-        (_cursorPos->y)--;
+    _cursorPos->y = ::State::Controller::moveUp(_cursorPos->y, 0);
 }
 
 void State::PokemonSelectedState::selectButtonPressed()
