@@ -25,11 +25,14 @@ public:
             _map->push_back(column);
         }
     };
+
     ~TestPokemonSelectedState()
     {
         delete _cursorPos;
     };
+
     Utility::Point* getCursorPos() {return _cursorPos;};
+    void setPosition(Utility::Point pos) {*_cursorPos = pos;};
 };
 
 // TODO: Test when passed a map with no tiles
@@ -54,6 +57,15 @@ TEST_CASE("Testing the PokemonSelectedState state")
     {
         Utility::Point* cursorPos = pokemonSelectedState->getCursorPos();
         REQUIRE(cursorPos->y == 0);
+        pokemonSelectedState->moveDownPressed();
+        REQUIRE(cursorPos->y == 1);
+    }
+
+    SECTION("Testing cursor downward movement into a wall")
+    {
+        Utility::Point* cursorPos = pokemonSelectedState->getCursorPos();
+        pokemonSelectedState->setPosition(Utility::Point(0, 1));
+        REQUIRE(cursorPos->y == 1);
         pokemonSelectedState->moveDownPressed();
         REQUIRE(cursorPos->y == 1);
     }
