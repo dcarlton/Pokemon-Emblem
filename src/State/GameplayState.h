@@ -29,11 +29,10 @@ public:
     void selectButtonPressed();
     void update();
 
-private:
-    std::vector<std::shared_ptr<Gameplay::Pokemon>> allPokemon;
-    GUI::Image cursorImage = GUI::getImage(GUI::ImageEnum::GameplayCursor);
-    Utility::Point cursorPos = Utility::Point(0, 0);
-    std::vector<std::vector<Gameplay::Tile>> map;
+protected:
+    GUI::Image _cursorImage = GUI::getImage(GUI::ImageEnum::GameplayCursor);
+    Utility::Point _cursorPos = Utility::Point(0, 0);
+    std::vector<std::vector<Gameplay::Tile>> _map;
 
     void initGenericMap();
 };
