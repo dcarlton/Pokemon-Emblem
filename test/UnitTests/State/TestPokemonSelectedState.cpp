@@ -69,6 +69,57 @@ TEST_CASE("Testing the PokemonSelectedState state")
         pokemonSelectedState->moveDownPressed();
         REQUIRE(cursorPos->y == 1);
     }
+
+    SECTION("Testing cursor leftward movement")
+    {
+        Utility::Point* cursorPos = pokemonSelectedState->getCursorPos();
+        pokemonSelectedState->setPosition(Utility::Point(1, 0));
+        REQUIRE(cursorPos->x == 1);
+        pokemonSelectedState->moveLeftPressed();
+        REQUIRE(cursorPos->x == 0);
+    }
+
+    SECTION("Testing cursor leftward movement into a wall")
+    {
+        Utility::Point* cursorPos = pokemonSelectedState->getCursorPos();
+        REQUIRE(cursorPos->x == 0);
+        pokemonSelectedState->moveLeftPressed();
+        REQUIRE(cursorPos->x == 0);
+    }
+
+    SECTION("Testing cursor rightward movement")
+    {
+        Utility::Point* cursorPos = pokemonSelectedState->getCursorPos();
+        REQUIRE(cursorPos->x == 0);
+        pokemonSelectedState->moveRightPressed();
+        REQUIRE(cursorPos->x == 1);
+    }
+
+    SECTION("Testing cursor rightward movement into a wall")
+    {
+        Utility::Point* cursorPos = pokemonSelectedState->getCursorPos();
+        pokemonSelectedState->setPosition(Utility::Point(1, 0));
+        REQUIRE(cursorPos->x == 1);
+        pokemonSelectedState->moveRightPressed();
+        REQUIRE(cursorPos->x == 1);
+    }
+
+    SECTION("Testing cursor upward movement")
+    {
+        Utility::Point* cursorPos = pokemonSelectedState->getCursorPos();
+        pokemonSelectedState->setPosition(Utility::Point(0, 1));
+        REQUIRE(cursorPos->y == 1);
+        pokemonSelectedState->moveUpPressed();
+        REQUIRE(cursorPos->y == 0);
+    }
+
+    SECTION("Testing cursor upward movement into a wall")
+    {
+        Utility::Point* cursorPos = pokemonSelectedState->getCursorPos();
+        REQUIRE(cursorPos->y == 0);
+        pokemonSelectedState->moveUpPressed();
+        REQUIRE(cursorPos->y == 0);
+    }
 }
 
 
