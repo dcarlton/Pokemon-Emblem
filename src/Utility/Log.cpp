@@ -7,7 +7,6 @@
 namespace
 {
     std::ofstream logfile;
-    const std::string logFilename = "log.txt";
 }
 
 // TODO: Cannot obtain write permissions

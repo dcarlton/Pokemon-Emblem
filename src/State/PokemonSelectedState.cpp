@@ -1,3 +1,4 @@
+#include "../Utility/Log.h"
 #include "Controller/MoveUtils.h"
 #include "../Gameplay/Pokemon.h"
 #include "PokemonSelectedState.h"
@@ -12,6 +13,9 @@ State::PokemonSelectedState::PokemonSelectedState(State* prevState,
     _map = &map;
     _prevState = prevState;
     _selectedPos = pos;
+
+    Utility::log(_cursorPos->to_string() + ": " + pos.to_string() + ": " + _selectedPos.to_string());
+    Utility::log((*_map)[_selectedPos.y][_selectedPos.x].pokemon ? "Pokemon exists" : "Pokemon does not exist");
 }
 
 void State::PokemonSelectedState::backButtonPressed()

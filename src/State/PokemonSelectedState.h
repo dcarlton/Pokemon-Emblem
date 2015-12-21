@@ -29,7 +29,8 @@ public:
     void update();
 
 protected:
-    // TODO: Shared_ptr?
+    // A standard pointer is needed here so changes made to _cursorPos
+    // also impact the GameplayState's cursor. No, a reference won't work.
     Utility::Point* _cursorPos;
     std::vector<std::vector<Gameplay::Tile>>* _map;
     Utility::Point _selectedPos = Utility::Point(0, 0);
