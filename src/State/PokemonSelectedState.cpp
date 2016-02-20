@@ -1,6 +1,7 @@
 #include "../Utility/Log.h"
 #include "Controller/MoveUtils.h"
 #include "../Gameplay/Pokemon.h"
+#include "PokemonActionState.h"
 #include "PokemonSelectedState.h"
 #include "StateStack.h"
 
@@ -58,7 +59,7 @@ void State::PokemonSelectedState::selectButtonPressed()
         (*_map)[_selectedPos.x][_selectedPos.y].pokemon = nullptr;
     }
 
-    exitState();
+	replaceState(std::make_shared<PokemonActionState>(_prevState, *_cursorPos));
 }
 
 void State::PokemonSelectedState::update()

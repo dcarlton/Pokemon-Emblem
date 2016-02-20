@@ -18,6 +18,9 @@ GUI::Image GUI::makeImage(GUI::ImageEnum imageEnum)
             return Image("..\\resources\\GameplayCursor.bmp", whiteColorKey, Utility::Size(24, 24));
             break;
 
+        case GUI::ImageEnum::MenuItem:
+            return Image("..\\resources\\MenuItem.bmp", whiteColorKey, Utility::Size(64, 16));
+
         case GUI::ImageEnum::TestPokemon:
             return Image("..\\resources\\Pokemon\\TestPokemon.bmp", whiteColorKey, Utility::Size(24, 24));
             break;

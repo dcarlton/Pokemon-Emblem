@@ -7,6 +7,7 @@ namespace GUI
 enum class ImageEnum
 {
     GameplayCursor,
+    MenuItem,
     TestPokemon,
     TestTile
 };
