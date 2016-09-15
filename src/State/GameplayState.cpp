@@ -71,7 +71,8 @@ void State::GameplayState::moveUpPressed()
 
 void State::GameplayState::selectButtonPressed()
 {
-    addState({std::make_shared<PokemonSelectedState> (this, _map, _cursorPos)});
+    if (_map[_cursorPos.x][_cursorPos.y].pokemon != NULL)
+        addState({std::make_shared<PokemonSelectedState> (this, _map, _cursorPos)});
 }
 
 void State::GameplayState::update()
