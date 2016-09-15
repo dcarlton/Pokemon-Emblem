@@ -26,6 +26,9 @@ void State::GameplayState::initGenericMap()
 
     std::shared_ptr<Gameplay::Pokemon> pokemon = {std::make_shared<Gameplay::Pokemon> ()};
     _map[0][0].pokemon = pokemon;
+
+    pokemon = {std::make_shared<Gameplay::Pokemon> ()};
+    _map[0][1].pokemon = pokemon;
 }
 
 void State::GameplayState::draw()
