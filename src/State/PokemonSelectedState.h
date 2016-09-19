@@ -16,9 +16,7 @@ class PokemonSelectedState: public State
 {
 public:
     PokemonSelectedState() {}; // Subclasses need a default constructor
-    PokemonSelectedState(State* prevState,
-                         std::vector<std::vector<Gameplay::Tile>>& map,
-                         Utility::Point& pos);
+    PokemonSelectedState(State* prevState, std::shared_ptr<Gameplay::World> world);
     void backButtonPressed();
     void draw();
     void moveDownPressed();
@@ -31,9 +29,8 @@ public:
 protected:
     // A standard pointer is needed here so changes made to _cursorPos
     // also impact the GameplayState's cursor. No, a reference won't work.
-    Utility::Point* _cursorPos;
-    std::vector<std::vector<Gameplay::Tile>>* _map;
     Utility::Point _selectedPos = Utility::Point(0, 0);
+    std::shared_ptr<Gameplay::World> _world;
 };
 
 }

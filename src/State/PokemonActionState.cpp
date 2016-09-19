@@ -3,10 +3,10 @@
 #include "StateStack.h"
 
 
-State::PokemonActionState::PokemonActionState(State* prevState, Utility::Point pokemonPos)
+State::PokemonActionState::PokemonActionState(State* prevState, std::shared_ptr<Gameplay::World> world)
 {
-	_pokemonPos = pokemonPos;
-	_prevState = prevState;
+    _prevState = prevState;
+	_world = world;
 }
 
 void State::PokemonActionState::backButtonPressed()
@@ -24,7 +24,7 @@ void State::PokemonActionState::draw()
 
 Utility::Point State::PokemonActionState::getMenuPosition()
 {
-	return Utility::Point((_pokemonPos.x * 24) + 24, _pokemonPos.y * 24);
+	return Utility::Point((_world->getCursorPos().x * 24) + 24, _world->getCursorPos().y * 24);
 }
 
 void State::PokemonActionState::moveDownPressed()
@@ -37,8 +37,21 @@ void State::PokemonActionState::moveUpPressed()
 
 }
 
+/*
+ * Called when a Pokemon is selected and the Select button
+ * is pressed. When a Pokemon is selected, a menu will appear;
+ * this function selects the menu item the user has chosen.
+ */
 void State::PokemonActionState::selectButtonPressed()
 {
+    std::shared_ptr<Gameplay::Pokemon> selectedPokemon = _world->getPokemonUnderCursor();
+    selectedPokemon->hasMoved = true;
+	if (_world->hasAllPlayerPokemonMoved())
+	{
+		_world->resetWhetherPlayerPokemonHaveMoved();
+		// TODO: Give the enemy team a turn.
+	}
+
 	exitState();
 }
 

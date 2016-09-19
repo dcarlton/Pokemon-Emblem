@@ -6,17 +6,14 @@
 #include "StateStack.h"
 
 
-State::PokemonSelectedState::PokemonSelectedState(State* prevState,
-                                                  std::vector<std::vector<Gameplay::Tile>>& map,
-                                                  Utility::Point& pos)
+State::PokemonSelectedState::PokemonSelectedState(State* prevState, std::shared_ptr<Gameplay::World> world)
 {
-    _cursorPos = &pos;
-    _map = &map;
     _prevState = prevState;
-    _selectedPos = pos;
+    _selectedPos = world->getCursorPos();
+    _world = world;
 
-    Utility::log(_cursorPos->to_string() + ": " + pos.to_string() + ": " + _selectedPos.to_string());
-    Utility::log((*_map)[_selectedPos.y][_selectedPos.x].pokemon ? "Pokemon exists" : "Pokemon does not exist");
+    Utility::log("Selecting the Pokemon at " + _world->getCursorPos().to_string());
+    Utility::log(_world->getPokemonUnderCursor() ? "Pokemon exists" : "Pokemon does not exist");
 }
 
 void State::PokemonSelectedState::backButtonPressed()
@@ -31,35 +28,34 @@ void State::PokemonSelectedState::draw()
 
 void State::PokemonSelectedState::moveDownPressed()
 {
-    _cursorPos->y = ::State::Controller::moveDown(_cursorPos->y, _map[0].size() - 1);
+    _world->moveCursorDown();
 }
 
 void State::PokemonSelectedState::moveLeftPressed()
 {
-    _cursorPos->x = ::State::Controller::moveLeft(_cursorPos->x, 0);
+    _world->moveCursorLeft();
 }
 
 void State::PokemonSelectedState::moveRightPressed()
 {
-    _cursorPos->x = ::State::Controller::moveRight(_cursorPos->x, _map[0].size() - 1);
+    _world->moveCursorRight();
 }
 
 void State::PokemonSelectedState::moveUpPressed()
 {
-    _cursorPos->y = ::State::Controller::moveUp(_cursorPos->y, 0);
+    _world->moveCursorUp();
 }
 
+/*
+ * When a Pokemon has been selected, and the select button is
+ * pressed again, this function is called. This brings up the action
+ * menu where the selected Pokemon can attack, wait, use items, etc.
+ */
 void State::PokemonSelectedState::selectButtonPressed()
 {
-    std::shared_ptr<Gameplay::Pokemon> selectedPokemon = (*_map)[_selectedPos.x][_selectedPos.y].pokemon;
-    if (selectedPokemon &&
-        !(*_map)[_cursorPos->x][_cursorPos->y].pokemon)
-    {
-        (*_map)[_cursorPos->x][_cursorPos->y].pokemon = selectedPokemon;
-        (*_map)[_selectedPos.x][_selectedPos.y].pokemon = nullptr;
-    }
-
-	replaceState(std::make_shared<PokemonActionState>(_prevState, *_cursorPos));
+    // TODO: Don't leave this state if the move doesn't work.
+    _world->movePokemon(_selectedPos, _world->getCursorPos());
+    replaceState(std::make_shared<PokemonActionState>(_prevState, _world));
 }
 
 void State::PokemonSelectedState::update()

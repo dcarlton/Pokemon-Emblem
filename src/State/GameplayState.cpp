@@ -1,78 +1,68 @@
+#include "../Gameplay/AllianceEnum.h"
 #include "GameplayState.h"
 #include "Controller/MoveUtils.h"
 #include "PokemonSelectedState.h"
 #include "StateStack.h"
 
 
+/*
+Generic constructor that initializes a default world
+and starts the testing level.
+*/
 State::GameplayState::GameplayState()
 {
-    initGenericMap();
+    _world = std::make_shared<Gameplay::World>();
 }
 
-void State::GameplayState::initGenericMap()
+/*
+Constuctor that takes an existing world
+*/
+State::GameplayState::GameplayState(std::shared_ptr<Gameplay::World> world)
 {
-    std::vector<Gameplay::Tile> column;
-    const int size = 10;
-
-    for (int i = 0; i < size; i++)
-    {
-        for (int j = 0; j < size; j++)
-        {
-
-            column.push_back(Gameplay::Tile());
-        }
-        _map.push_back(column);
-    }
-
-    std::shared_ptr<Gameplay::Pokemon> pokemon = {std::make_shared<Gameplay::Pokemon> ()};
-    _map[0][0].pokemon = pokemon;
-
-    pokemon = {std::make_shared<Gameplay::Pokemon> ()};
-    _map[0][1].pokemon = pokemon;
+    _world = world;
 }
 
 void State::GameplayState::draw()
 {
-    for (unsigned int x = 0; x < _map.size(); x++)
-    {
-        for (unsigned int y = 0; y < _map[x].size(); y++)
-        {
-            _map[x][y].draw(Utility::Point(x * 24, y * 24));
-        }
-    }
-
-    /*for (std::shared_ptr<Gameplay::Pokemon> pokemon: allPokemon)
-    {
-        GUI::drawImage(pokemon->image, Utility::Point(pokemon->position.x * 24, pokemon->position.y * 24));
-    }*/
-
-    GUI::drawImage(_cursorImage, Utility::Point(_cursorPos.x * 24, _cursorPos.y * 24));
+    _world->drawWorld();
 }
 
 void State::GameplayState::moveDownPressed()
 {
-    _cursorPos.y = ::State::Controller::moveDown(_cursorPos.y, _map[0].size() - 1);
+    _world->moveCursorDown();
 }
 
 void State::GameplayState::moveLeftPressed()
 {
-    _cursorPos.x = ::State::Controller::moveLeft(_cursorPos.x, 0);
+    _world->moveCursorLeft();
 }
 
 void State::GameplayState::moveRightPressed()
 {
-    _cursorPos.x = ::State::Controller::moveRight(_cursorPos.x, _map[0].size() - 1);
+    _world->moveCursorRight();
 }
 
 void State::GameplayState::moveUpPressed()
 {
-    _cursorPos.y = ::State::Controller::moveUp(_cursorPos.y, 0);
+    _world->moveCursorUp();
 }
 
+/*
+ * This function is called during the user's turn when the user presses
+ * the Select button. If the user has the cursor over a Pokemon on their
+ * team that has not yet moved, that Pokemon is selected to be moved.
+ * Otherwise, it should (TODO) pop up a menu with options like ending your
+ * turn, or accessing the options menu.
+ */
 void State::GameplayState::selectButtonPressed()
 {
-    if (_map[_cursorPos.x][_cursorPos.y].pokemon != NULL)
-        addState({std::make_shared<PokemonSelectedState> (this, _map, _cursorPos)});
+    std::shared_ptr<Gameplay::Pokemon> pokemonToSelect = _world->getPokemonUnderCursor();
+    if (pokemonToSelect != NULL &&
+        !pokemonToSelect->hasMoved &&
+        pokemonToSelect->alliance == Gameplay::AllianceEnum::Player)
+    {
+        addState({std::make_shared<PokemonSelectedState> (this, _world)});
+    }
 }
 
 void State::GameplayState::update()

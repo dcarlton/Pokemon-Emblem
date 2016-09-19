@@ -8,6 +8,7 @@
 #include "../Gameplay/Pokemon.h"
 #include "State.h"
 #include "../Gameplay/Tile.h"
+#include "../Gameplay/World.h"
 
 
 class GUI::Image;
@@ -21,6 +22,7 @@ class GameplayState: public State
 {
 public:
     GameplayState();
+    GameplayState(std::shared_ptr<Gameplay::World> world);
     void draw();
     void moveDownPressed();
     void moveLeftPressed();
@@ -30,11 +32,8 @@ public:
     void update();
 
 protected:
-    GUI::Image _cursorImage = GUI::getImage(GUI::ImageEnum::GameplayCursor);
-    Utility::Point _cursorPos = Utility::Point(0, 0);
     std::vector<std::vector<Gameplay::Tile>> _map;
-
-    void initGenericMap();
+    std::shared_ptr<Gameplay::World> _world;
 };
 
 }

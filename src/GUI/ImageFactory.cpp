@@ -25,6 +25,14 @@ GUI::Image GUI::makeImage(GUI::ImageEnum imageEnum)
             return Image("..\\resources\\Pokemon\\TestPokemon.bmp", whiteColorKey, Utility::Size(24, 24));
             break;
 
+        case GUI::ImageEnum::TestPokemonAlly:
+            return Image("..\\resources\\Pokemon\\TestPokemonAlly.bmp", whiteColorKey, Utility::Size(24, 24));
+            break;
+
+        case GUI::ImageEnum::TestPokemonEnemy:
+            return Image("..\\resources\\Pokemon\\TestPokemonEnemy.bmp", whiteColorKey, Utility::Size(24, 24));
+            break;
+
         case GUI::ImageEnum::TestTile:
             return Image("..\\resources\\Tiles\\TestTile.bmp", blackColorKey, Utility::Size(24, 24));
             break;

@@ -9,6 +9,8 @@ enum class ImageEnum
     GameplayCursor,
     MenuItem,
     TestPokemon,
+    TestPokemonEnemy,
+    TestPokemonAlly,
     TestTile
 };
 
