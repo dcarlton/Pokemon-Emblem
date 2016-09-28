@@ -4,6 +4,7 @@
 #include <windows.h>
 
 #include "SDL.h"
+#include "SDL_TTF.h"
 
 #include "src/State/GameplayState.h"
 #include "src/GUI/GUI.h"

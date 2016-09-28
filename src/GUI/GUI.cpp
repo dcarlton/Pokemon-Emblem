@@ -1,3 +1,5 @@
+#include "SDL_TTF.h"
+
 #include "GUI.h"
 #include "ImageFactory.h"
 #include "../Utility/Log.h"
@@ -14,6 +16,7 @@ namespace
 void GUI::cleanup()
 {
     deleteWindow();
+    TTF_Quit();
     SDL_Quit();
 }
 
@@ -65,6 +68,9 @@ void GUI::loadEngine()
     int error = SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO);
     if (error != 0)
         Utility::log("Unabe to initialize SDL: " + std::string(SDL_GetError()));
+
+    if (TTF_Init() < 0)
+        Utility::log("Unable to initialize SDL_TTF: ");
 }
 
 void GUI::showMessage(std::string message)
