@@ -24,6 +24,7 @@ void clearState();
 void exitState();
 std::shared_ptr<State> getCurrentState();
 void replaceState(std::shared_ptr<State> state);
+void resetState();
 void resetState(std::shared_ptr<State> state);
 
 }

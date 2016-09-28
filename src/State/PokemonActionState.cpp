@@ -52,7 +52,7 @@ void State::PokemonActionState::selectButtonPressed()
 		// TODO: Give the enemy team a turn.
 	}
 
-	exitState();
+	resetState();
 }
 
 void State::PokemonActionState::update()

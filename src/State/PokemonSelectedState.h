@@ -27,9 +27,11 @@ public:
     void update();
 
 protected:
-    // A standard pointer is needed here so changes made to _cursorPos
-    // also impact the GameplayState's cursor. No, a reference won't work.
-    Utility::Point _selectedPos = Utility::Point(0, 0);
+    // The original position is where the Pokemon was selected when this state is created.
+    // The current Pokemon position is where the Pokemon has been moved to. This is usually,
+    // but not always, the same as the world's current cursor position.
+    Utility::Point _currentPokemonPos = Utility::Point(0, 0);
+    Utility::Point _originalPos = Utility::Point(0, 0);
     std::shared_ptr<Gameplay::World> _world;
 };
 

@@ -25,6 +25,11 @@ bool Utility::Point::operator==(const Utility::Point& rhs)
     return x == rhs.x && y == rhs.y;
 }
 
+bool Utility::Point::operator!=(const Utility::Point& rhs)
+{
+    return !(*this == rhs);
+}
+
 std::string Utility::Point::to_string()
 {
     return std::to_string(x) + "," + std::to_string(y);

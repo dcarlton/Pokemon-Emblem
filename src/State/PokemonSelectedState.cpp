@@ -8,8 +8,9 @@
 
 State::PokemonSelectedState::PokemonSelectedState(State* prevState, std::shared_ptr<Gameplay::World> world)
 {
+    _currentPokemonPos = world->getCursorPos();
     _prevState = prevState;
-    _selectedPos = world->getCursorPos();
+    _originalPos = _currentPokemonPos;
     _world = world;
 
     Utility::log("Selecting the Pokemon at " + _world->getCursorPos().to_string());
@@ -18,6 +19,7 @@ State::PokemonSelectedState::PokemonSelectedState(State* prevState, std::shared_
 
 void State::PokemonSelectedState::backButtonPressed()
 {
+    _world->movePokemon(_currentPokemonPos, _originalPos);
     exitState();
 }
 
@@ -29,21 +31,29 @@ void State::PokemonSelectedState::draw()
 void State::PokemonSelectedState::moveDownPressed()
 {
     _world->moveCursorDown();
+    if (_world->movePokemon(_currentPokemonPos, _world->getCursorPos()))
+        _currentPokemonPos = _world->getCursorPos();
 }
 
 void State::PokemonSelectedState::moveLeftPressed()
 {
     _world->moveCursorLeft();
+    if (_world->movePokemon(_currentPokemonPos, _world->getCursorPos()))
+        _currentPokemonPos = _world->getCursorPos();
 }
 
 void State::PokemonSelectedState::moveRightPressed()
 {
     _world->moveCursorRight();
+    if (_world->movePokemon(_currentPokemonPos, _world->getCursorPos()))
+        _currentPokemonPos = _world->getCursorPos();
 }
 
 void State::PokemonSelectedState::moveUpPressed()
 {
     _world->moveCursorUp();
+    if (_world->movePokemon(_currentPokemonPos, _world->getCursorPos()))
+        _currentPokemonPos = _world->getCursorPos();
 }
 
 /*
@@ -53,9 +63,13 @@ void State::PokemonSelectedState::moveUpPressed()
  */
 void State::PokemonSelectedState::selectButtonPressed()
 {
-    // TODO: Don't leave this state if the move doesn't work.
-    _world->movePokemon(_selectedPos, _world->getCursorPos());
-    replaceState(std::make_shared<PokemonActionState>(_prevState, _world));
+    // If the selected Pokemon couldn't be moved to the cursor, then
+    // we shouldn't go to the PokemonActionState where the user can
+    // attack or finalize their move.
+    if (_currentPokemonPos != _world->getCursorPos())
+        return;
+
+    addState(std::make_shared<PokemonActionState>(_prevState, _world));
 }
 
 void State::PokemonSelectedState::update()

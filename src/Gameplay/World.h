@@ -26,7 +26,7 @@ public:
     void moveCursorLeft();
     void moveCursorRight();
     void moveCursorUp();
-    void movePokemon(Utility::Point oldPosition, Utility::Point newPosition);
+    bool movePokemon(Utility::Point oldPosition, Utility::Point newPosition);
     void resetWhetherPlayerPokemonHaveMoved();
     bool setCursorPos(Utility::Point newPosition);
 

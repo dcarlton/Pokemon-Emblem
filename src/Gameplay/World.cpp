@@ -126,19 +126,20 @@ void Gameplay::World::moveCursorUp()
 }
 
 // Move a Pokemon from one position to another.
-void Gameplay::World::movePokemon(Utility::Point oldPosition, Utility::Point newPosition)
+bool Gameplay::World::movePokemon(Utility::Point oldPosition, Utility::Point newPosition)
 {
     if (oldPosition.x >= _map.size() && oldPosition.y >= _map[0].size())
-        return;
+        return false;
 
     if (newPosition.x >= _map.size() && newPosition.y >= _map[0].size())
-        return;
+        return false;
 
     if (_map[oldPosition.x][oldPosition.y].pokemon == NULL || _map[newPosition.x][newPosition.y].pokemon != NULL)
-        return;
+        return false;
 
     _map[newPosition.x][newPosition.y].pokemon = _map[oldPosition.x][oldPosition.y].pokemon;
     _map[oldPosition.x][oldPosition.y].pokemon = nullptr;
+    return true;
 }
 
 // Set all of the player Pokemon's hasMoved property to false.

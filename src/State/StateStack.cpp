@@ -48,6 +48,13 @@ void State::replaceState(std::shared_ptr<State> state)
     addState(state);
 }
 
+// Reset the current state stack to just the bottom state in the current stack.
+void State::resetState()
+{
+    for (int i = stack.size() - 1; i > 0; i--)
+        stack.pop_back();
+}
+
 void State::resetState(std::shared_ptr<State> state)
 {
     clearState();
