@@ -20,6 +20,7 @@ public:
     Point operator=(const Point& rhs);
     bool operator==(const Point& rhs);
     bool operator!=(const Point& rhs);
+    Point operator*(const uint32 rhs);
 
     std::string to_string();
 };

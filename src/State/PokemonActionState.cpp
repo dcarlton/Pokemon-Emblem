@@ -19,7 +19,13 @@ void State::PokemonActionState::draw()
 	// Next goal: write text in the menu, have a list of menu items which can be scrolled through
 	// use a different color to mark which item is selected, have the PokemonSelectedState pass which menu items to have
 	_prevState->draw();
-	GUI::drawImage(_menuItemImage, getMenuPosition());
+	std::vector<std::string> menuItems;
+	menuItems.push_back("Wait");
+	GUI::drawMenu(menuItems, _world->getCursorPos() * 24);
+
+	// On creation, we need a dictionary of item text to a function that should be called when the item is selected.
+	// This class handles moving through the menu, and calling the function when an item is selected.
+	// The GUI class should be able to draw a menu given the map position and the list of texts to draw.
 }
 
 Utility::Point State::PokemonActionState::getMenuPosition()

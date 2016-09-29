@@ -8,6 +8,7 @@
 
 namespace
 {
+    static TTF_Font *font = nullptr;
     static SDL_Window *window = nullptr;
     static SDL_Surface *windowSurface = nullptr;
 }
@@ -16,6 +17,7 @@ namespace
 void GUI::cleanup()
 {
     deleteWindow();
+    TTF_CloseFont(font);
     TTF_Quit();
     SDL_Quit();
 }
@@ -54,6 +56,28 @@ void GUI::drawImage(GUI::Image image, Utility::Point position)
     SDL_BlitSurface(image.surface, NULL, windowSurface, &targetRect);
 }
 
+void GUI::drawMenu(std::vector<std::string> items, Utility::Point position)
+{
+    GUI::Image menuImage = GUI::getImage(GUI::ImageEnum::MenuItem);
+    SDL_Color white = {255, 255, 255, 0};
+
+    for (unsigned int i = 0; i < items.size(); i++)
+    {
+        GUI::drawImage(menuImage, position);
+        SDL_Surface* textSurface = TTF_RenderText_Solid(font, items[i].c_str(), white);
+
+        SDL_Rect targetRect;
+        targetRect.x = position.x + 8;
+        targetRect.y = position.y + 2;
+        targetRect.h = menuImage.size.height;
+        targetRect.w = menuImage.size.width;
+
+        SDL_BlitSurface(textSurface, NULL, windowSurface, &targetRect);
+
+        position.y += 16;
+    }
+}
+
 GUI::Image GUI::getImage(ImageEnum imageEnum)
 {
     return makeImage(imageEnum);
@@ -71,6 +95,8 @@ void GUI::loadEngine()
 
     if (TTF_Init() < 0)
         Utility::log("Unable to initialize SDL_TTF: ");
+
+    font = TTF_OpenFont("../resources/Fonts/cour.ttf", 12);
 }
 
 void GUI::showMessage(std::string message)

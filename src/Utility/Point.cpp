@@ -30,6 +30,11 @@ bool Utility::Point::operator!=(const Utility::Point& rhs)
     return !(*this == rhs);
 }
 
+Utility::Point Utility::Point::operator*(const uint32 rhs)
+{
+    return Utility::Point(x * rhs, y * rhs);
+}
+
 std::string Utility::Point::to_string()
 {
     return std::to_string(x) + "," + std::to_string(y);

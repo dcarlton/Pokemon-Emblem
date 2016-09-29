@@ -2,6 +2,7 @@
 #define GUI_H
 
 #include <string>
+#include <vector>
 
 #include "SDL.h"
 
@@ -20,6 +21,7 @@ namespace GUI
 					  std::string title);
 	void deleteWindow();
 	void drawImage(Image image, Utility::Point position);
+	void drawMenu(std::vector<std::string> items, Utility::Point position);
 	Image getImage(ImageEnum imageEnum);
     void loadAssets();
 	void loadEngine();
