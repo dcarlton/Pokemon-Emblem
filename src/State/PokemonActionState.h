@@ -1,6 +1,8 @@
 #ifndef POKEMONACTIONSTATE_H
 #define POKEMONACTIONSTATE_H
 
+#include <functional>
+#include <map>
 #include <memory>
 #include <vector>
 
@@ -25,12 +27,16 @@ public:
     void moveUpPressed();
     void selectButtonPressed();
     void update();
+    friend void waitAction(const PokemonActionState& state);
 
 protected:
+    uint32 _menuCursorPos;
 	GUI::Image _menuItemImage = GUI::getImage(GUI::ImageEnum::MenuItem);
+    std::map<std::string, std::function<void(PokemonActionState)>> _menuTextToAction;
     std::shared_ptr<Gameplay::World> _world;
 
 	Utility::Point getMenuPosition();
+    void initMenuItems();
 };
 
 
