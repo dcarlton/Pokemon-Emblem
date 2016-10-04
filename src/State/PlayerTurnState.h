@@ -18,11 +18,11 @@ class Utility::Point;
 namespace State
 {
 
-class GameplayState: public State
+class PlayerTurnState: public State
 {
 public:
-    GameplayState();
-    GameplayState(std::shared_ptr<Gameplay::World> world);
+    PlayerTurnState();
+    PlayerTurnState(std::shared_ptr<Gameplay::World> world);
     void draw();
     void moveDownPressed();
     void moveLeftPressed();

@@ -6,7 +6,7 @@
 #include "SDL.h"
 #include "SDL_TTF.h"
 
-#include "src/State/GameplayState.h"
+#include "src/State/PlayerTurnState.h"
 #include "src/GUI/GUI.h"
 #include "src/Utility/Log.h"
 #include "src/Utility/Size.h"
@@ -45,7 +45,7 @@ void loadGame()
 
 void gameLoop()
 {
-    std::shared_ptr<State::GameplayState> tempState = {std::make_shared<State::GameplayState> ()};
+    std::shared_ptr<State::PlayerTurnState> tempState = {std::make_shared<State::PlayerTurnState> ()};
     State::addState(tempState);
     int frameRate = 0;
     int startTime = 0;

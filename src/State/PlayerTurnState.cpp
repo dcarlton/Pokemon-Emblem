@@ -1,6 +1,6 @@
 #include "../Gameplay/AllianceEnum.h"
-#include "GameplayState.h"
 #include "Controller/MoveUtils.h"
+#include "PlayerTurnState.h"
 #include "PokemonSelectedState.h"
 #include "StateStack.h"
 
@@ -9,7 +9,7 @@
 Generic constructor that initializes a default world
 and starts the testing level.
 */
-State::GameplayState::GameplayState()
+State::PlayerTurnState::PlayerTurnState()
 {
     _world = std::make_shared<Gameplay::World>();
 }
@@ -17,32 +17,32 @@ State::GameplayState::GameplayState()
 /*
 Constuctor that takes an existing world
 */
-State::GameplayState::GameplayState(std::shared_ptr<Gameplay::World> world)
+State::PlayerTurnState::PlayerTurnState(std::shared_ptr<Gameplay::World> world)
 {
     _world = world;
 }
 
-void State::GameplayState::draw()
+void State::PlayerTurnState::draw()
 {
     _world->drawWorld();
 }
 
-void State::GameplayState::moveDownPressed()
+void State::PlayerTurnState::moveDownPressed()
 {
     _world->moveCursorDown();
 }
 
-void State::GameplayState::moveLeftPressed()
+void State::PlayerTurnState::moveLeftPressed()
 {
     _world->moveCursorLeft();
 }
 
-void State::GameplayState::moveRightPressed()
+void State::PlayerTurnState::moveRightPressed()
 {
     _world->moveCursorRight();
 }
 
-void State::GameplayState::moveUpPressed()
+void State::PlayerTurnState::moveUpPressed()
 {
     _world->moveCursorUp();
 }
@@ -54,7 +54,7 @@ void State::GameplayState::moveUpPressed()
  * Otherwise, it should (TODO) pop up a menu with options like ending your
  * turn, or accessing the options menu.
  */
-void State::GameplayState::selectButtonPressed()
+void State::PlayerTurnState::selectButtonPressed()
 {
     std::shared_ptr<Gameplay::Pokemon> pokemonToSelect = _world->getPokemonUnderCursor();
     if (pokemonToSelect != NULL &&
@@ -65,6 +65,6 @@ void State::GameplayState::selectButtonPressed()
     }
 }
 
-void State::GameplayState::update()
+void State::PlayerTurnState::update()
 {
 }
