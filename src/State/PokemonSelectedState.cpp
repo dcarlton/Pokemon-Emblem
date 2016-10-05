@@ -37,8 +37,11 @@ void State::PokemonSelectedState::moveDownPressed()
 // Move the selected Pokemon to the location of the cursor, if possible.
 void State::PokemonSelectedState::moveIfValid()
 {
-    if (_world->movePokemon(_currentPokemonPos, _world->getCursorPos()))
-        _currentPokemonPos = _world->getCursorPos();
+    if (_originalPos.distanceFrom(_world->getCursorPos()) <= _world->getPokemonFromPosition(_currentPokemonPos)->stats.movement && 
+        _world->movePokemon(_currentPokemonPos, _world->getCursorPos()))
+    {
+       _currentPokemonPos = _world->getCursorPos();
+    }
 }
 
 void State::PokemonSelectedState::moveLeftPressed()

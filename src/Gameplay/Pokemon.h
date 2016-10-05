@@ -13,7 +13,7 @@ namespace Gameplay
 
 struct PokemonStats
 {
-    uint32 movement = 0;
+    uint32 movement = 5;
 };
 
 class Pokemon
