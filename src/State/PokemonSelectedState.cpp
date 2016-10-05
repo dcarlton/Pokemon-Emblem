@@ -31,6 +31,12 @@ void State::PokemonSelectedState::draw()
 void State::PokemonSelectedState::moveDownPressed()
 {
     _world->moveCursorDown();
+    moveIfValid();
+}
+
+// Move the selected Pokemon to the location of the cursor, if possible.
+void State::PokemonSelectedState::moveIfValid()
+{
     if (_world->movePokemon(_currentPokemonPos, _world->getCursorPos()))
         _currentPokemonPos = _world->getCursorPos();
 }
@@ -38,22 +44,19 @@ void State::PokemonSelectedState::moveDownPressed()
 void State::PokemonSelectedState::moveLeftPressed()
 {
     _world->moveCursorLeft();
-    if (_world->movePokemon(_currentPokemonPos, _world->getCursorPos()))
-        _currentPokemonPos = _world->getCursorPos();
+    moveIfValid();
 }
 
 void State::PokemonSelectedState::moveRightPressed()
 {
     _world->moveCursorRight();
-    if (_world->movePokemon(_currentPokemonPos, _world->getCursorPos()))
-        _currentPokemonPos = _world->getCursorPos();
+    moveIfValid();
 }
 
 void State::PokemonSelectedState::moveUpPressed()
 {
     _world->moveCursorUp();
-    if (_world->movePokemon(_currentPokemonPos, _world->getCursorPos()))
-        _currentPokemonPos = _world->getCursorPos();
+    moveIfValid();
 }
 
 /*

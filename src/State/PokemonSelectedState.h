@@ -20,6 +20,7 @@ public:
     void backButtonPressed();
     void draw();
     void moveDownPressed();
+    void moveIfValid();
     void moveLeftPressed();
     void moveRightPressed();
     void moveUpPressed();

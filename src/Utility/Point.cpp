@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "Point.h"
 
 
@@ -33,6 +35,12 @@ bool Utility::Point::operator!=(const Utility::Point& rhs)
 Utility::Point Utility::Point::operator*(const uint32 rhs)
 {
     return Utility::Point(x * rhs, y * rhs);
+}
+
+// Returns the distance from this point to the parameter.
+uint32 Utility::Point::distanceFrom(const Utility::Point& rhs)
+{
+    return std::abs((int)(x - rhs.x)) + std::abs((int)(y - rhs.y));
 }
 
 std::string Utility::Point::to_string()

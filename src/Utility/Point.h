@@ -22,6 +22,7 @@ public:
     bool operator!=(const Point& rhs);
     Point operator*(const uint32 rhs);
 
+    uint32 distanceFrom(const Point& rhs);
     std::string to_string();
 };
 

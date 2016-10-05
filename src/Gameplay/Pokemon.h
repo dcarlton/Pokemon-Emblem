@@ -11,13 +11,18 @@ class GUI::Image;
 namespace Gameplay
 {
 
+struct PokemonStats
+{
+    uint32 movement = 0;
+};
+
 class Pokemon
 {
 public:
 	AllianceEnum alliance = AllianceEnum::Enemy;
     bool hasMoved = false;
     GUI::Image image = GUI::getImage(GUI::ImageEnum::TestPokemon);
-    //Utility::Point position = Utility::Point(0, 0);
+    PokemonStats stats;
 
     Pokemon(AllianceEnum startingAlliance);
 };
