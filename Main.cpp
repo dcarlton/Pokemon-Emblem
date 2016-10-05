@@ -4,11 +4,10 @@
 #include <windows.h>
 
 #include "SDL.h"
-#include "SDL_TTF.h"
 
-#include "src/State/PlayerTurnState.h"
 #include "src/GUI/GUI.h"
 #include "src/Utility/Log.h"
+#include "src/State/PlayerTurnState.h"
 #include "src/Utility/Size.h"
 #include "src/State/StateStack.h"
 

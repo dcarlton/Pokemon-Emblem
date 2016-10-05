@@ -19,6 +19,7 @@ public:
     void addPokemon(std::shared_ptr<Pokemon> pokemon, Utility::Point position);
     void drawWorld();
     Utility::Point getCursorPos();
+    std::vector<Utility::Point> getEnemyPokemonPositions();
     std::shared_ptr<Pokemon> getPokemonFromPosition(Utility::Point position);
     std::shared_ptr<Pokemon> getPokemonUnderCursor();
     bool hasAllPlayerPokemonMoved();
@@ -27,7 +28,9 @@ public:
     void moveCursorRight();
     void moveCursorUp();
     bool movePokemon(Utility::Point oldPosition, Utility::Point newPosition);
+    void resetWhetherEnemyPokemonHaveMoved();
     void resetWhetherPlayerPokemonHaveMoved();
+    void resetWhetherPokemonHaveMoved(std::vector<std::shared_ptr<Pokemon>> pokemans);
     bool setCursorPos(Utility::Point newPosition);
 
 private:

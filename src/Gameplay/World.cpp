@@ -1,7 +1,7 @@
+#include "AllianceEnum.h"
 #include "../State/Controller/MoveUtils.h"
-#include "World.h"
-
 #include "Pokemon.h"
+#include "World.h"
 
 
 // Default constructor.
@@ -77,6 +77,23 @@ Utility::Point Gameplay::World::getCursorPos()
     return _cursorPos;
 }
 
+std::vector<Utility::Point> Gameplay::World::getEnemyPokemonPositions()
+{
+    std::vector<Utility::Point> points;
+    for (uint32 x = 0; x < _map.size(); x++)
+    {
+        for (uint32 y = 0; y < _map[0].size(); y++)
+        {
+            if (_map[x][y].pokemon != nullptr && _map[x][y].pokemon->alliance == AllianceEnum::Enemy)
+            {
+                points.push_back(Utility::Point(x, y));
+            }
+        }
+    }
+
+    return points;
+}
+
 // Return a pointer to the Pokemon at the specified position.
 std::shared_ptr<Gameplay::Pokemon> Gameplay::World::getPokemonFromPosition(Utility::Point position)
 {
@@ -139,15 +156,29 @@ bool Gameplay::World::movePokemon(Utility::Point oldPosition, Utility::Point new
 
     _map[newPosition.x][newPosition.y].pokemon = _map[oldPosition.x][oldPosition.y].pokemon;
     _map[oldPosition.x][oldPosition.y].pokemon = nullptr;
+
+    _map[newPosition.x][newPosition.y].pokemon->hasMoved = true;
     return true;
+}
+
+// Set all of the enemy Pokemon's hasMoved property to false.
+void Gameplay::World::resetWhetherEnemyPokemonHaveMoved()
+{
+    resetWhetherPokemonHaveMoved(_enemyPokemon);
 }
 
 // Set all of the player Pokemon's hasMoved property to false.
 void Gameplay::World::resetWhetherPlayerPokemonHaveMoved()
 {
-    for (unsigned int i = 0; i < _playerPokemon.size(); i++)
+    resetWhetherPokemonHaveMoved(_playerPokemon);
+}
+
+// Set the hasMoved property to false for every Pokemon passed in.
+void Gameplay::World::resetWhetherPokemonHaveMoved(std::vector<std::shared_ptr<Gameplay::Pokemon>> pokemans)
+{
+    for (unsigned int i = 0; i < pokemans.size(); i++)
     {
-        _playerPokemon[i]->hasMoved = false;
+        pokemans[i]->hasMoved = false;
     }
 }
 

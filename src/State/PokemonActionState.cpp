@@ -1,5 +1,6 @@
 #include <iterator>
 
+#include "EnemyTurnState.h"
 #include "..\Utility\Point.h"
 #include "PokemonActionState.h"
 #include "StateStack.h"
@@ -14,6 +15,8 @@
 // access the normal private variables.
 
 // Executes the "Wait" command to cause a Pokemon to end it's movement.
+// Also, if every Pokemon on the player's team has moved, then switch
+// to the enemy turn.
 void State::waitAction(const PokemonActionState& state)
 {
 	std::shared_ptr<Gameplay::Pokemon> selectedPokemon = state._world->getPokemonUnderCursor();
@@ -21,10 +24,12 @@ void State::waitAction(const PokemonActionState& state)
 	if (state._world->hasAllPlayerPokemonMoved())
 	{
 		state._world->resetWhetherPlayerPokemonHaveMoved();
-		// TODO: Give the enemy team a turn.
+		resetState(std::make_shared<EnemyTurnState>(state._world));
 	}
-
-	resetState();
+	else
+	{
+		resetState();
+	}
 }
 
 State::PokemonActionState::PokemonActionState(State* prevState, std::shared_ptr<Gameplay::World> world)
