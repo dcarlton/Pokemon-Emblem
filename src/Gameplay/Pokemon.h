@@ -13,6 +13,8 @@ namespace Gameplay
 
 struct PokemonStats
 {
+    uint32 currentHP = 10;
+    uint32 maxHP = 10;
     uint32 movement = 5;
 };
 

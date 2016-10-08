@@ -20,6 +20,7 @@ public:
     void drawWorld();
     Utility::Point getCursorPos();
     std::vector<Utility::Point> getEnemyPokemonPositions();
+    std::vector<Utility::Point> getPointsInRange(Utility::Point startingPosition, uint32 range);
     std::shared_ptr<Pokemon> getPokemonFromPosition(Utility::Point position);
     std::shared_ptr<Pokemon> getPokemonUnderCursor();
     bool hasAllPlayerPokemonMoved();

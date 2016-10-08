@@ -94,6 +94,22 @@ std::vector<Utility::Point> Gameplay::World::getEnemyPokemonPositions()
     return points;
 }
 
+// Return all points within a certain distance from the originating point.
+std::vector<Utility::Point> Gameplay::World::getPointsInRange(Utility::Point startingPosition, uint32 range)
+{
+    auto pointsWithinDistance = startingPosition.getPointsWithinDistance(range);
+    for (int i = pointsWithinDistance.size() - 1; i >= 0; i--)
+    {
+        Utility::Point position = pointsWithinDistance[i];
+        if (position.x < 0 || position.x >= _map.size() || position.y < 0 || position.y >= _map[0].size() || position == startingPosition)
+        {
+            pointsWithinDistance.erase(pointsWithinDistance.begin() + i);
+        }
+    }
+
+    return pointsWithinDistance;
+}
+
 // Return a pointer to the Pokemon at the specified position.
 std::shared_ptr<Gameplay::Pokemon> Gameplay::World::getPokemonFromPosition(Utility::Point position)
 {

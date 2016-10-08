@@ -9,6 +9,7 @@
 #include "..\GUI\Image.h"
 #include "..\GUI\ImageEnum.h"
 #include "../Utility/Point.h"
+#include "../Gameplay/Pokemon.h"
 #include "State.h"
 #include "../Gameplay/Tile.h"
 #include "../Gameplay/World.h"
@@ -27,7 +28,9 @@ public:
     void moveUpPressed();
     void selectButtonPressed();
     void update();
-    friend void waitAction(const PokemonActionState& state);
+
+    friend void attackAction(PokemonActionState& state);
+    friend void waitAction(PokemonActionState& state);
 
 protected:
     uint32 _menuCursorPos;
@@ -35,6 +38,7 @@ protected:
     std::map<std::string, std::function<void(PokemonActionState)>> _menuTextToAction;
     std::shared_ptr<Gameplay::World> _world;
 
+    void endPokemonsTurn(std::shared_ptr<Gameplay::Pokemon> pokemon);
 	Utility::Point getMenuPosition();
     void initMenuItems();
 };

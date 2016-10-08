@@ -14,22 +14,24 @@
 // user might pick, we need a non-member function which can still
 // access the normal private variables.
 
+// Executes the "Attack" command to cause a Pokemon to attack another Pokemon
+// in range.
+void State::attackAction(PokemonActionState& state)
+{
+	std::shared_ptr<Gameplay::Pokemon> selectedPokemon = state._world->getPokemonUnderCursor();
+
+	// Do damage to an enemy.
+
+	state.endPokemonsTurn(selectedPokemon);
+}
+
 // Executes the "Wait" command to cause a Pokemon to end it's movement.
 // Also, if every Pokemon on the player's team has moved, then switch
 // to the enemy turn.
-void State::waitAction(const PokemonActionState& state)
+void State::waitAction(PokemonActionState& state)
 {
 	std::shared_ptr<Gameplay::Pokemon> selectedPokemon = state._world->getPokemonUnderCursor();
-    selectedPokemon->hasMoved = true;
-	if (state._world->hasAllPlayerPokemonMoved())
-	{
-		state._world->resetWhetherPlayerPokemonHaveMoved();
-		resetState(std::make_shared<EnemyTurnState>(state._world));
-	}
-	else
-	{
-		resetState();
-	}
+    state.endPokemonsTurn(selectedPokemon);
 }
 
 State::PokemonActionState::PokemonActionState(State* prevState, std::shared_ptr<Gameplay::World> world)
@@ -63,6 +65,20 @@ void State::PokemonActionState::draw()
 	// The GUI class should be able to draw a menu given the map position and the list of texts to draw.
 }
 
+void State::PokemonActionState::endPokemonsTurn(std::shared_ptr<Gameplay::Pokemon> pokemon)
+{
+	pokemon->hasMoved = true;
+	if (_world->hasAllPlayerPokemonMoved())
+	{
+		_world->resetWhetherPlayerPokemonHaveMoved();
+		resetState(std::make_shared<EnemyTurnState>(_world));
+	}
+	else
+	{
+		resetState();
+	}
+}
+
 Utility::Point State::PokemonActionState::getMenuPosition()
 {
 	return Utility::Point((_world->getCursorPos().x * 24) + 24, _world->getCursorPos().y * 24);
@@ -71,6 +87,22 @@ Utility::Point State::PokemonActionState::getMenuPosition()
 void State::PokemonActionState::initMenuItems()
 {
 	_menuTextToAction["Wait"] = &waitAction;
+
+	std::vector<Utility::Point> pointsInRange =_world->getPointsInRange(_world->getCursorPos(), 1);
+	std::vector<std::shared_ptr<Gameplay::Pokemon>> pokemonInRange;
+	for (auto iter = pointsInRange.begin(); iter != pointsInRange.end(); iter++)
+	{
+		std::shared_ptr<Gameplay::Pokemon> pokemon = _world->getPokemonFromPosition(*iter);
+		if (pokemon != NULL)
+		{
+			pokemonInRange.push_back(pokemon);
+		}
+	}
+
+	if (pokemonInRange.size() > 0)
+	{
+		_menuTextToAction["Attack"] = &attackAction;
+	}
 }
 
 // Called when the user presses a button to move the menu cursor downward.

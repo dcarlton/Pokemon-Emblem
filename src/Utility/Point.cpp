@@ -43,6 +43,29 @@ uint32 Utility::Point::distanceFrom(const Utility::Point& rhs)
     return std::abs((int)(x - rhs.x)) + std::abs((int)(y - rhs.y));
 }
 
+// Return all points within the given distance from this point.
+std::vector<Utility::Point> Utility::Point::getPointsWithinDistance(uint32 distance)
+{
+    std::vector<Utility::Point> pointsWithinDistance;
+
+    for (int i = (int)x - (int)distance; i <= (int)x + (int)distance; i++)
+    {
+        if (i < 0)
+            continue;
+
+        for (int j = (int)y - (int)distance; j <= (int)y + (int)distance; j++)
+        {
+            Utility::Point possiblePoint = Utility::Point(i, j);
+            if (j < 0 || distanceFrom(possiblePoint) > distance)
+                continue;
+
+            pointsWithinDistance.push_back(possiblePoint);
+        }
+    }
+
+    return pointsWithinDistance;
+}
+
 std::string Utility::Point::to_string()
 {
     return std::to_string(x) + "," + std::to_string(y);

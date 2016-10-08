@@ -1,7 +1,8 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include "string"
+#include <string>
+#include <vector>
 
 #include "Int.h"
 
@@ -23,6 +24,7 @@ public:
     Point operator*(const uint32 rhs);
 
     uint32 distanceFrom(const Point& rhs);
+    std::vector<Point> getPointsWithinDistance(uint32 distance);
     std::string to_string();
 };
 
