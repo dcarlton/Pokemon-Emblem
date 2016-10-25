@@ -32,6 +32,8 @@ void State::waitAction(PokemonActionState* state)
     Controller::endPokemonsTurn(selectedPokemon, state->_world);
 }
 
+// Initialize default values for selecting what action a Pokemon should
+// do from a menu.
 State::PokemonActionState::PokemonActionState(State* prevState, std::shared_ptr<Gameplay::World> world)
 {
 	_menuCursorPos = 0;
@@ -42,15 +44,17 @@ State::PokemonActionState::PokemonActionState(State* prevState, std::shared_ptr<
 	initMenuItems();
 }
 
+// Called when the back button is pressed to stop choosing an action
+// and return to choosing where the Pokemon should move.
 void State::PokemonActionState::backButtonPressed()
 {
 	exitState();
 }
 
+// Draw the map, then the menu.
 void State::PokemonActionState::draw()
 {
-	// Next goal: write text in the menu, have a list of menu items which can be scrolled through
-	// use a different color to mark which item is selected, have the PokemonSelectedState pass which menu items to have
+	// TODO: use a different color to mark which item is selected
 	_prevState->draw();
 	std::vector<std::string> menuItems;
 	for (auto iter = _menuTextToAction.begin(); iter != _menuTextToAction.end(); iter++)
@@ -58,17 +62,15 @@ void State::PokemonActionState::draw()
 		menuItems.push_back(iter->first);
 	}
 	GUI::drawMenu(menuItems, _originalPos * 24);
-
-	// On creation, we need a dictionary of item text to a function that should be called when the item is selected.
-	// This class handles moving through the menu, and calling the function when an item is selected.
-	// The GUI class should be able to draw a menu given the map position and the list of texts to draw.
 }
 
+// Get the pixel where the menu should be drawn.
 Utility::Point State::PokemonActionState::getMenuPosition()
 {
 	return Utility::Point((_world->getCursorPos().x * 24) + 24, _world->getCursorPos().y * 24);
 }
 
+// Create the items in the menu.
 void State::PokemonActionState::initMenuItems()
 {
 	_menuTextToAction["Wait"] = &waitAction;
@@ -116,6 +118,7 @@ void State::PokemonActionState::selectButtonPressed()
 	iter->second(this);
 }
 
+// Called every frame.
 void State::PokemonActionState::update()
 {
 

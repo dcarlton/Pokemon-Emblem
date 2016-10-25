@@ -44,6 +44,8 @@ uint32 Utility::Point::distanceFrom(const Utility::Point& rhs)
 }
 
 // Return all points within the given distance from this point.
+// TODO: Make it less bad. Written on 10/24/16, I'm guessing I
+// won't actually get around to it :)
 std::vector<Utility::Point> Utility::Point::getPointsWithinDistance(uint32 distance)
 {
     std::vector<Utility::Point> pointsWithinDistance;
