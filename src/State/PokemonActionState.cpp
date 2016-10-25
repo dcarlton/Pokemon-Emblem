@@ -35,6 +35,7 @@ void State::waitAction(PokemonActionState* state)
 State::PokemonActionState::PokemonActionState(State* prevState, std::shared_ptr<Gameplay::World> world)
 {
 	_menuCursorPos = 0;
+	_originalPos = world->getCursorPos();
     _prevState = prevState;
 	_world = world;
 
@@ -56,7 +57,7 @@ void State::PokemonActionState::draw()
 	{
 		menuItems.push_back(iter->first);
 	}
-	GUI::drawMenu(menuItems, _world->getCursorPos() * 24);
+	GUI::drawMenu(menuItems, _originalPos * 24);
 
 	// On creation, we need a dictionary of item text to a function that should be called when the item is selected.
 	// This class handles moving through the menu, and calling the function when an item is selected.

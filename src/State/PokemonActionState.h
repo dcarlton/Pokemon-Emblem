@@ -36,6 +36,7 @@ protected:
     uint32 _menuCursorPos;
 	GUI::Image _menuItemImage = GUI::getImage(GUI::ImageEnum::MenuItem);
     std::map<std::string, std::function<void(PokemonActionState*)>> _menuTextToAction;
+    Utility::Point _originalPos;
     std::shared_ptr<Gameplay::World> _world;
 
     void endPokemonsTurn(std::shared_ptr<Gameplay::Pokemon> pokemon);
