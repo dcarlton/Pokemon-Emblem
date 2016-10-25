@@ -18,18 +18,18 @@
 
 // Executes the "Attack" command to cause a Pokemon to attack another Pokemon
 // in range.
-void State::attackAction(PokemonActionState& state)
+void State::attackAction(PokemonActionState* state)
 {
-	addState(std::make_shared<ChoosingAttackTargetState>(&state, state._world));
+	addState(std::make_shared<ChoosingAttackTargetState>(state, state->_world));
 }
 
 // Executes the "Wait" command to cause a Pokemon to end it's movement.
 // Also, if every Pokemon on the player's team has moved, then switch
 // to the enemy turn.
-void State::waitAction(PokemonActionState& state)
+void State::waitAction(PokemonActionState* state)
 {
-	std::shared_ptr<Gameplay::Pokemon> selectedPokemon = state._world->getPokemonUnderCursor();
-    Controller::endPokemonsTurn(selectedPokemon, state._world);
+	std::shared_ptr<Gameplay::Pokemon> selectedPokemon = state->_world->getPokemonUnderCursor();
+    Controller::endPokemonsTurn(selectedPokemon, state->_world);
 }
 
 State::PokemonActionState::PokemonActionState(State* prevState, std::shared_ptr<Gameplay::World> world)
@@ -112,7 +112,7 @@ void State::PokemonActionState::selectButtonPressed()
 {
 	auto iter = _menuTextToAction.begin();
 	std::advance(iter, _menuCursorPos);
-	iter->second(*this);
+	iter->second(this);
 }
 
 void State::PokemonActionState::update()
