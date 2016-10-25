@@ -1,8 +1,10 @@
 #include <iterator>
 
+#include "ChoosingAttackTargetState.h"
 #include "EnemyTurnState.h"
 #include "..\Utility\Point.h"
 #include "PokemonActionState.h"
+#include "Controller/PokemonUtils.h"
 #include "StateStack.h"
 
 
@@ -18,11 +20,7 @@
 // in range.
 void State::attackAction(PokemonActionState& state)
 {
-	std::shared_ptr<Gameplay::Pokemon> selectedPokemon = state._world->getPokemonUnderCursor();
-
-	// Do damage to an enemy.
-
-	state.endPokemonsTurn(selectedPokemon);
+	addState(std::make_shared<ChoosingAttackTargetState>(&state, state._world));
 }
 
 // Executes the "Wait" command to cause a Pokemon to end it's movement.
@@ -31,7 +29,7 @@ void State::attackAction(PokemonActionState& state)
 void State::waitAction(PokemonActionState& state)
 {
 	std::shared_ptr<Gameplay::Pokemon> selectedPokemon = state._world->getPokemonUnderCursor();
-    state.endPokemonsTurn(selectedPokemon);
+    Controller::endPokemonsTurn(selectedPokemon, state._world);
 }
 
 State::PokemonActionState::PokemonActionState(State* prevState, std::shared_ptr<Gameplay::World> world)
@@ -63,20 +61,6 @@ void State::PokemonActionState::draw()
 	// On creation, we need a dictionary of item text to a function that should be called when the item is selected.
 	// This class handles moving through the menu, and calling the function when an item is selected.
 	// The GUI class should be able to draw a menu given the map position and the list of texts to draw.
-}
-
-void State::PokemonActionState::endPokemonsTurn(std::shared_ptr<Gameplay::Pokemon> pokemon)
-{
-	pokemon->hasMoved = true;
-	if (_world->hasAllPlayerPokemonMoved())
-	{
-		_world->resetWhetherPlayerPokemonHaveMoved();
-		resetState(std::make_shared<EnemyTurnState>(_world));
-	}
-	else
-	{
-		resetState();
-	}
 }
 
 Utility::Point State::PokemonActionState::getMenuPosition()

@@ -29,6 +29,7 @@ public:
     void moveCursorRight();
     void moveCursorUp();
     bool movePokemon(Utility::Point oldPosition, Utility::Point newPosition);
+    void pokemonFainted(Utility::Point faintedPokemonPosition);
     void resetWhetherEnemyPokemonHaveMoved();
     void resetWhetherPlayerPokemonHaveMoved();
     void resetWhetherPokemonHaveMoved(std::vector<std::shared_ptr<Pokemon>> pokemans);
@@ -40,6 +41,8 @@ private:
     std::vector<std::shared_ptr<Pokemon>> _enemyPokemon;
     std::vector<std::vector<Gameplay::Tile>> _map;
     std::vector<std::shared_ptr<Pokemon>> _playerPokemon;
+
+    void removePokemonFromList(std::shared_ptr<Gameplay::Pokemon> pokemon, std::vector<std::shared_ptr<Gameplay::Pokemon>> pokemonList);
 };
 
 

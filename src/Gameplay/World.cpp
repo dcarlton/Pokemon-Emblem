@@ -177,6 +177,40 @@ bool Gameplay::World::movePokemon(Utility::Point oldPosition, Utility::Point new
     return true;
 }
 
+// Call when a Pokemon has run out of HP to remove it from the world.
+void Gameplay::World::pokemonFainted(Utility::Point faintedPokemonPosition)
+{
+    std::shared_ptr<Gameplay::Pokemon> faintedPokemon = getPokemonFromPosition(faintedPokemonPosition);
+    if (faintedPokemon != nullptr && faintedPokemon->stats.currentHP <= 0)
+    {
+        _map[faintedPokemonPosition.x][faintedPokemonPosition.y].pokemon = nullptr;
+        switch (faintedPokemon->alliance)
+        {
+            case AllianceEnum::Enemy:
+                removePokemonFromList(faintedPokemon, _enemyPokemon);
+                break;
+
+            case AllianceEnum::Player:
+                removePokemonFromList(faintedPokemon, _playerPokemon);
+                break;
+        }
+    }
+}
+
+// Remove a Pokemon from a vector of Pokemon.
+void Gameplay::World::removePokemonFromList(std::shared_ptr<Gameplay::Pokemon> pokemon, std::vector<std::shared_ptr<Gameplay::Pokemon>> pokemonList)
+{
+    for (std::vector<std::shared_ptr<Gameplay::Pokemon>>::iterator iter = pokemonList.begin(); iter != pokemonList.end(); iter++)
+    {
+        if (*iter == pokemon)
+        {
+            pokemonList.erase(iter);
+            return;
+        }
+    }
+}
+
+
 // Set all of the enemy Pokemon's hasMoved property to false.
 void Gameplay::World::resetWhetherEnemyPokemonHaveMoved()
 {
