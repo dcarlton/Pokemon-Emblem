@@ -30,7 +30,7 @@ void State::PokemonSelectedState::draw()
 
 void State::PokemonSelectedState::moveDownPressed()
 {
-    _world->moveCursorDown();
+    _world->moveCursorDownIfInRange(_originalPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.movement);
     moveIfValid();
 }
 
@@ -46,19 +46,19 @@ void State::PokemonSelectedState::moveIfValid()
 
 void State::PokemonSelectedState::moveLeftPressed()
 {
-    _world->moveCursorLeft();
+    _world->moveCursorLeftIfInRange(_originalPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.movement);
     moveIfValid();
 }
 
 void State::PokemonSelectedState::moveRightPressed()
 {
-    _world->moveCursorRight();
+    _world->moveCursorRightIfInRange(_originalPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.movement);
     moveIfValid();
 }
 
 void State::PokemonSelectedState::moveUpPressed()
 {
-    _world->moveCursorUp();
+    _world->moveCursorUpIfInRange(_originalPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.movement);
     moveIfValid();
 }
 

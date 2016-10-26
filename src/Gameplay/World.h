@@ -25,9 +25,13 @@ public:
     std::shared_ptr<Pokemon> getPokemonUnderCursor();
     bool hasAllPlayerPokemonMoved();
     void moveCursorDown();
+    void moveCursorDownIfInRange(Utility::Point startingPosition, unsigned int maxRange);
     void moveCursorLeft();
+    void moveCursorLeftIfInRange(Utility::Point startingPosition, unsigned int maxRange);
     void moveCursorRight();
+    void moveCursorRightIfInRange(Utility::Point startingPosition, unsigned int maxRange);
     void moveCursorUp();
+    void moveCursorUpIfInRange(Utility::Point startingPosition, unsigned int maxRange);
     bool movePokemon(Utility::Point oldPosition, Utility::Point newPosition);
     void pokemonFainted(Utility::Point faintedPokemonPosition);
     void resetWhetherEnemyPokemonHaveMoved();
