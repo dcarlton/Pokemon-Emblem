@@ -229,7 +229,6 @@ bool Gameplay::World::movePokemon(Utility::Point oldPosition, Utility::Point new
     _map[newPosition.x][newPosition.y].pokemon = _map[oldPosition.x][oldPosition.y].pokemon;
     _map[oldPosition.x][oldPosition.y].pokemon = nullptr;
 
-    _map[newPosition.x][newPosition.y].pokemon->hasMoved = true;
     return true;
 }
 
