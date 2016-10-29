@@ -1,5 +1,6 @@
 #include "SDL_TTF.h"
 
+#include "../Utility/Color.h"
 #include "GUI.h"
 #include "ImageFactory.h"
 #include "../Utility/Log.h"
@@ -15,6 +16,8 @@ namespace
     static TTF_Font *font = nullptr;
     static SDL_Window *window = nullptr;
     static SDL_Surface *windowSurface = nullptr;
+
+    GUI::Image pokemonSpriteSheet = GUI::Image("../../resources/Pokemon/SpriteSheet.bmp", Utility::Color(0xFF, 0xFF, 0xFF), Utility::Size(610, 1925));
 }
 
 
@@ -48,16 +51,24 @@ void GUI::deleteWindow()
 
 void GUI::drawImage(GUI::Image image, Utility::Point position)
 {
+    drawImage(image, NULL, position);
+}
+
+// Draw an image to the screen at the target position. ImageRect defines what
+// piece of the image should be drawn to the screen. If it is NULL, draw the entire
+// image.
+void GUI::drawImage(GUI::Image image, SDL_Rect* imageRect, Utility::Point targetPosition)
+{
     if (!image.surface || !windowSurface)
         return;
 
     SDL_Rect targetRect;
-    targetRect.x = position.x * TILE_WIDTH;
-    targetRect.y = position.y * TILE_HEIGHT;
+    targetRect.x = targetPosition.x * TILE_WIDTH;
+    targetRect.y = targetPosition.y * TILE_HEIGHT;
     targetRect.h = image.size.height;
     targetRect.w = image.size.width;
 
-    SDL_BlitSurface(image.surface, NULL, windowSurface, &targetRect);
+    SDL_BlitSurface(image.surface, imageRect, windowSurface, &targetRect);
 }
 
 void GUI::drawMenu(std::vector<std::string> items, Utility::Point position)
@@ -80,6 +91,22 @@ void GUI::drawMenu(std::vector<std::string> items, Utility::Point position)
 
         position.y++;
     }
+}
+
+// Draw a Pokemon using the loaded Pokemon sprite sheet. The first offset
+// sets how far down the sprite sheet to move before fetching the image;
+// Bulbasaur is at the top of the sprite sheet and doesn't require an offset,
+// while Ivysaur right below needs an offset of 1, Venusaur is at offset 2, and.
+// so on.
+//
+// The animation offset is used to select a specific pose for that Pokemon. The
+// first pose is a neutral stance facing downward, and all other sprites for that
+// Pokemon can be found with different offsets.
+void GUI::drawPokemon(Utility::Point targetPosition, int pokemonOffset, int animationOffset)
+{
+    targetPosition.x++;
+    pokemonOffset++;
+    animationOffset++;
 }
 
 GUI::Image GUI::getImage(ImageEnum imageEnum)

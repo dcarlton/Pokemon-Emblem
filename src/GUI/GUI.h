@@ -21,7 +21,9 @@ namespace GUI
 					  std::string title);
 	void deleteWindow();
 	void drawImage(Image image, Utility::Point position);
+	void drawImage(GUI::Image image, SDL_Rect* imageRect, Utility::Point targetPosition);
 	void drawMenu(std::vector<std::string> items, Utility::Point position);
+	void drawPokemon(Utility::Point targetPosition, int pokemonOffset, int animationOffset);
 	Image getImage(ImageEnum imageEnum);
     void loadAssets();
 	void loadEngine();
