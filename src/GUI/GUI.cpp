@@ -8,6 +8,10 @@
 
 namespace
 {
+    const int TILE_HEIGHT = 24;
+    const int TILE_WIDTH = 24;
+
+    // Pretty sure the static keyword here doesn't actually do anything.
     static TTF_Font *font = nullptr;
     static SDL_Window *window = nullptr;
     static SDL_Surface *windowSurface = nullptr;
@@ -48,8 +52,8 @@ void GUI::drawImage(GUI::Image image, Utility::Point position)
         return;
 
     SDL_Rect targetRect;
-    targetRect.x = position.x;
-    targetRect.y = position.y;
+    targetRect.x = position.x * TILE_WIDTH;
+    targetRect.y = position.y * TILE_HEIGHT;
     targetRect.h = image.size.height;
     targetRect.w = image.size.width;
 
@@ -67,14 +71,14 @@ void GUI::drawMenu(std::vector<std::string> items, Utility::Point position)
         SDL_Surface* textSurface = TTF_RenderText_Solid(font, items[i].c_str(), white);
 
         SDL_Rect targetRect;
-        targetRect.x = position.x + 8;
-        targetRect.y = position.y + 2;
+        targetRect.x = (position.x * TILE_WIDTH) + 8;
+        targetRect.y = (position.y * TILE_HEIGHT) + 2;
         targetRect.h = menuImage.size.height;
         targetRect.w = menuImage.size.width;
 
         SDL_BlitSurface(textSurface, NULL, windowSurface, &targetRect);
 
-        position.y += 16;
+        position.y++;
     }
 }
 

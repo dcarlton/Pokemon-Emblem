@@ -61,13 +61,14 @@ void State::PokemonActionState::draw()
 	{
 		menuItems.push_back(iter->first);
 	}
-	GUI::drawMenu(menuItems, _originalPos * 24);
+	GUI::drawMenu(menuItems, _originalPos);
 }
 
-// Get the pixel where the menu should be drawn.
+// Get the position where the menu should be drawn. Currently this is
+// the tile to the right of the cursor.
 Utility::Point State::PokemonActionState::getMenuPosition()
 {
-	return Utility::Point((_world->getCursorPos().x * 24) + 24, _world->getCursorPos().y * 24);
+	return Utility::Point(_world->getCursorPos().x + 1, _world->getCursorPos().y);
 }
 
 // Create the items in the menu.

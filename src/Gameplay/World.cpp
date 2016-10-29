@@ -59,7 +59,7 @@ void Gameplay::World::drawWorld()
     {
         for (unsigned int y = 0; y < _map[x].size(); y++)
         {
-            _map[x][y].draw(Utility::Point(x * 24, y * 24));
+            _map[x][y].draw(Utility::Point(x, y));
         }
     }
 
@@ -68,7 +68,7 @@ void Gameplay::World::drawWorld()
         GUI::drawImage(pokemon->image, Utility::Point(pokemon->position.x * 24, pokemon->position.y * 24));
     }*/
 
-    GUI::drawImage(_cursorImage, Utility::Point(_cursorPos.x * 24, _cursorPos.y * 24));
+    GUI::drawImage(_cursorImage, _cursorPos);
 }
 
 // Return the current position of the cursor.
