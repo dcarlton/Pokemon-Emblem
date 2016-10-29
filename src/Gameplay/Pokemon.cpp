@@ -1,8 +1,9 @@
 #include "Pokemon.h"
 
-Gameplay::Pokemon::Pokemon(AllianceEnum startingAlliance)
+Gameplay::Pokemon::Pokemon(PokemonSpecies species, AllianceEnum startingAlliance)
 {
     alliance = startingAlliance;
+    this->species = species;
 
     switch (alliance)
     {

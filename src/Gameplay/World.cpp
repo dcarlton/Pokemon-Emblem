@@ -1,6 +1,7 @@
 #include "AllianceEnum.h"
 #include "../State/Controller/MoveUtils.h"
 #include "Pokemon.h"
+#include "PokemonEnum.h"
 #include "World.h"
 
 
@@ -21,13 +22,13 @@ Gameplay::World::World()
         _map.push_back(column);
     }
 
-    std::shared_ptr<Gameplay::Pokemon> pokemon = {std::make_shared<Gameplay::Pokemon> (Gameplay::AllianceEnum::Player)};
+    std::shared_ptr<Gameplay::Pokemon> pokemon = {std::make_shared<Gameplay::Pokemon> (Gameplay::PokemonSpecies::BULBASAUR, Gameplay::AllianceEnum::Player)};
     addPokemon(pokemon, Utility::Point(0, 0));
 
-    pokemon = {std::make_shared<Gameplay::Pokemon> (Gameplay::AllianceEnum::Enemy)};
+    pokemon = {std::make_shared<Gameplay::Pokemon> (Gameplay::PokemonSpecies::CHARMANDER, Gameplay::AllianceEnum::Enemy)};
     addPokemon(pokemon, Utility::Point(0, 1));
 
-    pokemon = {std::make_shared<Gameplay::Pokemon> (Gameplay::AllianceEnum::Player)};
+    pokemon = {std::make_shared<Gameplay::Pokemon> (Gameplay::PokemonSpecies::BULBASAUR, Gameplay::AllianceEnum::Player)};
     addPokemon(pokemon, Utility::Point(1, 0));
 }
 

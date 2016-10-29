@@ -5,6 +5,7 @@
 #include "../GUI/GUI.h"
 #include "../GUI/ImageEnum.h"
 #include "../Utility/Point.h"
+#include "PokemonEnum.h"
 
 class GUI::Image;
 
@@ -22,11 +23,13 @@ class Pokemon
 {
 public:
 	AllianceEnum alliance = AllianceEnum::Enemy;
+    AnimationState animationState = AnimationState::NEUTRALDOWN;
     bool hasMoved = false;
     GUI::Image image = GUI::getImage(GUI::ImageEnum::TestPokemon);
+    PokemonSpecies species;
     PokemonStats stats;
 
-    Pokemon(AllianceEnum startingAlliance);
+    Pokemon(PokemonSpecies species, AllianceEnum startingAlliance);
 };
 
 }
