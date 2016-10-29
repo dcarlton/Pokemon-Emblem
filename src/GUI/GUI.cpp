@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "SDL_TTF.h"
 
 #include "../Utility/Color.h"
@@ -9,15 +11,15 @@
 
 namespace
 {
-    const int TILE_HEIGHT = 24;
-    const int TILE_WIDTH = 24;
+    const int TILE_HEIGHT = 32;
+    const int TILE_WIDTH = 32;
 
     // Pretty sure the static keyword here doesn't actually do anything.
     static TTF_Font *font = nullptr;
     static SDL_Window *window = nullptr;
     static SDL_Surface *windowSurface = nullptr;
 
-    GUI::Image pokemonSpriteSheet = GUI::Image("../../resources/Pokemon/SpriteSheet.bmp", Utility::Color(0xFF, 0xFF, 0xFF), Utility::Size(610, 1925));
+    GUI::Image pokemonSpriteSheet = GUI::Image("../resources/Pokemon/SpriteSheet.bmp", Utility::Color(0xFF, 0xFF, 0xFF), Utility::Size(610, 1925));
 }
 
 
@@ -104,9 +106,13 @@ void GUI::drawMenu(std::vector<std::string> items, Utility::Point position)
 // Pokemon can be found with different offsets.
 void GUI::drawPokemon(Utility::Point targetPosition, int pokemonOffset, int animationOffset)
 {
-    targetPosition.x++;
-    pokemonOffset++;
-    animationOffset++;
+    std::shared_ptr<SDL_Rect> imageRect = std::make_shared<SDL_Rect>();
+    imageRect->x = TILE_WIDTH * animationOffset;
+    imageRect->y = TILE_HEIGHT * pokemonOffset;
+    imageRect->w = TILE_WIDTH;
+    imageRect->h = TILE_HEIGHT;
+
+    drawImage(pokemonSpriteSheet, imageRect.get(), targetPosition);
 }
 
 GUI::Image GUI::getImage(ImageEnum imageEnum)

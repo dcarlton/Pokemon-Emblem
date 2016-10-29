@@ -7,5 +7,5 @@ void Gameplay::Tile::draw(Utility::Point const &pos)
 {
     GUI::drawImage(terrain.image, pos);
     if (pokemon)
-        GUI::drawImage(pokemon->image, pos);
+        GUI::drawPokemon(pos, 0, 0);
 }

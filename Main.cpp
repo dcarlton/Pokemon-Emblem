@@ -39,7 +39,7 @@ void loadGame()
     Utility::initLog();
     GUI::loadEngine();
     GUI::loadAssets();
-    GUI::createWindow(Utility::Size(240, 240), "Pokemon Emblem");
+    GUI::createWindow(Utility::Size(320, 320), "Pokemon Emblem");
 }
 
 void gameLoop()
