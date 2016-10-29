@@ -37,25 +37,25 @@ void State::ChoosingAttackTargetState::draw()
 // Called when the down button is pressed to move the cursor down.
 void State::ChoosingAttackTargetState::moveDownPressed()
 {
-    _world->moveCursorDown();
+    _world->moveCursorDownIfInRange(_originalPos, 1);
 }
 
 // Called when the left button is pressed to move the cursor left.
 void State::ChoosingAttackTargetState::moveLeftPressed()
 {
-    _world->moveCursorLeft();
+    _world->moveCursorLeftIfInRange(_originalPos, 1);
 }
 
 // Called when the right button is pressed to move the cursor right.
 void State::ChoosingAttackTargetState::moveRightPressed()
 {
-    _world->moveCursorRight();
+    _world->moveCursorRightIfInRange(_originalPos, 1);
 }
 
 // Called when the up button is pressed to move the cursor up.
 void State::ChoosingAttackTargetState::moveUpPressed()
 {
-    _world->moveCursorUp();
+    _world->moveCursorUpIfInRange(_originalPos, 1);
 }
 
 // Called when the select button is pressed to attack the Pokemon the
