@@ -5,6 +5,7 @@
 
 #include "SDL.h"
 
+#include "src/Audio/DJ.h"
 #include "src/GUI/GUI.h"
 #include "src/Utility/Log.h"
 #include "src/State/PlayerTurnState.h"
@@ -39,6 +40,7 @@ void loadGame()
     Utility::initLog();
     GUI::loadEngine();
     GUI::loadAssets();
+    Audio::initAudio();
     GUI::createWindow(Utility::Size(320, 320), "Pokemon Emblem");
 }
 
@@ -119,6 +121,10 @@ void processInput(std::shared_ptr<State::State> state)
 void cleanup()
 {
     Utility::quitLog();
+    Audio::cleanup();
+
+    // The GUI cleanup function also cleans up SDL in general. Should
+    // split that up so GUI::cleanup only cleans up the GUI.
     GUI::cleanup();
 }
 

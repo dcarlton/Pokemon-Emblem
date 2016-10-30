@@ -1,8 +1,10 @@
 #include "../Gameplay/AllianceEnum.h"
+#include "../Audio/DJ.h"
 #include "Controller/MoveUtils.h"
 #include "PlayerTurnState.h"
 #include "PokemonSelectedState.h"
 #include "StateStack.h"
+#include "../Audio/TrackList.h"
 
 
 /*
@@ -12,6 +14,7 @@ and starts the testing level.
 State::PlayerTurnState::PlayerTurnState()
 {
     _world = std::make_shared<Gameplay::World>();
+    Audio::playMusic(Audio::Music::Music);
 }
 
 /*
