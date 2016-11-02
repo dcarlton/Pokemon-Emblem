@@ -4,6 +4,8 @@
 #include "Controller/PokemonUtils.h"
 #include "StateStack.h"
 
+#include "SimpleIni.h"
+CSimpleIniA ini;
 
 // Default constructor, shouldn't be called.
 State::ChoosingAttackTargetState::ChoosingAttackTargetState()

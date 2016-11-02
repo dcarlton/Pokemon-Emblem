@@ -8,6 +8,7 @@
 #include "src/Audio/DJ.h"
 #include "src/GUI/GUI.h"
 #include "src/Utility/Log.h"
+#include "src/Filesystem/Options.h"
 #include "src/State/PlayerTurnState.h"
 #include "src/Utility/Size.h"
 #include "src/State/StateStack.h"
@@ -38,6 +39,8 @@ int main()
 void loadGame()
 {
     Utility::initLog();
+    Filesystem::LoadIniFile();
+    Filesystem::SetMusicVolume(50);
     GUI::loadEngine();
     GUI::loadAssets();
     Audio::initAudio();
