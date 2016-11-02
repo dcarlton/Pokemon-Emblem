@@ -2,6 +2,7 @@
 
 #include "DJ.h"
 #include "../Utility/Log.h"
+#include "../Filesystem/Options.h"
 
 
 namespace
@@ -21,6 +22,8 @@ void Audio::initAudio()
 {
     if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
         Utility::log("Audio could not be initialized.");
+
+    updateMusicVolume();
 }
 
 // Play the chosen musical track on infinite loop.
@@ -44,4 +47,11 @@ void Audio::playMusic(Music musicToPlay)
 void Audio::playSoundEffect(SoundEffect soundEffectToPlay)
 {
     soundEffectToPlay;
+}
+
+// Call when the music volume configuration is changed to update the current
+// music.
+void Audio::updateMusicVolume()
+{
+    Mix_VolumeMusic(Filesystem::GetMusicVolume());
 }

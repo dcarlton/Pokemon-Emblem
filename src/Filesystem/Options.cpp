@@ -15,10 +15,10 @@ namespace
 // 100 for max volume.
 int Filesystem::GetMusicVolume()
 {
-    stream << configInfo.GetValue("Audio", "MusicVolume", "50");
+    stream << configInfo.GetValue("Audio", "MusicVolume", NULL);
     unsigned int volume;
     stream >> volume;
-    
+
     if (volume > 100)
         return 100;
 
@@ -39,6 +39,6 @@ void Filesystem::SetMusicVolume(unsigned int volume)
         volume = 100;
 
     stream << volume;
-    configInfo.SetValue("Audio", "MusicVolume", "50");
+    configInfo.SetValue("Audio", "MusicVolume", stream.str().c_str());
     configInfo.SaveFile(configFilename);
 }

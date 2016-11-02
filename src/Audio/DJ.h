@@ -10,6 +10,7 @@ namespace Audio
     void initAudio();
     void playMusic(Music musicToPlay); 
     void playSoundEffect(SoundEffect soundEffectToPlay);
+    void updateMusicVolume();
 }
 
 

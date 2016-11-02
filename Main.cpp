@@ -40,7 +40,6 @@ void loadGame()
 {
     Utility::initLog();
     Filesystem::LoadIniFile();
-    Filesystem::SetMusicVolume(50);
     GUI::loadEngine();
     GUI::loadAssets();
     Audio::initAudio();
