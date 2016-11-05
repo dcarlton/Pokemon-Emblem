@@ -9,7 +9,6 @@ namespace
 {
     const char* configFilename = "../config.ini";
     CSimpleIniA configInfo;
-    std::stringstream stream;
 }
 
 // Return the current music volume, ranging from 0 for muted to
@@ -47,12 +46,8 @@ void Filesystem::SetMusicVolume(unsigned int volume)
     if (volume > 100)
         volume = 100;
 
-    stream << volume;
-    configInfo.SetValue("Audio", "MusicVolume", stream.str().c_str());
+    configInfo.SetValue("Audio", "MusicVolume", std::to_string(volume).c_str());
     configInfo.SaveFile(configFilename);
-
-    // Clear the stream
-    stream.str("");
 }
 
 // Set the current sound effect volume.
@@ -61,10 +56,6 @@ void Filesystem::SetSoundEffectVolume(unsigned int volume)
     if (volume > 100)
         volume = 100;
 
-    stream << volume;
-    configInfo.SetValue("Audio", "SoundEffectVolume", stream.str().c_str());
+    configInfo.SetValue("Audio", "SoundEffectVolume", std::to_string(volume).c_str());
     configInfo.SaveFile(configFilename);
-
-    // Clear the stream
-    stream.str("");
 }
