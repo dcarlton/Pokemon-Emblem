@@ -29,6 +29,7 @@ void Audio::initAudio()
         Utility::log("Audio could not be initialized.");
 
     updateMusicVolume();
+    updateSoundEffectVolume();
 }
 
 // Play the chosen musical track on infinite loop.
@@ -54,6 +55,7 @@ void Audio::playMusic(Music musicToPlay)
 void Audio::playSoundEffect(SoundEffect soundEffectToPlay)
 {
     Mix_FreeChunk(currentSoundEffect);
+    updateSoundEffectVolume();
 
     switch (soundEffectToPlay)
     {
@@ -71,4 +73,9 @@ void Audio::playSoundEffect(SoundEffect soundEffectToPlay)
 void Audio::updateMusicVolume()
 {
     Mix_Volume(MUSIC_CHANNEL, Filesystem::GetMusicVolume());
+}
+
+void Audio::updateSoundEffectVolume()
+{
+    Mix_Volume(SOUND_EFFECT_CHANNEL, Filesystem::GetSoundEffectVolume());
 }

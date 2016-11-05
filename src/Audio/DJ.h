@@ -11,6 +11,7 @@ namespace Audio
     void playMusic(Music musicToPlay); 
     void playSoundEffect(SoundEffect soundEffectToPlay);
     void updateMusicVolume();
+    void updateSoundEffectVolume();
 }
 
 
