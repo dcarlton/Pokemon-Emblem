@@ -1,4 +1,5 @@
 #include "ChoosingAttackTargetState.h"
+#include "../Audio/DJ.h"
 #include "EnemyTurnState.h"
 #include "../Gameplay/Pokemon.h"
 #include "Controller/PokemonUtils.h"
@@ -75,6 +76,7 @@ void State::ChoosingAttackTargetState::selectButtonPressed()
             _world->pokemonFainted(_world->getCursorPos());
         }
 
+        Audio::playSoundEffect(Audio::SoundEffect::TestSoundEffect);
         Controller::endPokemonsTurn(attackingPokemon, _world);
     }
 }
