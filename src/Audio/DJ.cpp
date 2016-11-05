@@ -7,13 +7,18 @@
 
 namespace
 {
-    Mix_Music *currentMusic = NULL;
+    const int MUSIC_CHANNEL = 1;
+    const int SOUND_EFFECT_CHANNEL = 2;
+
+    Mix_Chunk *currentMusic = NULL;
+    Mix_Chunk *currentSoundEffect = NULL;
 }
 
 // Safely shut down the SDL_Mixer.
 void Audio::cleanup()
 {
-    Mix_FreeMusic(currentMusic);
+    Mix_FreeChunk(currentSoundEffect);
+    Mix_FreeChunk(currentMusic);
     Mix_CloseAudio();
 }
 
@@ -29,16 +34,18 @@ void Audio::initAudio()
 // Play the chosen musical track on infinite loop.
 void Audio::playMusic(Music musicToPlay)
 {
+    Mix_FreeChunk(currentMusic);
+
     switch (musicToPlay)
     {
         case Music::Music:
             // TODO: Cleanup
             // TODO: Should check if the music already exists and is paused.
             // http://lazyfoo.net/SDL_tutorials/lesson11/
-            currentMusic = Mix_LoadMUS("../resources/Audio/Music/StageMusic.wav");
+            currentMusic = Mix_LoadWAV("../resources/Audio/Music/StageMusic.wav");
             if (currentMusic == NULL)
                 Utility::log("Stage music could not be loaded.");
-            Mix_PlayMusic(currentMusic, -1);
+            Mix_PlayChannel(MUSIC_CHANNEL, currentMusic, -1);
             break;
     }
 }
@@ -46,12 +53,22 @@ void Audio::playMusic(Music musicToPlay)
 // Play the chosen sound effect one time.
 void Audio::playSoundEffect(SoundEffect soundEffectToPlay)
 {
-    soundEffectToPlay;
+    Mix_FreeChunk(currentSoundEffect);
+
+    switch (soundEffectToPlay)
+    {
+        case SoundEffect::TestSoundEffect:
+            currentSoundEffect = Mix_LoadWAV("../resources/Audio/SoundEffects/TestSoundEffect.wav");
+            if (currentSoundEffect == NULL)
+                Utility::log("Sound effect could not be loaded.");
+            
+            Mix_PlayChannel(SOUND_EFFECT_CHANNEL, currentSoundEffect, 0);
+    }
 }
 
 // Call when the music volume configuration is changed to update the current
 // music.
 void Audio::updateMusicVolume()
 {
-    Mix_VolumeMusic(Filesystem::GetMusicVolume());
+    Mix_Volume(MUSIC_CHANNEL, Filesystem::GetMusicVolume());
 }

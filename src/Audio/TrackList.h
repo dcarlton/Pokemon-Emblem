@@ -12,7 +12,7 @@ enum class Music
 
 enum class SoundEffect
 {
-
+    TestSoundEffect
 };
 
 }
