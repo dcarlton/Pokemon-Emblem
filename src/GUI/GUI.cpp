@@ -82,16 +82,7 @@ void GUI::drawMenu(std::vector<std::string> items, Utility::Point position)
     for (unsigned int i = 0; i < items.size(); i++)
     {
         GUI::drawImage(menuImage, position);
-        SDL_Surface* textSurface = TTF_RenderText_Solid(font, items[i].c_str(), WHITE);
-
-        SDL_Rect targetRect;
-        targetRect.x = (position.x * TILE_WIDTH) + 8;
-        targetRect.y = (position.y * TILE_HEIGHT) + 2;
-        targetRect.h = menuImage.size.height;
-        targetRect.w = menuImage.size.width;
-
-        SDL_BlitSurface(textSurface, NULL, windowSurface, &targetRect);
-
+        GUI::drawText(items[i], position, Utility::Point(8, 2), WHITE);
         position.y++;
     }
 }
@@ -129,12 +120,21 @@ void GUI::drawPokemonStats(std::shared_ptr<Gameplay::Pokemon> pokemon)
     if (pokemon == nullptr)
         return;
 
-    std::string hpText = std::to_string(pokemon->stats.currentHP) + "/" + std::to_string(pokemon->stats.maxHP);
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, hpText.c_str(), BLACK);
+    std::string text = "Level: " + std::to_string(pokemon->stats.level);
+    drawText(text, Utility::Point(8, 0), Utility::Point(0, 0), BLACK);
+    text = "HP: " + std::to_string(pokemon->stats.currentHP) + "/" + std::to_string(pokemon->stats.maxHP);
+    drawText(text, Utility::Point(8, 0), Utility::Point(0, 16), BLACK);
+}
+
+// Draw text to the screen at the given map position, with an offset down to the
+// pixel, and the given color.
+void GUI::drawText(std::string text, Utility::Point drawPosition, Utility::Point pixelOffset, SDL_Color color)
+{
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
 
     SDL_Rect targetRect;
-    targetRect.x = (TILE_WIDTH * 8) + 16;
-    targetRect.y = 0;
+    targetRect.x = (drawPosition.x * TILE_WIDTH) + pixelOffset.x;
+    targetRect.y = (drawPosition.y * TILE_HEIGHT) + pixelOffset.y;
     targetRect.h = TILE_HEIGHT;
     targetRect.w = TILE_WIDTH * 2;
 

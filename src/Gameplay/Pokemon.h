@@ -11,6 +11,7 @@ namespace Gameplay
 struct PokemonStats
 {
     uint32 currentHP = 10;
+    uint32 level = 1;
     uint32 maxHP = 10;
     uint32 movement = 5;
 };
@@ -24,7 +25,10 @@ public:
     PokemonSpecies species;
     PokemonStats stats;
 
-    Pokemon(PokemonSpecies species, AllianceEnum startingAlliance);
+    Pokemon(PokemonSpecies species, unsigned int level, AllianceEnum startingAlliance);
+
+private:
+    unsigned int validateLevel(unsigned int level);
 };
 
 }

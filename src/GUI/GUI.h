@@ -28,6 +28,7 @@ namespace GUI
 	void drawPokemon(std::shared_ptr<Gameplay::Pokemon> pokemon, Utility::Point position);
 	void drawPokemonOnMap(Utility::Point targetPosition, int pokemonOffset, int animationOffset);
 	void drawPokemonStats(std::shared_ptr<Gameplay::Pokemon> pokemon);
+	void drawText(std::string text, Utility::Point drawPosition, Utility::Point pixelOffset, SDL_Color textColor);
 	Image getImage(ImageEnum imageEnum);
     void loadAssets();
 	void loadEngine();
