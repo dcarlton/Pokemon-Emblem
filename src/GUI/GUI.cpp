@@ -11,8 +11,10 @@
 
 namespace
 {
+    const SDL_Color BLACK = {0, 0, 0, 0};
     const int TILE_HEIGHT = 32;
     const int TILE_WIDTH = 32;
+    const SDL_Color WHITE = {255, 255, 255, 0};
 
     // Pretty sure the static keyword here doesn't actually do anything.
     static TTF_Font *font = nullptr;
@@ -76,12 +78,11 @@ void GUI::drawImage(GUI::Image image, SDL_Rect* imageRect, Utility::Point target
 void GUI::drawMenu(std::vector<std::string> items, Utility::Point position)
 {
     GUI::Image menuImage = GUI::getImage(GUI::ImageEnum::MenuItem);
-    SDL_Color white = {255, 255, 255, 0};
 
     for (unsigned int i = 0; i < items.size(); i++)
     {
         GUI::drawImage(menuImage, position);
-        SDL_Surface* textSurface = TTF_RenderText_Solid(font, items[i].c_str(), white);
+        SDL_Surface* textSurface = TTF_RenderText_Solid(font, items[i].c_str(), WHITE);
 
         SDL_Rect targetRect;
         targetRect.x = (position.x * TILE_WIDTH) + 8;
@@ -95,6 +96,12 @@ void GUI::drawMenu(std::vector<std::string> items, Utility::Point position)
     }
 }
 
+// Draw the Pokemon at the provided position.
+void GUI::drawPokemon(std::shared_ptr<Gameplay::Pokemon> pokemon, Utility::Point position)
+{
+    drawPokemonOnMap(position, pokemon->species, pokemon->animationState);
+}
+
 // Draw a Pokemon using the loaded Pokemon sprite sheet. The first offset
 // sets how far down the sprite sheet to move before fetching the image;
 // Bulbasaur is at the top of the sprite sheet and doesn't require an offset,
@@ -104,7 +111,7 @@ void GUI::drawMenu(std::vector<std::string> items, Utility::Point position)
 // The animation offset is used to select a specific pose for that Pokemon. The
 // first pose is a neutral stance facing downward, and all other sprites for that
 // Pokemon can be found with different offsets.
-void GUI::drawPokemon(Utility::Point targetPosition, int pokemonOffset, int animationOffset)
+void GUI::drawPokemonOnMap(Utility::Point targetPosition, int pokemonOffset, int animationOffset)
 {
     std::shared_ptr<SDL_Rect> imageRect = std::make_shared<SDL_Rect>();
     imageRect->x = TILE_WIDTH * animationOffset;
@@ -113,6 +120,25 @@ void GUI::drawPokemon(Utility::Point targetPosition, int pokemonOffset, int anim
     imageRect->h = TILE_HEIGHT;
 
     drawImage(pokemonSpriteSheet, imageRect.get(), targetPosition);
+}
+
+// Draw the most recently selected Pokemon's HP on the screen.
+// TODO: Add the Pokemon's alliance and picture in a nice format.
+void GUI::drawPokemonStats(std::shared_ptr<Gameplay::Pokemon> pokemon)
+{
+    if (pokemon == nullptr)
+        return;
+
+    std::string hpText = std::to_string(pokemon->stats.currentHP) + "/" + std::to_string(pokemon->stats.maxHP);
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, hpText.c_str(), BLACK);
+
+    SDL_Rect targetRect;
+    targetRect.x = (TILE_WIDTH * 8) + 16;
+    targetRect.y = 0;
+    targetRect.h = TILE_HEIGHT;
+    targetRect.w = TILE_WIDTH * 2;
+
+    SDL_BlitSurface(textSurface, NULL, windowSurface, &targetRect);
 }
 
 GUI::Image GUI::getImage(ImageEnum imageEnum)

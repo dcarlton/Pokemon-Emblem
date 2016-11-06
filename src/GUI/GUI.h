@@ -1,6 +1,7 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -9,6 +10,7 @@
 #include "Image.h"
 #include "ImageEnum.h"
 #include "../Utility/Point.h"
+#include "../Gameplay/Pokemon.h"
 
 
 class Utility::Size;
@@ -23,7 +25,9 @@ namespace GUI
 	void drawImage(Image image, Utility::Point position);
 	void drawImage(GUI::Image image, SDL_Rect* imageRect, Utility::Point targetPosition);
 	void drawMenu(std::vector<std::string> items, Utility::Point position);
-	void drawPokemon(Utility::Point targetPosition, int pokemonOffset, int animationOffset);
+	void drawPokemon(std::shared_ptr<Gameplay::Pokemon> pokemon, Utility::Point position);
+	void drawPokemonOnMap(Utility::Point targetPosition, int pokemonOffset, int animationOffset);
+	void drawPokemonStats(std::shared_ptr<Gameplay::Pokemon> pokemon);
 	Image getImage(ImageEnum imageEnum);
     void loadAssets();
 	void loadEngine();

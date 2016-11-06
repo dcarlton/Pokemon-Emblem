@@ -2,12 +2,8 @@
 #define POKEMON_H
 
 #include "AllianceEnum.h"
-#include "../GUI/GUI.h"
-#include "../GUI/ImageEnum.h"
 #include "../Utility/Point.h"
 #include "PokemonEnum.h"
-
-class GUI::Image;
 
 namespace Gameplay
 {
@@ -25,7 +21,6 @@ public:
 	AllianceEnum alliance = AllianceEnum::Enemy;
     AnimationState animationState = AnimationState::NEUTRALDOWN;
     bool hasMoved = false;
-    GUI::Image image = GUI::getImage(GUI::ImageEnum::TestPokemon);
     PokemonSpecies species;
     PokemonStats stats;
 

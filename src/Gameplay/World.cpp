@@ -70,6 +70,7 @@ void Gameplay::World::drawWorld()
     }*/
 
     GUI::drawImage(_cursorImage, _cursorPos);
+    GUI::drawPokemonStats(getPokemonUnderCursor());
 }
 
 // Return the current position of the cursor.
