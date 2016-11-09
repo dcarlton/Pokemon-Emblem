@@ -70,8 +70,8 @@ void State::ChoosingAttackTargetState::selectButtonPressed()
 
     if (targetPokemon != nullptr && targetPokemon->alliance != attackingPokemon->alliance)
     {
-        targetPokemon->stats.currentHP -= 5;
-        if (targetPokemon->stats.currentHP <= 0)
+        targetPokemon->stats.takeDamage(5);
+        if (targetPokemon->stats.getCurrentHP() <= 0)
         {
             _world->pokemonFainted(_world->getCursorPos());
         }

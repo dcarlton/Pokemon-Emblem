@@ -1,13 +1,13 @@
 #include "Pokemon.h"
 
+
 Gameplay::Pokemon::Pokemon(PokemonSpecies species, unsigned int level, AllianceEnum startingAlliance)
 {
     alliance = startingAlliance;
     this->species = species;
 
     level = validateLevel(level);
-    stats.level = level;
-    //stats = Formulas::getStats(species, level);
+    stats = Gameplay::PokemonStats(species, level);
 }
 
 // Guarantee that the Pokemon's level is a valid level.

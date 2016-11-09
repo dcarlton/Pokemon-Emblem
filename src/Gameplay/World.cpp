@@ -237,7 +237,7 @@ bool Gameplay::World::movePokemon(Utility::Point oldPosition, Utility::Point new
 void Gameplay::World::pokemonFainted(Utility::Point faintedPokemonPosition)
 {
     std::shared_ptr<Gameplay::Pokemon> faintedPokemon = getPokemonFromPosition(faintedPokemonPosition);
-    if (faintedPokemon != nullptr && faintedPokemon->stats.currentHP <= 0)
+    if (faintedPokemon != nullptr && faintedPokemon->stats.getCurrentHP() <= 0)
     {
         _map[faintedPokemonPosition.x][faintedPokemonPosition.y].pokemon = nullptr;
         switch (faintedPokemon->alliance)

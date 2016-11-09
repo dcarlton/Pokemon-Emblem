@@ -30,14 +30,14 @@ void State::PokemonSelectedState::draw()
 
 void State::PokemonSelectedState::moveDownPressed()
 {
-    _world->moveCursorDownIfInRange(_originalPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.movement);
+    _world->moveCursorDownIfInRange(_originalPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.getMovementRange());
     moveIfValid();
 }
 
 // Move the selected Pokemon to the location of the cursor, if possible.
 void State::PokemonSelectedState::moveIfValid()
 {
-    if (_originalPos.distanceFrom(_world->getCursorPos()) <= _world->getPokemonFromPosition(_currentPokemonPos)->stats.movement && 
+    if (_originalPos.distanceFrom(_world->getCursorPos()) <= _world->getPokemonFromPosition(_currentPokemonPos)->stats.getMovementRange() && 
         _world->movePokemon(_currentPokemonPos, _world->getCursorPos()))
     {
        _currentPokemonPos = _world->getCursorPos();
@@ -46,19 +46,19 @@ void State::PokemonSelectedState::moveIfValid()
 
 void State::PokemonSelectedState::moveLeftPressed()
 {
-    _world->moveCursorLeftIfInRange(_originalPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.movement);
+    _world->moveCursorLeftIfInRange(_originalPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.getMovementRange());
     moveIfValid();
 }
 
 void State::PokemonSelectedState::moveRightPressed()
 {
-    _world->moveCursorRightIfInRange(_originalPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.movement);
+    _world->moveCursorRightIfInRange(_originalPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.getMovementRange());
     moveIfValid();
 }
 
 void State::PokemonSelectedState::moveUpPressed()
 {
-    _world->moveCursorUpIfInRange(_originalPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.movement);
+    _world->moveCursorUpIfInRange(_originalPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.getMovementRange());
     moveIfValid();
 }
 

@@ -4,17 +4,10 @@
 #include "AllianceEnum.h"
 #include "../Utility/Point.h"
 #include "PokemonEnum.h"
+#include "PokemonStats.h"
 
 namespace Gameplay
 {
-
-struct PokemonStats
-{
-    uint32 currentHP = 10;
-    uint32 level = 1;
-    uint32 maxHP = 10;
-    uint32 movement = 5;
-};
 
 class Pokemon
 {

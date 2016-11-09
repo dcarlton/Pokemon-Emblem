@@ -120,9 +120,9 @@ void GUI::drawPokemonStats(std::shared_ptr<Gameplay::Pokemon> pokemon)
     if (pokemon == nullptr)
         return;
 
-    std::string text = "Level: " + std::to_string(pokemon->stats.level);
+    std::string text = "Level: " + std::to_string(pokemon->stats.getLevel());
     drawText(text, Utility::Point(8, 0), Utility::Point(0, 0), BLACK);
-    text = "HP: " + std::to_string(pokemon->stats.currentHP) + "/" + std::to_string(pokemon->stats.maxHP);
+    text = "HP: " + std::to_string(pokemon->stats.getCurrentHP()) + "/" + std::to_string(pokemon->stats.getMaxHP());
     drawText(text, Utility::Point(8, 0), Utility::Point(0, 16), BLACK);
 }
 
