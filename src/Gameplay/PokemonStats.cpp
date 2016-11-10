@@ -4,7 +4,9 @@
 // Default constructor.
 Gameplay::PokemonStats::PokemonStats()
 {
+    attack = 0;
     currentHP = 0;
+    defense = 0;
     level = 1;
     maxHP = 0;
     movement = 0;
@@ -14,7 +16,9 @@ Gameplay::PokemonStats::PokemonStats()
 // and level to calculate stats.
 Gameplay::PokemonStats::PokemonStats(Gameplay::PokemonSpecies species, unsigned int level)
 {
+    attack = 5;
     currentHP = level * 3;
+    defense = 2;
     this->level = level;
     maxHP = level * 3;
     movement = 5;
@@ -26,9 +30,19 @@ Gameplay::PokemonStats::PokemonStats(Gameplay::PokemonSpecies species, unsigned 
 // directly can easily cause bugs, so I'm making all variables
 // private and using get methods.
 
-unsigned int Gameplay::PokemonStats::getCurrentHP()
+int Gameplay::PokemonStats::getAttack()
+{
+    return attack;
+}
+
+int Gameplay::PokemonStats::getCurrentHP()
 {
     return currentHP;
+}
+
+int Gameplay::PokemonStats::getDefense()
+{
+    return defense;
 }
 
 unsigned int Gameplay::PokemonStats::getLevel()

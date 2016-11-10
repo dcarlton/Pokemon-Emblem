@@ -65,12 +65,13 @@ void State::ChoosingAttackTargetState::moveUpPressed()
 // cursor is over.
 void State::ChoosingAttackTargetState::selectButtonPressed()
 {
+    // TODO: Pull this out into a method somewhere in Gameplay
     std::shared_ptr<Gameplay::Pokemon> attackingPokemon = _world->getPokemonFromPosition(_originalPos);
     std::shared_ptr<Gameplay::Pokemon> targetPokemon = _world->getPokemonUnderCursor();
 
     if (targetPokemon != nullptr && targetPokemon->alliance != attackingPokemon->alliance)
     {
-        targetPokemon->stats.takeDamage(5);
+        targetPokemon->stats.takeDamage(attackingPokemon->stats.getAttack() - targetPokemon->stats.getDefense());
         if (targetPokemon->stats.getCurrentHP() <= 0)
         {
             _world->pokemonFainted(_world->getCursorPos());
