@@ -3,6 +3,9 @@
 #include <time.h>
 #include <windows.h>
 
+#include <fstream>
+#include <sstream>
+#include "json.hpp"
 #include "SDL.h"
 
 #include "src/Audio/DJ.h"
@@ -76,6 +79,17 @@ void gameLoop()
     }
 }
 
+void test()
+{
+    std::ifstream infile("../pokedex.json");
+    std::stringstream stream;
+    stream << infile.rdbuf();
+    nlohmann::json j = nlohmann::json::parse(stream.str());
+
+    int test = j["bulbasaur"]["num"];
+    test;
+}
+
 void processInput(std::shared_ptr<State::State> state)
 {
     SDL_Event event;
@@ -106,6 +120,7 @@ void processInput(std::shared_ptr<State::State> state)
                         break;
 
                     case SDLK_x:
+                        test();
                         state->backButtonPressed();
                         break;
 
