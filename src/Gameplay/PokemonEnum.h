@@ -5,15 +5,6 @@
 namespace Gameplay
 {
 
-
-enum PokemonSpecies
-{
-    BULBASAUR = 0,
-    IVYSAUR,
-    VENUSAUR,
-    CHARMANDER
-};
-
 // Obviously relevant to Gameplay <_<
 enum AnimationState
 {

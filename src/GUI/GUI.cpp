@@ -90,7 +90,7 @@ void GUI::drawMenu(std::vector<std::string> items, Utility::Point position)
 // Draw the Pokemon at the provided position.
 void GUI::drawPokemon(std::shared_ptr<Gameplay::Pokemon> pokemon, Utility::Point position)
 {
-    drawPokemonOnMap(position, pokemon->species, pokemon->animationState);
+    drawPokemonOnMap(position, pokemon->num - 1, pokemon->animationState);
 }
 
 // Draw a Pokemon using the loaded Pokemon sprite sheet. The first offset

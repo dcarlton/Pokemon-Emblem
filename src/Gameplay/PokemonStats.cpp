@@ -1,3 +1,4 @@
+#include "../Filesystem/Pokedex.h"
 #include "PokemonStats.h"
 
 
@@ -14,15 +15,15 @@ Gameplay::PokemonStats::PokemonStats()
 
 // Initializes the Pokemon's stats, using the Pokemon species
 // and level to calculate stats.
-Gameplay::PokemonStats::PokemonStats(Gameplay::PokemonSpecies species, unsigned int level)
+Gameplay::PokemonStats::PokemonStats(std::string name, unsigned int level)
 {
-    attack = 5;
-    currentHP = level * 3;
-    defense = 2;
+    Filesystem::Pokedex::BaseStats baseStats = Filesystem::Pokedex::getBaseStats(name);
+    maxHP = (baseStats.hp / 5) + 12;
+    currentHP = maxHP;
+    attack = baseStats.attack / 20;
+    defense = baseStats.defense / 20;
     this->level = level;
-    maxHP = level * 3;
-    movement = 5;
-    species;
+    setMovementRange(baseStats.speed);
 }
 
 // Side note: I'm using a lot of "getVariable" methods because
@@ -58,6 +59,21 @@ unsigned int Gameplay::PokemonStats::getMaxHP()
 unsigned int Gameplay::PokemonStats::getMovementRange()
 {
     return movement;
+}
+
+// Sets the movement range based on the Pokemon's base speed.
+void Gameplay::PokemonStats::setMovementRange(unsigned int baseSpeed)
+{
+    if (baseSpeed >= 120)
+        movement = 8;
+    else if (baseSpeed >= 100)
+        movement = 7;
+    else if (baseSpeed >= 70)
+        movement = 6;
+    else if (baseSpeed >= 40)
+        movement = 5;
+    else
+        movement = 4;
 }
 
 // Remove the amount of damage taken from this Pokemon's current HP.

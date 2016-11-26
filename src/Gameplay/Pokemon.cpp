@@ -1,13 +1,15 @@
+#include "../Filesystem/Pokedex.h"
 #include "Pokemon.h"
 
 
-Gameplay::Pokemon::Pokemon(PokemonSpecies species, unsigned int level, AllianceEnum startingAlliance)
+Gameplay::Pokemon::Pokemon(std::string pokemonName, unsigned int level, AllianceEnum startingAlliance)
 {
     alliance = startingAlliance;
-    this->species = species;
+    name = pokemonName;
+    num = Filesystem::Pokedex::getNum(name);
 
     level = validateLevel(level);
-    stats = Gameplay::PokemonStats(species, level);
+    stats = Gameplay::PokemonStats(name, level);
 }
 
 // Guarantee that the Pokemon's level is a valid level.

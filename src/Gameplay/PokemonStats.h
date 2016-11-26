@@ -2,6 +2,8 @@
 #define POKEMONSTATS_H
 
 
+#include <string>
+
 #include "PokemonEnum.h"
 
 
@@ -12,7 +14,7 @@ class PokemonStats
 {
 public:
     PokemonStats();
-    PokemonStats(PokemonSpecies species, unsigned int level);
+    PokemonStats(std::string name, unsigned int level);
     int getAttack();
     int getCurrentHP();
     int getDefense();
@@ -28,6 +30,8 @@ private:
     unsigned int level;
     unsigned int maxHP;
     unsigned int movement;
+
+    void setMovementRange(unsigned int baseSpeed);
 };
 
 }
