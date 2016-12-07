@@ -33,6 +33,23 @@ Filesystem::Pokedex::BaseStats Filesystem::Pokedex::getBaseStats(std::string nam
     return stats;
 }
 
+// Get a Pokemon's base stats for its fully evolved form.
+// If it has multiple evolutions, get the first form before
+// the evolution line splits.
+Filesystem::Pokedex::BaseStats Filesystem::Pokedex::getEvolvedBaseStats(std::string name)
+{
+    while (true)
+    {
+        int numEvolutions = pokedex[name]["evos"].size();
+        if (numEvolutions != 1)
+        {
+            return getBaseStats(name);
+        }
+        
+        name = pokedex[name]["evos"][0];
+    }
+}
+
 // Get a Pokemon's Pokedex number from the Pokedex.
 unsigned int Filesystem::Pokedex::getNum(std::string name)
 {

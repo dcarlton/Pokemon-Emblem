@@ -19,9 +19,17 @@ Gameplay::PokemonStats::PokemonStats(std::string name, unsigned int level)
 {
     Filesystem::Pokedex::BaseStats baseStats = Filesystem::Pokedex::getBaseStats(name);
     maxHP = (baseStats.hp / 5) + 12;
-    currentHP = maxHP;
     attack = baseStats.attack / 20;
     defense = baseStats.defense / 20;
+
+    Filesystem::Pokedex::BaseStats evolvedBaseStats = Filesystem::Pokedex::getEvolvedBaseStats(name);
+    // TODO: If the growth rate * level isn't a round number, use RNG to decide
+    // if it gets the extra stat or not.
+    maxHP += (unsigned int)((level - 1) * (evolvedBaseStats.hp / 100.0));
+    currentHP = maxHP;
+    attack += (unsigned int)((level - 1) * (evolvedBaseStats.attack / 200.0));
+    defense += (unsigned int)((level - 1) * (evolvedBaseStats.defense) / 400.0);
+
     this->level = level;
     setMovementRange(baseStats.speed);
 }

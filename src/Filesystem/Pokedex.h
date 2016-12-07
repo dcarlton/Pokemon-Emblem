@@ -21,6 +21,7 @@ namespace Pokedex
     };
 
     BaseStats getBaseStats(std::string name);
+    BaseStats getEvolvedBaseStats(std::string name);
     unsigned int getNum(std::string name);
 }
 
