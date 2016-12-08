@@ -31,6 +31,8 @@ private:
     unsigned int maxHP;
     unsigned int movement;
 
+    void levelUpNormalized(std::string name, unsigned int numLevels);
+    void setLevelOneStats(std::string name);
     void setMovementRange(unsigned int baseSpeed);
 };
 

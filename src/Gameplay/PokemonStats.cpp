@@ -17,21 +17,9 @@ Gameplay::PokemonStats::PokemonStats()
 // and level to calculate stats.
 Gameplay::PokemonStats::PokemonStats(std::string name, unsigned int level)
 {
-    Filesystem::Pokedex::BaseStats baseStats = Filesystem::Pokedex::getBaseStats(name);
-    maxHP = (baseStats.hp / 5) + 12;
-    attack = baseStats.attack / 20;
-    defense = baseStats.defense / 20;
-
-    Filesystem::Pokedex::BaseStats evolvedBaseStats = Filesystem::Pokedex::getEvolvedBaseStats(name);
-    // TODO: If the growth rate * level isn't a round number, use RNG to decide
-    // if it gets the extra stat or not.
-    maxHP += (unsigned int)((level - 1) * (evolvedBaseStats.hp / 100.0));
-    currentHP = maxHP;
-    attack += (unsigned int)((level - 1) * (evolvedBaseStats.attack / 200.0));
-    defense += (unsigned int)((level - 1) * (evolvedBaseStats.defense) / 400.0);
-
+    setLevelOneStats(name);
+    levelUpNormalized(name, level - 1);
     this->level = level;
-    setMovementRange(baseStats.speed);
 }
 
 // Side note: I'm using a lot of "getVariable" methods because
@@ -67,6 +55,29 @@ unsigned int Gameplay::PokemonStats::getMaxHP()
 unsigned int Gameplay::PokemonStats::getMovementRange()
 {
     return movement;
+}
+
+// Level up the stats one or more times, using the growth rate of
+// the given Pokemon's stats, averaged out and slightly randomized.
+void Gameplay::PokemonStats::levelUpNormalized(std::string name, unsigned int numLevelUps)
+{
+    Filesystem::Pokedex::BaseStats evolvedBaseStats = Filesystem::Pokedex::getEvolvedBaseStats(name);
+    maxHP += (unsigned int)(numLevelUps * (evolvedBaseStats.hp / 100.0));
+    currentHP = maxHP;
+    attack += (unsigned int)(numLevelUps * (evolvedBaseStats.attack / 200.0));
+    defense += (unsigned int)(numLevelUps * (evolvedBaseStats.defense) / 400.0);
+}
+
+// Set the stats to the starting stats of the given Pokemon.
+void Gameplay::PokemonStats::setLevelOneStats(std::string name)
+{
+    Filesystem::Pokedex::BaseStats baseStats = Filesystem::Pokedex::getBaseStats(name);
+    maxHP = (baseStats.hp / 5) + 12;
+    currentHP = maxHP;
+    attack = baseStats.attack / 20;
+    defense = baseStats.defense / 20;
+
+    setMovementRange(baseStats.speed);
 }
 
 // Sets the movement range based on the Pokemon's base speed.
