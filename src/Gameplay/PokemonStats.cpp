@@ -1,3 +1,6 @@
+#include <math.h>
+#include <stdlib.h>
+
 #include "../Filesystem/Pokedex.h"
 #include "PokemonStats.h"
 
@@ -62,10 +65,28 @@ unsigned int Gameplay::PokemonStats::getMovementRange()
 void Gameplay::PokemonStats::levelUpNormalized(std::string name, unsigned int numLevelUps)
 {
     Filesystem::Pokedex::BaseStats evolvedBaseStats = Filesystem::Pokedex::getEvolvedBaseStats(name);
-    maxHP += (unsigned int)(numLevelUps * (evolvedBaseStats.hp / 100.0));
+    maxHP += roundRandomly(numLevelUps * (evolvedBaseStats.hp / 100.0));
     currentHP = maxHP;
-    attack += (unsigned int)(numLevelUps * (evolvedBaseStats.attack / 200.0));
-    defense += (unsigned int)(numLevelUps * (evolvedBaseStats.defense) / 400.0);
+    attack += roundRandomly(numLevelUps * (evolvedBaseStats.attack / 200.0));
+    defense += roundRandomly(numLevelUps * (evolvedBaseStats.defense / 400.0));
+}
+
+// Round a number up or down at random. The odds that it will round
+// up is equal to the value after the decimal, as a percentage.
+unsigned int Gameplay::PokemonStats::roundRandomly(double num)
+{
+    // e.g. 1.5 * 100 = 150, 150 % 100 = 50
+    // Thus, 1.5 has a 50% chance of being round up.
+    int numAfterDecimal = (int(num * 100)) % 100;
+
+    // A random number mod 100 is between 0 and 99.
+    // If the random number is smaller than the number after
+    // the decimal, then we round up. Thus, 1.01 has a 1% chance
+    // of rounding up.
+    if (rand() % 100 < numAfterDecimal)
+        return (unsigned int)ceil(num);
+    else
+        return (unsigned int)floor(num);
 }
 
 // Set the stats to the starting stats of the given Pokemon.

@@ -28,7 +28,7 @@ Gameplay::World::World()
     pokemon = {std::make_shared<Gameplay::Pokemon> ("charmander", 5, Gameplay::AllianceEnum::Enemy)};
     addPokemon(pokemon, Utility::Point(0, 1));
 
-    pokemon = {std::make_shared<Gameplay::Pokemon> ("bulbasaur", 4, Gameplay::AllianceEnum::Player)};
+    pokemon = {std::make_shared<Gameplay::Pokemon> ("bulbasaur", 5, Gameplay::AllianceEnum::Player)};
     addPokemon(pokemon, Utility::Point(1, 0));
 }
 

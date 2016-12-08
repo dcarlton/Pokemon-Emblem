@@ -32,6 +32,7 @@ private:
     unsigned int movement;
 
     void levelUpNormalized(std::string name, unsigned int numLevels);
+    unsigned int roundRandomly(double num);
     void setLevelOneStats(std::string name);
     void setMovementRange(unsigned int baseSpeed);
 };

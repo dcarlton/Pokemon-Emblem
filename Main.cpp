@@ -1,5 +1,6 @@
 #include <exception>
 #include <memory>
+#include <stdlib.h>
 #include <time.h>
 #include <windows.h>
 
@@ -41,6 +42,7 @@ int main()
 
 void loadGame()
 {
+    srand((unsigned int)time(NULL));
     Utility::initLog();
     Filesystem::LoadIniFile();
     GUI::loadEngine();
