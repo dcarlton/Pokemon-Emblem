@@ -11,7 +11,7 @@ namespace
         std::shared_ptr<Gameplay::Pokemon> attackingPokemon = world->getPokemonFromPosition(attackerPosition);
         std::shared_ptr<Gameplay::Pokemon> targetPokemon = world->getPokemonFromPosition(targetPosition);
 
-        targetPokemon->stats.takeDamage(attackingPokemon->stats.getAttack() + 10 - targetPokemon->stats.getDefense());
+        targetPokemon->stats.takeDamage((attackingPokemon->stats.getAttack() + attackingPokemon->moves[0]->getBasePower()) - targetPokemon->stats.getDefense());
         if (targetPokemon->stats.getCurrentHP() <= 0)
         {
             world->pokemonFainted(targetPosition);

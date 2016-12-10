@@ -1,3 +1,4 @@
+#include "../Gameplay/Battle.h"
 #include "ChoosingAttackTargetState.h"
 #include "../Audio/DJ.h"
 #include "EnemyTurnState.h"
@@ -71,21 +72,7 @@ void State::ChoosingAttackTargetState::selectButtonPressed()
 
     if (targetPokemon != nullptr && targetPokemon->alliance != attackingPokemon->alliance)
     {
-        // TODO: Deal with obvious repeated code.
-        targetPokemon->stats.takeDamage(attackingPokemon->stats.getAttack() + 10 - targetPokemon->stats.getDefense());
-        if (targetPokemon->stats.getCurrentHP() <= 0)
-        {
-            _world->pokemonFainted(_world->getCursorPos());
-        }
-        else
-        {
-            attackingPokemon->stats.takeDamage(targetPokemon->stats.getAttack() + 10 - targetPokemon->stats.getDefense());
-            if (targetPokemon->stats.getCurrentHP() <= 0)
-            {
-                _world->pokemonFainted(_world->getCursorPos());
-            }
-        }
-
+        Gameplay::fight(_world, _originalPos, _world->getCursorPos());
         Audio::playSoundEffect(Audio::SoundEffect::TestSoundEffect);
         Controller::endPokemonsTurn(attackingPokemon, _world);
     }
