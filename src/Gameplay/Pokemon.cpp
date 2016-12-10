@@ -12,6 +12,9 @@ Gameplay::Pokemon::Pokemon(std::string pokemonName, unsigned int level, Alliance
     stats = Gameplay::PokemonStats(name, level);
 
     moves[0] = std::make_shared<Gameplay::Move>();
+    moves[1] = nullptr;
+    moves[2] = nullptr;
+    moves[3] = nullptr;
 }
 
 // Guarantee that the Pokemon's level is a valid level.
