@@ -71,10 +71,19 @@ void State::ChoosingAttackTargetState::selectButtonPressed()
 
     if (targetPokemon != nullptr && targetPokemon->alliance != attackingPokemon->alliance)
     {
-        targetPokemon->stats.takeDamage(attackingPokemon->stats.getAttack() - targetPokemon->stats.getDefense());
+        // TODO: Deal with obvious repeated code.
+        targetPokemon->stats.takeDamage(attackingPokemon->stats.getAttack() + 10 - targetPokemon->stats.getDefense());
         if (targetPokemon->stats.getCurrentHP() <= 0)
         {
             _world->pokemonFainted(_world->getCursorPos());
+        }
+        else
+        {
+            attackingPokemon->stats.takeDamage(targetPokemon->stats.getAttack() + 10 - targetPokemon->stats.getDefense());
+            if (targetPokemon->stats.getCurrentHP() <= 0)
+            {
+                _world->pokemonFainted(_world->getCursorPos());
+            }
         }
 
         Audio::playSoundEffect(Audio::SoundEffect::TestSoundEffect);
