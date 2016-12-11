@@ -128,14 +128,17 @@ void GUI::drawPokemonStats(std::shared_ptr<Gameplay::Pokemon> pokemon)
     text = "Attack: " + std::to_string(pokemon->stats.getAttack());
     drawText(text, Utility::Point(7, 0), Utility::Point(0, 32), BLACK);
 
-    text = "Speed: " + std::to_string(pokemon->stats.getSpeed());
+    text = "Skill: " + std::to_string(pokemon->stats.getSkill());
     drawText(text, Utility::Point(7, 0), Utility::Point(0, 48), BLACK);
 
-    text = "Defense: " + std::to_string(pokemon->stats.getDefense());
+    text = "Speed: " + std::to_string(pokemon->stats.getSpeed());
     drawText(text, Utility::Point(7, 0), Utility::Point(0, 64), BLACK);
 
-    text = "Movement: " + std::to_string(pokemon->stats.getMovementRange());
+    text = "Defense: " + std::to_string(pokemon->stats.getDefense());
     drawText(text, Utility::Point(7, 0), Utility::Point(0, 80), BLACK);
+
+    text = "Movement: " + std::to_string(pokemon->stats.getMovementRange());
+    drawText(text, Utility::Point(7, 0), Utility::Point(0, 96), BLACK);
 }
 
 // Draw text to the screen at the given map position, with an offset down to the

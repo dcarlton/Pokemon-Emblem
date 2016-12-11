@@ -21,6 +21,7 @@ public:
     unsigned int getLevel();
     unsigned int getMaxHP();
     unsigned int getMovementRange();
+    unsigned int getSkill();
     unsigned int getSpeed();
     void takeDamage(int damage);
 
@@ -31,6 +32,7 @@ private:
     unsigned int level;
     unsigned int maxHP;
     unsigned int movement;
+    unsigned int skill;
     unsigned int speed;
 
     void levelUpNormalized(std::string name, unsigned int numLevels);

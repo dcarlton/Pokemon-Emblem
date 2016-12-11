@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <math.h>
 #include <stdlib.h>
 
@@ -14,6 +15,7 @@ Gameplay::PokemonStats::PokemonStats()
     level = 1;
     maxHP = 0;
     movement = 0;
+    skill = 0;
     speed = 0;
 }
 
@@ -61,6 +63,11 @@ unsigned int Gameplay::PokemonStats::getMovementRange()
     return movement;
 }
 
+unsigned int Gameplay::PokemonStats::getSkill()
+{
+    return skill;
+}
+
 unsigned int Gameplay::PokemonStats::getSpeed()
 {
     return speed;
@@ -74,6 +81,7 @@ void Gameplay::PokemonStats::levelUpNormalized(std::string name, unsigned int nu
     maxHP += roundRandomly(numLevelUps * (evolvedBaseStats.hp / 100.0));
     currentHP = maxHP;
     attack += roundRandomly(numLevelUps * (evolvedBaseStats.attack / 200.0));
+    skill += roundRandomly(numLevelUps * (std::min(evolvedBaseStats.attack, evolvedBaseStats.spAttack) / 150.0));
     speed += roundRandomly(numLevelUps * (evolvedBaseStats.speed / 200.0));
     defense += roundRandomly(numLevelUps * (evolvedBaseStats.defense / 400.0));
 }
@@ -103,6 +111,7 @@ void Gameplay::PokemonStats::setLevelOneStats(std::string name)
     maxHP = (baseStats.hp / 5) + 12;
     currentHP = maxHP;
     attack = baseStats.attack / 20;
+    skill = std::min(baseStats.attack, baseStats.spAttack) / 15;
     speed = baseStats.speed / 20;
     defense = baseStats.defense / 20;
 
