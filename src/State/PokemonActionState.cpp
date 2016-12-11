@@ -1,6 +1,6 @@
 #include <iterator>
 
-#include "ChoosingAttackTargetState.h"
+#include "ChoosingMoveState.h"
 #include "EnemyTurnState.h"
 #include "..\Utility\Point.h"
 #include "PokemonActionState.h"
@@ -20,7 +20,7 @@
 // in range.
 void State::attackAction(PokemonActionState* state)
 {
-	addState(std::make_shared<ChoosingAttackTargetState>(state, state->_world));
+	addState(std::make_shared<ChoosingMoveState>(state, state->_world));
 }
 
 // Executes the "Wait" command to cause a Pokemon to end it's movement.

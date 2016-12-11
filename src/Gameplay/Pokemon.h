@@ -25,6 +25,7 @@ public:
     PokemonStats stats;
 
     Pokemon(std::string pokemonName, unsigned int level, AllianceEnum startingAlliance);
+    unsigned int getNumMoves();
 
 private:
     unsigned int validateLevel(unsigned int level);

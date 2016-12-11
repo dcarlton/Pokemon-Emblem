@@ -6,12 +6,12 @@ namespace
 {
     // One Pokemon attacks another. Doesn't handle counter attacks or double attacks.
     // Returns true if the Pokemon is knocked out.
-    bool attack(std::shared_ptr<Gameplay::World> world, Utility::Point attackerPosition, Utility::Point targetPosition)
+    bool attack(std::shared_ptr<Gameplay::World> world, Utility::Point attackerPosition, Gameplay::Move move, Utility::Point targetPosition)
     {
         std::shared_ptr<Gameplay::Pokemon> attackingPokemon = world->getPokemonFromPosition(attackerPosition);
         std::shared_ptr<Gameplay::Pokemon> targetPokemon = world->getPokemonFromPosition(targetPosition);
 
-        targetPokemon->stats.takeDamage((attackingPokemon->stats.getAttack() + attackingPokemon->moves[0]->getBasePower()) - targetPokemon->stats.getDefense());
+        targetPokemon->stats.takeDamage((attackingPokemon->stats.getAttack() + move.getBasePower()) - targetPokemon->stats.getDefense());
         if (targetPokemon->stats.getCurrentHP() <= 0)
         {
             world->pokemonFainted(targetPosition);
@@ -26,12 +26,12 @@ namespace
 
 // Enact a fight where one Pokemon attacks another, accounting for double
 // attacks and range. If either Pokemon runs out of health, it should faint.
-void Gameplay::fight(std::shared_ptr<Gameplay::World> world, Utility::Point attackerPosition, Utility::Point targetPosition)
+void Gameplay::fight(std::shared_ptr<Gameplay::World> world, Utility::Point attackerPosition, Gameplay::Move move, Utility::Point targetPosition)
 {
-    bool pokemonFainted = attack(world, attackerPosition, targetPosition);
+    bool pokemonFainted = attack(world, attackerPosition, move, targetPosition);
     if (!pokemonFainted)
     {
         // Counterattack!
-        attack(world, targetPosition, attackerPosition);
+        attack(world, targetPosition, *(world->getPokemonFromPosition(targetPosition)->moves[0]), attackerPosition);
     }
 }

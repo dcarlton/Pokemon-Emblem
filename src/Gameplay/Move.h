@@ -17,8 +17,8 @@ public:
     std::string getName();
 
 private:
-    unsigned int basePower;
-    std::string name;
+    unsigned int _basePower;
+    std::string _name;
 };
 
 }

@@ -10,7 +10,7 @@
 
 namespace Gameplay
 {
-    void fight(std::shared_ptr<World> world, Utility::Point attackerPosition, Utility::Point targetPosition);
+    void fight(std::shared_ptr<World> world, Utility::Point attackerPosition, Gameplay::Move move, Utility::Point targetPosition);
 }
 
 #endif

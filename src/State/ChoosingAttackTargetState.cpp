@@ -16,10 +16,13 @@ State::ChoosingAttackTargetState::ChoosingAttackTargetState()
 }
 
 // Constructor to initialize everything.
-State::ChoosingAttackTargetState::ChoosingAttackTargetState(State* prevState, std::shared_ptr<Gameplay::World> world)
+State::ChoosingAttackTargetState::ChoosingAttackTargetState(State* prevState,
+                                                            std::shared_ptr<Gameplay::World> world,
+                                                            Gameplay::Move selectedMove)
 {
     _originalPos = world->getCursorPos();
     _prevState = prevState;
+    _selectedMove = selectedMove;
     _world = world;
 }
 
@@ -35,7 +38,7 @@ void State::ChoosingAttackTargetState::backButtonPressed()
 // Draw the map.
 void State::ChoosingAttackTargetState::draw()
 {
-    _prevState->draw();
+    _world->drawWorld();
 }
 
 // Called when the down button is pressed to move the cursor down.
@@ -72,7 +75,7 @@ void State::ChoosingAttackTargetState::selectButtonPressed()
 
     if (targetPokemon != nullptr && targetPokemon->alliance != attackingPokemon->alliance)
     {
-        Gameplay::fight(_world, _originalPos, _world->getCursorPos());
+        Gameplay::fight(_world, _originalPos, _selectedMove, _world->getCursorPos());
         Audio::playSoundEffect(Audio::SoundEffect::TestSoundEffect);
         Controller::endPokemonsTurn(attackingPokemon, _world);
     }
