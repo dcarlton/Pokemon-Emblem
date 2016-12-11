@@ -14,6 +14,7 @@ Gameplay::PokemonStats::PokemonStats()
     level = 1;
     maxHP = 0;
     movement = 0;
+    speed = 0;
 }
 
 // Initializes the Pokemon's stats, using the Pokemon species
@@ -60,6 +61,11 @@ unsigned int Gameplay::PokemonStats::getMovementRange()
     return movement;
 }
 
+unsigned int Gameplay::PokemonStats::getSpeed()
+{
+    return speed;
+}
+
 // Level up the stats one or more times, using the growth rate of
 // the given Pokemon's stats, averaged out and slightly randomized.
 void Gameplay::PokemonStats::levelUpNormalized(std::string name, unsigned int numLevelUps)
@@ -68,6 +74,7 @@ void Gameplay::PokemonStats::levelUpNormalized(std::string name, unsigned int nu
     maxHP += roundRandomly(numLevelUps * (evolvedBaseStats.hp / 100.0));
     currentHP = maxHP;
     attack += roundRandomly(numLevelUps * (evolvedBaseStats.attack / 200.0));
+    speed += roundRandomly(numLevelUps * (evolvedBaseStats.speed / 200.0));
     defense += roundRandomly(numLevelUps * (evolvedBaseStats.defense / 400.0));
 }
 
@@ -96,6 +103,7 @@ void Gameplay::PokemonStats::setLevelOneStats(std::string name)
     maxHP = (baseStats.hp / 5) + 12;
     currentHP = maxHP;
     attack = baseStats.attack / 20;
+    speed = baseStats.speed / 20;
     defense = baseStats.defense / 20;
 
     setMovementRange(baseStats.speed);
