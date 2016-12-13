@@ -1,3 +1,5 @@
+#include <time.h>
+
 #include "Battle.h"
 #include "../Utility/Point.h"
 
@@ -11,11 +13,18 @@ namespace
         std::shared_ptr<Gameplay::Pokemon> attackingPokemon = world->getPokemonFromPosition(attackerPosition);
         std::shared_ptr<Gameplay::Pokemon> targetPokemon = world->getPokemonFromPosition(targetPosition);
 
-        targetPokemon->stats.takeDamage((attackingPokemon->stats.getAttack() + move.getBasePower()) - targetPokemon->stats.getDefense());
-        if (targetPokemon->stats.getCurrentHP() <= 0)
+        if ((unsigned int)(rand() % 100) < move.getAccuracy())
         {
-            world->pokemonFainted(targetPosition);
-            return true;
+            targetPokemon->stats.takeDamage((attackingPokemon->stats.getAttack() + move.getBasePower()) - targetPokemon->stats.getDefense());
+            if (targetPokemon->stats.getCurrentHP() <= 0)
+            {
+                world->pokemonFainted(targetPosition);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {

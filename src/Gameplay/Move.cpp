@@ -4,6 +4,7 @@
 // Default constructor.
 Gameplay::Move::Move()
 {
+    _accuracy = 50;
     _basePower = 0;
     _name = "???";
 }
@@ -12,6 +13,7 @@ Gameplay::Move::Move()
 // TODO: Load attack info from a data file based on their name.
 Gameplay::Move::Move(std::string name)
 {
+    _accuracy = 50;
     _name = name;
 
     if (name == "A")
@@ -30,6 +32,13 @@ Gameplay::Move::Move(std::string name)
 
 /// Using private variables with get methods because they shouldn't be changed
 /// after the constructor sets them.
+
+// Return the accuracy of this move as a number from 0-100,
+// meaning 0%-100%.
+unsigned int Gameplay::Move::getAccuracy()
+{
+    return _accuracy;
+}
 
 // Gets the move's base power.
 unsigned int Gameplay::Move::getBasePower()
