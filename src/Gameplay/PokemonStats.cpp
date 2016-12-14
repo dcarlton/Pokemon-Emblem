@@ -13,6 +13,7 @@ Gameplay::PokemonStats::PokemonStats()
     currentHP = 0;
     defense = 0;
     level = 1;
+    luck = 0;
     maxHP = 0;
     movement = 0;
     skill = 0;
@@ -53,6 +54,11 @@ unsigned int Gameplay::PokemonStats::getLevel()
     return level;
 }
 
+unsigned int Gameplay::PokemonStats::getLuck()
+{
+    return luck;
+}
+
 unsigned int Gameplay::PokemonStats::getMaxHP()
 {
     return maxHP;
@@ -83,6 +89,7 @@ void Gameplay::PokemonStats::levelUpNormalized(std::string name, unsigned int nu
     attack += roundRandomly(numLevelUps * (evolvedBaseStats.attack / 200.0));
     skill += roundRandomly(numLevelUps * (std::min(evolvedBaseStats.attack, evolvedBaseStats.spAttack) / 150.0));
     speed += roundRandomly(numLevelUps * (evolvedBaseStats.speed / 200.0));
+    luck += 0;
     defense += roundRandomly(numLevelUps * (evolvedBaseStats.defense / 400.0));
 }
 
@@ -113,6 +120,7 @@ void Gameplay::PokemonStats::setLevelOneStats(std::string name)
     attack = baseStats.attack / 20;
     skill = std::min(baseStats.attack, baseStats.spAttack) / 15;
     speed = baseStats.speed / 20;
+    luck = 0;
     defense = baseStats.defense / 20;
 
     setMovementRange(baseStats.speed);

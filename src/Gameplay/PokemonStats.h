@@ -19,6 +19,7 @@ public:
     int getCurrentHP();
     int getDefense();
     unsigned int getLevel();
+    unsigned int getLuck();
     unsigned int getMaxHP();
     unsigned int getMovementRange();
     unsigned int getSkill();
@@ -30,6 +31,7 @@ private:
     int currentHP;
     int defense;
     unsigned int level;
+    unsigned int luck;
     unsigned int maxHP;
     unsigned int movement;
     unsigned int skill;
