@@ -15,14 +15,22 @@ namespace
 
         if ((rand() % 100) < ((int)move.getAccuracy() + (int)attackingPokemon->stats.getAccuracy() - (int)targetPokemon->stats.getEvasion()))
         {
-            targetPokemon->stats.takeDamage((attackingPokemon->stats.getAttack() + move.getBasePower()) - targetPokemon->stats.getDefense());
-            if (targetPokemon->stats.getCurrentHP() <= 0)
+            if (move.doesDamage)
             {
-                world->pokemonFainted(targetPosition);
-                return true;
+                targetPokemon->stats.takeDamage((attackingPokemon->stats.getAttack() + move.getBasePower()) - targetPokemon->stats.getDefense());
+                if (targetPokemon->stats.getCurrentHP() <= 0)
+                {
+                    world->pokemonFainted(targetPosition);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
+                // Handle non-damaging moves like Growl.
                 return false;
             }
         }

@@ -11,6 +11,8 @@ namespace Gameplay
 class Move
 {
 public:
+    bool doesDamage;
+    
     Move();
     Move(std::string name);
     unsigned int getAccuracy();

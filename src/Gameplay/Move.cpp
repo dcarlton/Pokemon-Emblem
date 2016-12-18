@@ -25,6 +25,7 @@ Gameplay::Move::Move()
 {
     _accuracy = 50;
     _basePower = 0;
+    doesDamage = true;
     _name = "???";
 }
 
@@ -47,6 +48,7 @@ Gameplay::Move::Move(std::string name)
     // TODO: Catch errors.
     _accuracy = movesInfo[name]["accuracy"];
     _basePower = movesInfo[name]["basePower"] / 10;
+    doesDamage = _basePower > 0;
     _name = movesInfo[name]["name"];
 }
 
