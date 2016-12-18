@@ -18,6 +18,7 @@ namespace Pokedex
         unsigned int spAttack;
         unsigned int spDefense;
         unsigned int speed;
+        unsigned int catchRate;
     };
 
     BaseStats getBaseStats(std::string name);

@@ -30,6 +30,7 @@ Filesystem::Pokedex::BaseStats Filesystem::Pokedex::getBaseStats(std::string nam
     stats.spAttack = pokedex[name]["baseStats"]["spa"];
     stats.spDefense = pokedex[name]["baseStats"]["spd"];
     stats.speed = pokedex[name]["baseStats"]["spe"];
+    stats.catchRate = pokedex[name]["catchRate"];
     return stats;
 }
 

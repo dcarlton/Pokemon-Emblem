@@ -99,7 +99,7 @@ void Gameplay::PokemonStats::levelUpNormalized(std::string name, unsigned int nu
     attack += roundRandomly(numLevelUps * (evolvedBaseStats.attack / 200.0));
     skill += roundRandomly(numLevelUps * (std::min(evolvedBaseStats.attack, evolvedBaseStats.spAttack) / 150.0));
     speed += roundRandomly(numLevelUps * (evolvedBaseStats.speed / 200.0));
-    luck += 0;
+    luck += roundRandomly(numLevelUps * ((80 - (10 * (log10(evolvedBaseStats.catchRate) / log10(3)))) / 100));
     defense += roundRandomly(numLevelUps * (evolvedBaseStats.defense / 400.0));
 }
 
@@ -130,7 +130,14 @@ void Gameplay::PokemonStats::setLevelOneStats(std::string name)
     attack = baseStats.attack / 20;
     skill = std::min(baseStats.attack, baseStats.spAttack) / 15;
     speed = baseStats.speed / 20;
-    luck = 0;
+
+    // base 2 log of x = base y log(x) / base y log(2). y doesn't matter.
+    int logBase3CatchRate = (int)(log10(baseStats.catchRate) / log10(3));
+
+    // Logarithms! Catch rates range from 255 to 3, this smooths the differences out
+    // to a linear scale.
+    luck = 2 * (6 - logBase3CatchRate);
+
     defense = baseStats.defense / 20;
 
     setMovementRange(baseStats.speed);
