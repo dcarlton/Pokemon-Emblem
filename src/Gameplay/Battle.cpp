@@ -13,9 +13,7 @@ namespace
         std::shared_ptr<Gameplay::Pokemon> attackingPokemon = world->getPokemonFromPosition(attackerPosition);
         std::shared_ptr<Gameplay::Pokemon> targetPokemon = world->getPokemonFromPosition(targetPosition);
 
-        int accuracy = move.getAccuracy() + (attackingPokemon->stats.getSkill() * 2);
-        int evasion = (targetPokemon->stats.getSpeed() * 2) + targetPokemon->stats.getLuck();
-        if ((rand() % 100) < (accuracy - evasion))
+        if ((rand() % 100) < ((int)attackingPokemon->stats.getAccuracy() - (int)targetPokemon->stats.getEvasion()))
         {
             targetPokemon->stats.takeDamage((attackingPokemon->stats.getAttack() + move.getBasePower()) - targetPokemon->stats.getDefense());
             if (targetPokemon->stats.getCurrentHP() <= 0)

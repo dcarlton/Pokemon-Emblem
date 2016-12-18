@@ -15,9 +15,11 @@ class PokemonStats
 public:
     PokemonStats();
     PokemonStats(std::string name, unsigned int level);
+    unsigned int getAccuracy();
     int getAttack();
     int getCurrentHP();
     int getDefense();
+    unsigned int getEvasion();
     unsigned int getLevel();
     unsigned int getLuck();
     unsigned int getMaxHP();

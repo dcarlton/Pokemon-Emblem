@@ -34,6 +34,11 @@ Gameplay::PokemonStats::PokemonStats(std::string name, unsigned int level)
 // directly can easily cause bugs, so I'm making all variables
 // private and using get methods.
 
+unsigned int Gameplay::PokemonStats::getAccuracy()
+{
+    return skill * 2;
+}
+
 int Gameplay::PokemonStats::getAttack()
 {
     return attack;
@@ -47,6 +52,11 @@ int Gameplay::PokemonStats::getCurrentHP()
 int Gameplay::PokemonStats::getDefense()
 {
     return defense;
+}
+
+unsigned int Gameplay::PokemonStats::getEvasion()
+{
+    return (speed * 2) + luck;
 }
 
 unsigned int Gameplay::PokemonStats::getLevel()
