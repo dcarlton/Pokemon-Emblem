@@ -11,9 +11,8 @@ Gameplay::Pokemon::Pokemon(std::string pokemonName, unsigned int level, Alliance
     level = validateLevel(level);
     stats = Gameplay::PokemonStats(name, level);
 
-    moves[0] = std::make_shared<Gameplay::Move>("A");
-    moves[1] = std::make_shared<Gameplay::Move>("B");
-    moves[2] = std::make_shared<Gameplay::Move>("C");
+    moves[0] = std::make_shared<Gameplay::Move>("tackle");
+    moves[1] = std::make_shared<Gameplay::Move>("growl");
     moves[3] = std::make_shared<Gameplay::Move>();
 }
 
