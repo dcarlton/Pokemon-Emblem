@@ -165,6 +165,28 @@ void GUI::drawText(std::string text, Utility::Point drawPosition, Utility::Point
     SDL_BlitSurface(textSurface, NULL, windowSurface, &targetRect);
 }
 
+// Draw the Pokemon and terrain of a tile.
+void GUI::drawTile(Gameplay::Tile tile, Utility::Point position)
+{
+    GUI::drawImage(GUI::getImage(ImageEnum::TestTile), position);
+    if (tile.pokemon)
+        GUI::drawPokemon(tile.pokemon, position);
+}
+
+// Draw the world and cursor.
+void GUI::drawWorld(std::vector<std::vector<Gameplay::Tile>> map, Utility::Point cursorPos)
+{
+    for (unsigned int x = 0; x < map.size(); x++)
+    {
+        for (unsigned int y = 0; y < map[x].size(); y++)
+        {
+            drawTile(map[x][y], Utility::Point(x, y));
+        }
+    }
+
+    drawImage(getImage(GUI::ImageEnum::GameplayCursor), cursorPos);
+}
+
 GUI::Image GUI::getImage(ImageEnum imageEnum)
 {
     return makeImage(imageEnum);

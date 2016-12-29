@@ -11,7 +11,7 @@ Gameplay::World::World()
     _cursorPos = Utility::Point(0, 0);
 
     std::vector<Gameplay::Tile> column;
-    const int size = 10;
+    const int size = 12;
 
     for (int i = 0; i < size; i++)
     {
@@ -56,20 +56,7 @@ void Gameplay::World::addPokemon(std::shared_ptr<Gameplay::Pokemon> pokemon, Uti
 // Draw the current world.
 void Gameplay::World::drawWorld()
 {
-    for (unsigned int x = 0; x < _map.size(); x++)
-    {
-        for (unsigned int y = 0; y < _map[x].size(); y++)
-        {
-            _map[x][y].draw(Utility::Point(x, y));
-        }
-    }
-
-    /*for (std::shared_ptr<Gameplay::Pokemon> pokemon: allPokemon)
-    {
-        GUI::drawImage(pokemon->image, Utility::Point(pokemon->position.x * 24, pokemon->position.y * 24));
-    }*/
-
-    GUI::drawImage(_cursorImage, _cursorPos);
+    GUI::drawWorld(_map, _cursorPos);
     GUI::drawPokemonStats(getPokemonUnderCursor());
 }
 

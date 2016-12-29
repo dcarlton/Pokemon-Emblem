@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "../GUI/GUI.h"
 #include "../Utility/Point.h"
 #include "Pokemon.h"
 #include "Tile.h"
@@ -40,7 +41,6 @@ public:
     bool setCursorPos(Utility::Point newPosition);
 
 private:
-    const GUI::Image _cursorImage = GUI::getImage(GUI::ImageEnum::GameplayCursor);
     Utility::Point _cursorPos;
     std::vector<std::shared_ptr<Pokemon>> _enemyPokemon;
     std::vector<std::vector<Gameplay::Tile>> _map;

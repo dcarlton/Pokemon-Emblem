@@ -17,8 +17,6 @@ class Tile
 public:
     std::shared_ptr<Pokemon> pokemon = nullptr;
     Terrain terrain;
-
-    void draw(Utility::Point const &pos);
 };
 
 }
