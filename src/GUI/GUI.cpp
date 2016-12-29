@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <memory>
 
 #include "SDL_TTF.h"
@@ -12,6 +13,7 @@
 namespace
 {
     const SDL_Color BLACK = {0, 0, 0, 0};
+    const int NUM_TILES_TO_DISPLAY = 10;
     const int TILE_HEIGHT = 32;
     const int TILE_WIDTH = 32;
     const SDL_Color WHITE = {255, 255, 255, 0};
@@ -21,6 +23,7 @@ namespace
     static SDL_Window *window = nullptr;
     static SDL_Surface *windowSurface = nullptr;
 
+    Utility::Point camera = Utility::Point(1, 1);
     GUI::Image pokemonSpriteSheet = GUI::Image("../resources/Pokemon/SpriteSheet.bmp", Utility::Color(0xFF, 0xFF, 0xFF), Utility::Size(610, 1925));
 }
 
@@ -61,10 +64,15 @@ void GUI::drawImage(GUI::Image image, Utility::Point position)
 // Draw an image to the screen at the target position. ImageRect defines what
 // piece of the image should be drawn to the screen. If it is NULL, draw the entire
 // image.
+//
+// The target position is the position in the map; we need to adjust it based
+// on the camera.
 void GUI::drawImage(GUI::Image image, SDL_Rect* imageRect, Utility::Point targetPosition)
 {
     if (!image.surface || !windowSurface)
         return;
+
+    targetPosition -= camera;
 
     SDL_Rect targetRect;
     targetRect.x = targetPosition.x * TILE_WIDTH;
@@ -176,9 +184,9 @@ void GUI::drawTile(Gameplay::Tile tile, Utility::Point position)
 // Draw the world and cursor.
 void GUI::drawWorld(std::vector<std::vector<Gameplay::Tile>> map, Utility::Point cursorPos)
 {
-    for (unsigned int x = 0; x < map.size(); x++)
+    for (unsigned int x = camera.x; x < std::min(map.size(), camera.x + NUM_TILES_TO_DISPLAY); x++)
     {
-        for (unsigned int y = 0; y < map[x].size(); y++)
+        for (unsigned int y = camera.y; y < std::min(map[x].size(), camera.y + NUM_TILES_TO_DISPLAY); y++)
         {
             drawTile(map[x][y], Utility::Point(x, y));
         }
