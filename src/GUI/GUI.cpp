@@ -186,6 +186,8 @@ void GUI::drawPokemonStats(std::shared_ptr<Gameplay::Pokemon> pokemon)
 // pixel, and the given color.
 void GUI::drawText(std::string text, Utility::Point drawPosition, Utility::Point pixelOffset, SDL_Color color)
 {
+    drawPosition -= camera;
+    
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
 
     SDL_Rect targetRect;
