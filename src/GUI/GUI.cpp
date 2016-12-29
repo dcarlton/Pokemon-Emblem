@@ -25,6 +25,30 @@ namespace
 
     Utility::Point camera = Utility::Point(1, 1);
     GUI::Image pokemonSpriteSheet = GUI::Image("../resources/Pokemon/SpriteSheet.bmp", Utility::Color(0xFF, 0xFF, 0xFF), Utility::Size(610, 1925));
+
+    // Move the camera so that the given point is visible.
+    void focusCamera(Utility::Point pointToContain)
+    {
+        // Fix the X axis.
+        if (pointToContain.x < camera.x)
+        {
+            camera.x = pointToContain.x;
+        }
+        else if (pointToContain.x >= (camera.x + NUM_TILES_TO_DISPLAY))
+        {
+            camera.x = (pointToContain.x - NUM_TILES_TO_DISPLAY) + 1;
+        }
+
+        // Fix the Y axis.
+        if (pointToContain.y < camera.y)
+        {
+            camera.y = pointToContain.y;
+        }
+        else if (pointToContain.y >= (camera.y + NUM_TILES_TO_DISPLAY))
+        {
+            camera.y = (pointToContain.y - NUM_TILES_TO_DISPLAY) + 1;
+        }
+    }
 }
 
 
@@ -184,6 +208,8 @@ void GUI::drawTile(Gameplay::Tile tile, Utility::Point position)
 // Draw the world and cursor.
 void GUI::drawWorld(std::vector<std::vector<Gameplay::Tile>> map, Utility::Point cursorPos)
 {
+    focusCamera(cursorPos);
+
     for (unsigned int x = camera.x; x < std::min(map.size(), camera.x + NUM_TILES_TO_DISPLAY); x++)
     {
         for (unsigned int y = camera.y; y < std::min(map[x].size(), camera.y + NUM_TILES_TO_DISPLAY); y++)
