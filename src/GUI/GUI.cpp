@@ -13,7 +13,9 @@
 namespace
 {
     const SDL_Color BLACK = {0, 0, 0, 0};
+    const GUI::Image CURSOR_IMAGE = GUI::getImage(GUI::ImageEnum::GameplayCursor);
     const int NUM_TILES_TO_DISPLAY = 10;
+    const GUI::Image TEST_TILE_IMAGE = GUI::getImage(GUI::ImageEnum::TestTile);
     const int TILE_HEIGHT = 32;
     const int TILE_WIDTH = 32;
     const SDL_Color WHITE = {255, 255, 255, 0};
@@ -24,6 +26,7 @@ namespace
     static SDL_Surface *windowSurface = nullptr;
 
     Utility::Point camera = Utility::Point(1, 1);
+    GUI::Image cursorImage = GUI::getImage(GUI::ImageEnum::GameplayCursor);
     GUI::Image pokemonSpriteSheet = GUI::Image("../resources/Pokemon/SpriteSheet.bmp", Utility::Color(0xFF, 0xFF, 0xFF), Utility::Size(610, 1925));
 
     // Move the camera so that the given point is visible.
@@ -202,7 +205,7 @@ void GUI::drawText(std::string text, Utility::Point drawPosition, Utility::Point
 // Draw the Pokemon and terrain of a tile.
 void GUI::drawTile(Gameplay::Tile tile, Utility::Point position)
 {
-    GUI::drawImage(GUI::getImage(ImageEnum::TestTile), position);
+    GUI::drawImage(TEST_TILE_IMAGE, position);
     if (tile.pokemon)
         GUI::drawPokemon(tile.pokemon, position);
 }
@@ -220,7 +223,8 @@ void GUI::drawWorld(std::vector<std::vector<Gameplay::Tile>> map, Utility::Point
         }
     }
 
-    drawImage(getImage(GUI::ImageEnum::GameplayCursor), cursorPos);
+    cursorImage = getImage(GUI::ImageEnum::GameplayCursor);
+    drawImage(cursorImage, cursorPos);
 }
 
 GUI::Image GUI::getImage(ImageEnum imageEnum)

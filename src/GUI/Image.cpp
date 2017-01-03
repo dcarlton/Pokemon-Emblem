@@ -1,3 +1,5 @@
+#include <assert.h>
+
 #include "Image.h"
 #include "../Utility/Log.h"
 
@@ -8,7 +10,8 @@ GUI::Image::Image()
 
 GUI::Image::Image(std::string imageFilename, Utility::Color rgb, Utility::Size sizeArg)
 {
-    surface = SDL_LoadBMP(imageFilename.c_str());
+    SDL_FreeSurface(surface);
+    *surface = *SDL_LoadBMP(imageFilename.c_str());
     if (!surface)
     {
         Utility::log(SDL_GetError());
@@ -21,9 +24,33 @@ GUI::Image::Image(std::string imageFilename, Utility::Color rgb, Utility::Size s
     size = sizeArg;
 }
 
+// Copy constructor. We need to make sure the surface is a complete
+// and separate copy. If multiple Images point to the same surface, it'll
+// be freed twice, causing a crash.
+//
+// This is called when an image is pushed into a vector, and maybe similar
+// situations.
+GUI::Image::Image(const Image& that)
+{
+    size = that.size;
+    if (surface != nullptr)
+        *surface = *that.surface;
+}
+
 // TODO: Clean up surfaces. Either taken care of once every tile isn't given
 // the default tile, or use a RAII hashmap system to delete surface when
 // nothing is using it
 GUI::Image::~Image()
 {
+    //SDL_FreeSurface(surface);
+    delete surface;
+}
+
+// Rewriting the assignment operator so that a distinct copy
+// of the surface is made. See the copy constructor for more details.
+GUI::Image& GUI::Image::operator=(const Image& that)
+{
+    size = that.size;
+    *surface = *that.surface;
+    return *this;
 }

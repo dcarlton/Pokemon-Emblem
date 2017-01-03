@@ -16,11 +16,13 @@ class Image
 {
 public:
     Utility::Size size = Utility::Size(0, 0);
-    SDL_Surface* surface = nullptr;
+    SDL_Surface* surface = new SDL_Surface();
 
     Image();
     Image(std::string imageFilename, Utility::Color colorKey, Utility::Size sizeArg);
+    Image(const Image& that);
     ~Image();
+    Image& operator=(const Image& that);
 };
 
 }

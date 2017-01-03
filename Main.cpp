@@ -1,12 +1,14 @@
+// Uncomment this line to ignore all assertions.
+//#define NDEBUG
+
+
+#include <assert.h>
 #include <exception>
 #include <memory>
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
 
-#include <fstream>
-#include <sstream>
-#include "json.hpp"
 #include "SDL.h"
 
 #include "src/Audio/DJ.h"
@@ -35,7 +37,10 @@ int main()
     }
     catch(...)
     {
+        Utility::log("Crashed with unknown exception.");
+        assert(false);
     }
+
     cleanup();
     return 0;
 }
