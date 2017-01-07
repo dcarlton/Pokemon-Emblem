@@ -35,7 +35,7 @@ void State::PlayerTurnState::draw()
 // highest tile, etc. then the camera should be moved.
 void State::PlayerTurnState::mouseMoved(int x, int y)
 {
-    Utility::Point newCursorPos = GUI::mousePositionToCursorPosition(x, y);
+    Utility::Point newCursorPos = GUI::setCursorFromMouse(x, y, _world->getMapSize());
     _world->setCursorPos(newCursorPos);
 }
 

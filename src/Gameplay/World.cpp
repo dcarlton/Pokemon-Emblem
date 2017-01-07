@@ -83,6 +83,12 @@ std::vector<Utility::Point> Gameplay::World::getEnemyPokemonPositions()
     return points;
 }
 
+// Get the size of the map as a Point(width, height) value.
+Utility::Point Gameplay::World::getMapSize()
+{
+    return Utility::Point(_map.size(), _map[0].size());
+}
+
 // Return all points within a certain distance from the originating point.
 std::vector<Utility::Point> Gameplay::World::getPointsInRange(Utility::Point startingPosition, uint32 range)
 {

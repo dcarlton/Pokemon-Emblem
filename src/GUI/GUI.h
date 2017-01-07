@@ -36,6 +36,7 @@ namespace GUI
     void loadAssets();
 	void loadEngine();
 	Utility::Point mousePositionToCursorPosition(int x, int y);
+	Utility::Point setCursorFromMouse(int x, int y, Utility::Point mapSize);
 	void showMessage(std::string message);
 	void updateWindow();
 };

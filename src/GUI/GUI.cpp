@@ -255,6 +255,25 @@ Utility::Point GUI::mousePositionToCursorPosition(int x, int y)
     return Utility::Point(camera.x + (x / TILE_WIDTH), camera.y + (y / TILE_HEIGHT));
 }
 
+// Move the camera if the mouse is at the edge of the screen, and
+// return where the cursor is now.
+Utility::Point GUI::setCursorFromMouse(int x, int y, Utility::Point mapSize)
+{
+    Utility::Point cursorPos = mousePositionToCursorPosition(x, y);
+
+    if (x == 0 && camera.x > 0 && NUM_TILES_TO_DISPLAY < mapSize.x)
+        camera.x--;
+    else if (x == ((NUM_TILES_TO_DISPLAY * TILE_WIDTH) - 1) && (camera.x + NUM_TILES_TO_DISPLAY) < (mapSize.x))
+        camera.x++;
+    
+    if (y == 0 && camera.y > 0 && NUM_TILES_TO_DISPLAY < mapSize.y)
+        camera.y--;
+    else if (y == ((NUM_TILES_TO_DISPLAY * TILE_HEIGHT) - 1) && (camera.y + NUM_TILES_TO_DISPLAY) < (mapSize.y))
+        camera.y++;
+
+    return cursorPos;
+}
+
 void GUI::showMessage(std::string message)
 {
     SDL_ShowSimpleMessageBox(0,
