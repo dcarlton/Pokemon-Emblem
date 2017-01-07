@@ -92,6 +92,10 @@ void processInput(std::shared_ptr<State::State> state)
     while (SDL_PollEvent(&event)) {
         switch (event.type)
         {
+            case SDL_MOUSEMOTION:
+                state->mouseMoved(event.motion.x, event.motion.y);
+                break;
+
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym)
                 {

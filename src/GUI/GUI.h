@@ -35,6 +35,7 @@ namespace GUI
 	Image getImage(ImageEnum imageEnum);
     void loadAssets();
 	void loadEngine();
+	Utility::Point mousePositionToCursorPosition(int x, int y);
 	void showMessage(std::string message);
 	void updateWindow();
 };

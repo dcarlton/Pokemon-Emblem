@@ -13,6 +13,7 @@ class State
 public:
 	virtual void draw() = 0;
     virtual void backButtonPressed() {}
+    virtual void mouseMoved(int x, int y) { x; y; }
     virtual void moveDownPressed() {}
     virtual void moveLeftPressed() {}
     virtual void moveRightPressed() {}

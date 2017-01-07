@@ -24,6 +24,7 @@ public:
     PlayerTurnState();
     PlayerTurnState(std::shared_ptr<Gameplay::World> world);
     void draw();
+    void mouseMoved(int x, int y);
     void moveDownPressed();
     void moveLeftPressed();
     void moveRightPressed();

@@ -248,6 +248,13 @@ void GUI::loadEngine()
     font = TTF_OpenFont("../resources/Fonts/cour.ttf", 12);
 }
 
+// Convert the X and Y coordinates of a mouse to the coordinates
+// on a map.
+Utility::Point GUI::mousePositionToCursorPosition(int x, int y)
+{
+    return Utility::Point(camera.x + (x / TILE_WIDTH), camera.y + (y / TILE_HEIGHT));
+}
+
 void GUI::showMessage(std::string message)
 {
     SDL_ShowSimpleMessageBox(0,
