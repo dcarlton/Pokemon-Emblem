@@ -16,7 +16,7 @@
 #include "src/Utility/Log.h"
 #include "src/Filesystem/Options.h"
 #include "src/State/PlayerTurnState.h"
-#include "src/Utility/Size.h"
+#include "src/Utility/Point.h"
 #include "src/State/StateStack.h"
 
 
@@ -53,7 +53,7 @@ void loadGame()
     GUI::loadEngine();
     GUI::loadAssets();
     Audio::initAudio();
-    GUI::createWindow(Utility::Size(320, 320), "Pokemon Emblem");
+    GUI::createWindow(Utility::Point(320, 320), "Pokemon Emblem");
 }
 
 void gameLoop()

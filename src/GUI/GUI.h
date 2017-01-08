@@ -14,13 +14,10 @@
 #include "../Gameplay/Tile.h"
 
 
-class Utility::Size;
-
-
 namespace GUI
 {
 	void cleanup();
-	void createWindow(Utility::Size size,
+	void createWindow(Utility::Point size,
 					  std::string title);
 	void deleteWindow();
 	void drawImage(Image image, Utility::Point position);

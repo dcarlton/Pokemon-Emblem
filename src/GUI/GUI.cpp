@@ -7,7 +7,7 @@
 #include "GUI.h"
 #include "ImageFactory.h"
 #include "../Utility/Log.h"
-#include "../Utility/Size.h"
+#include "../Utility/Point.h"
 
 
 namespace
@@ -27,7 +27,7 @@ namespace
 
     Utility::Point camera = Utility::Point(1, 1);
     GUI::Image cursorImage = GUI::getImage(GUI::ImageEnum::GameplayCursor);
-    GUI::Image pokemonSpriteSheet = GUI::Image("../resources/Pokemon/SpriteSheet.bmp", Utility::Color(0xFF, 0xFF, 0xFF), Utility::Size(610, 1925));
+    GUI::Image pokemonSpriteSheet = GUI::Image("../resources/Pokemon/SpriteSheet.bmp", Utility::Color(0xFF, 0xFF, 0xFF), Utility::Point(610, 1925));
 
     // Move the camera so that the given point is visible.
     void focusCamera(Utility::Point pointToContain)
@@ -63,10 +63,10 @@ void GUI::cleanup()
     SDL_Quit();
 }
 
-void GUI::createWindow(Utility::Size size, std::string title)
+void GUI::createWindow(Utility::Point size, std::string title)
 {
     deleteWindow();
-    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, size.width, size.height, 0);
+    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, size.x, size.y, 0);
     if (!window)
         Utility::log("Failed to create a window with size " +
                      size.to_string() +
@@ -115,8 +115,8 @@ void GUI::drawImage(GUI::Image image, SDL_Rect* imageRect, Utility::Point target
     SDL_Rect targetRect;
     targetRect.x = (targetPosition.x * TILE_WIDTH) + pixelOffset.x;
     targetRect.y = (targetPosition.y * TILE_HEIGHT) + pixelOffset.y;
-    targetRect.h = image.size.height;
-    targetRect.w = image.size.width;
+    targetRect.h = image.size.y;
+    targetRect.w = image.size.x;
 
     SDL_BlitSurface(image.surface, imageRect, windowSurface, &targetRect);
 }
@@ -127,9 +127,8 @@ void GUI::drawMenu(std::vector<std::string> items, Utility::Point position)
 
     for (unsigned int i = 0; i < items.size(); i++)
     {
-        GUI::drawImage(menuImage, position);
-        GUI::drawText(items[i], position, Utility::Point(8, 2), WHITE);
-        position.y++;
+        GUI::drawImage(menuImage, NULL, position, Utility::Point(0, i * menuImage.size.y));
+        GUI::drawText(items[i], position, Utility::Point(8, 2 + (i * menuImage.size.y)), WHITE);
     }
 }
 
