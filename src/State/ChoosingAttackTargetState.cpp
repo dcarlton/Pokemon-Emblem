@@ -41,6 +41,14 @@ void State::ChoosingAttackTargetState::draw()
     _world->drawWorld();
 }
 
+// Called when the mouse moves to set the cursor to wherever
+// the mouse is currently.
+void State::ChoosingAttackTargetState::mouseMoved(int x, int y)
+{
+    Utility::Point cursorPos = GUI::mousePositionToCursorPosition(x, y);
+    _world->setCursorPosIfInRange(_originalPos, cursorPos, 1);
+}
+
 // Called when the down button is pressed to move the cursor down.
 void State::ChoosingAttackTargetState::moveDownPressed()
 {

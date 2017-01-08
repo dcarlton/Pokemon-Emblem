@@ -18,6 +18,7 @@ public:
     ChoosingAttackTargetState(State* prevState, std::shared_ptr<Gameplay::World> world, Gameplay::Move selectedMove);
 	void backButtonPressed();
     void draw();
+    void mouseMoved(int x, int y);
     void moveDownPressed();
     void moveLeftPressed();
     void moveRightPressed();
