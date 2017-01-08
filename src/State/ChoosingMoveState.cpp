@@ -41,6 +41,13 @@ void State::ChoosingMoveState::draw()
 	GUI::drawMenu(menuItems, _world->getCursorPos());
 }
 
+// Called when the mouse is moved. Sets the menu cursor to whatever item the
+// mouse is hovering over.
+void State::ChoosingMoveState::mouseMoved(int x, int y)
+{
+    _menuCursorPos = GUI::getMenuItemFromMouse(x, y, _world->getCursorPos(), _numMenuItems);
+}
+
 // Called when the user presses the down button. Either move the
 // cursor to the next item in the menu, or reset it to the top of the
 // menu, if it's already at the bottom.

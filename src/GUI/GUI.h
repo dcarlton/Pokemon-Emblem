@@ -31,6 +31,7 @@ namespace GUI
 	void drawTile(Gameplay::Tile tile, Utility::Point position);
 	void drawWorld(std::vector<std::vector<Gameplay::Tile>> map, Utility::Point cursorPos);
 	Image getImage(ImageEnum imageEnum);
+	int getMenuItemFromMouse(int mouseX, int mouseY, Utility::Point menuPosition, int numMenuItems);
     void loadAssets();
 	void loadEngine();
 	Utility::Point mousePositionToCursorPosition(int x, int y);

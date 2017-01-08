@@ -24,6 +24,7 @@ public:
     PokemonActionState(State* prevState, std::shared_ptr<Gameplay::World> world);
 	void backButtonPressed();
     void draw();
+    void mouseMoved(int x, int y);
     void moveDownPressed();
     void moveUpPressed();
     void selectButtonPressed();

@@ -14,6 +14,7 @@ namespace
 {
     const SDL_Color BLACK = {0, 0, 0, 0};
     const GUI::Image CURSOR_IMAGE = GUI::getImage(GUI::ImageEnum::GameplayCursor);
+    const GUI::Image MENU_IMAGE = GUI::getImage(GUI::ImageEnum::MenuItem);
     const int NUM_TILES_TO_DISPLAY = 10;
     const GUI::Image TEST_TILE_IMAGE = GUI::getImage(GUI::ImageEnum::TestTile);
     const int TILE_HEIGHT = 32;
@@ -240,6 +241,49 @@ void GUI::drawWorld(std::vector<std::vector<Gameplay::Tile>> map, Utility::Point
 GUI::Image GUI::getImage(ImageEnum imageEnum)
 {
     return makeImage(imageEnum);
+}
+
+// Get the index for the menu item the mouse is hovering over.
+//
+// Of course we can't see the pixels the menu items are at,
+// so we will assume there are numMenuItems being displayed from
+// the point menuPosition, and that the mouse is at (mouseX, mouseY).
+// From there, figure out if the mouse would be over the first menu
+// item, the second, etc. and return that as a zero-based index.
+// Return -1 if it isn't over a menu item.
+//
+// TODO: Fix the scenario where the menu is partially visible.
+// TODO: Clean up this method. Somehow.
+int GUI::getMenuItemFromMouse(int mouseX, int mouseY, Utility::Point menuPosition, int numMenuItems)
+{
+    // Make sure the mouse is hovering over the menu in the X axis.
+    if (menuPosition.x < camera.x)
+        return -1;
+
+    int menuLeftmostPixel = (menuPosition.x - camera.x) * TILE_WIDTH;
+    if (mouseX >= menuLeftmostPixel && mouseX < (int)(menuLeftmostPixel + MENU_IMAGE.size.x))
+    {
+        if (menuPosition.y < camera.y)
+            return -1;
+
+        int menuTopmostPixel = (menuPosition.y - camera.y) * TILE_HEIGHT;
+        if (mouseY >= menuTopmostPixel)
+        {
+            int menuItemIndex = ((mouseY - menuTopmostPixel) / MENU_IMAGE.size.y);
+            if (menuItemIndex >= numMenuItems)
+                return -1;
+            else
+                return menuItemIndex;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    else
+    {
+        return -1;
+    }
 }
 
 void GUI::loadAssets()
