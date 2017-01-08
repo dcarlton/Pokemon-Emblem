@@ -142,13 +142,9 @@ void Gameplay::World::moveCursorDown()
 // out of range from a starting position.
 void Gameplay::World::moveCursorDownIfInRange(Utility::Point startingPosition, unsigned int maxRange)
 {
-    if (_cursorPos.y >= (_map[0].size() - 1))
-        return;
-
-    Utility::Point newPosition = _cursorPos;
-    newPosition.y++;
-    if (newPosition.distanceFrom(startingPosition) <= maxRange)
-        _cursorPos = newPosition;
+    setCursorPosIfInRange(startingPosition,
+                          Utility::Point(_cursorPos.x, _cursorPos.y + 1),
+                          maxRange);
 }
 
 // Move the cursor left, if it doesn't go outside the map.
@@ -161,13 +157,9 @@ void Gameplay::World::moveCursorLeft()
 // out of range from a starting position.
 void Gameplay::World::moveCursorLeftIfInRange(Utility::Point startingPosition, unsigned int maxRange)
 {
-    if (_cursorPos.x <= 0)
-        return;
-
-    Utility::Point newPosition = _cursorPos;
-    newPosition.x--;
-    if (newPosition.distanceFrom(startingPosition) <= maxRange)
-        _cursorPos = newPosition;
+    setCursorPosIfInRange(startingPosition,
+                          Utility::Point(_cursorPos.x - 1, _cursorPos.y),
+                          maxRange);
 }
 
 // Move the cursor to the right, if it doesn't go outside the map.
@@ -180,13 +172,9 @@ void Gameplay::World::moveCursorRight()
 // out of range from a starting position.
 void Gameplay::World::moveCursorRightIfInRange(Utility::Point startingPosition, unsigned int maxRange)
 {
-    if (_cursorPos.x >= _map.size() - 1)
-        return;
-
-    Utility::Point newPosition = _cursorPos;
-    newPosition.x++;
-    if (newPosition.distanceFrom(startingPosition) <= maxRange)
-        _cursorPos = newPosition;
+    setCursorPosIfInRange(startingPosition,
+                          Utility::Point(_cursorPos.x + 1, _cursorPos.y),
+                          maxRange);
 }
 
 // Move the cursor up, if it doesn't go outside the map.
@@ -199,13 +187,9 @@ void Gameplay::World::moveCursorUp()
 // out of range from a starting position.
 void Gameplay::World::moveCursorUpIfInRange(Utility::Point startingPosition, unsigned int maxRange)
 {
-    if (_cursorPos.y <= 0)
-        return;
-
-    Utility::Point newPosition = _cursorPos;
-    newPosition.y--;
-    if (newPosition.distanceFrom(startingPosition) <= maxRange)
-        _cursorPos = newPosition;
+    setCursorPosIfInRange(startingPosition,
+                          Utility::Point(_cursorPos.x, _cursorPos.y - 1),
+                          maxRange);
 }
 
 // Move a Pokemon from one position to another.
