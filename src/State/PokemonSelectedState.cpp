@@ -28,6 +28,15 @@ void State::PokemonSelectedState::draw()
     _prevState->draw();
 }
 
+// Called when the mouse is moved. Move the cursor to the mouse's
+// x and y position, if it's within range.
+void State::PokemonSelectedState::mouseMoved(int x, int y)
+{
+    Utility::Point cursorPos = GUI::mousePositionToCursorPosition(x, y);
+    _world->setCursorPosIfInRange(_originalPos, cursorPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.getMovementRange());
+    moveIfValid();
+}
+
 void State::PokemonSelectedState::moveDownPressed()
 {
     _world->moveCursorDownIfInRange(_originalPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.getMovementRange());

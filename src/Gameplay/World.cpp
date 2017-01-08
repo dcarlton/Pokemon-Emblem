@@ -287,3 +287,16 @@ bool Gameplay::World::setCursorPos(Utility::Point newPosition)
     _cursorPos = newPosition;
     return true;
 }
+
+// Set the cursor's position to the target position, if it's within
+// the range of the starting position.
+void Gameplay::World::setCursorPosIfInRange(Utility::Point startingPosition,
+                           Utility::Point targetPosition,
+                           unsigned int maxRange)
+{
+    if (targetPosition.x >= _map.size() || targetPosition.y >= _map[0].size())
+        return;
+
+    if (targetPosition.distanceFrom(startingPosition) <= maxRange)
+        _cursorPos = targetPosition;
+}

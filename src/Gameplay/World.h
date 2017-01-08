@@ -40,6 +40,7 @@ public:
     void resetWhetherPlayerPokemonHaveMoved();
     void resetWhetherPokemonHaveMoved(std::vector<std::shared_ptr<Pokemon>> pokemans);
     bool setCursorPos(Utility::Point newPosition);
+    void setCursorPosIfInRange(Utility::Point startingPosition, Utility::Point targetPosition, unsigned int maxRange);
 
 private:
     Utility::Point _cursorPos;
