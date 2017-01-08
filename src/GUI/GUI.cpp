@@ -85,7 +85,7 @@ void GUI::deleteWindow()
 
 void GUI::drawImage(GUI::Image image, Utility::Point position)
 {
-    drawImage(image, NULL, position);
+    drawImage(image, NULL, position, Utility::Point(0, 0));
 }
 
 // Draw an image to the screen at the target position. ImageRect defines what
@@ -96,14 +96,25 @@ void GUI::drawImage(GUI::Image image, Utility::Point position)
 // on the camera.
 void GUI::drawImage(GUI::Image image, SDL_Rect* imageRect, Utility::Point targetPosition)
 {
+    GUI::drawImage(image, imageRect, targetPosition, Utility::Point(0, 0));
+}
+
+// Draw an image to the screen at the target position. ImageRect defines what
+// piece of the image should be drawn to the screen. If it is NULL, draw the entire
+// image.
+//
+// The target position is the position in the map; we need to adjust it based
+// on the camera and the given pixel offset.
+void GUI::drawImage(GUI::Image image, SDL_Rect* imageRect, Utility::Point targetPosition, Utility::Point pixelOffset)
+{
     if (!image.surface || !windowSurface)
         return;
 
     targetPosition -= camera;
 
     SDL_Rect targetRect;
-    targetRect.x = targetPosition.x * TILE_WIDTH;
-    targetRect.y = targetPosition.y * TILE_HEIGHT;
+    targetRect.x = (targetPosition.x * TILE_WIDTH) + pixelOffset.x;
+    targetRect.y = (targetPosition.y * TILE_HEIGHT) + pixelOffset.y;
     targetRect.h = image.size.height;
     targetRect.w = image.size.width;
 
