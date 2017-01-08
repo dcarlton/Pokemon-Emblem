@@ -13,7 +13,6 @@ Gameplay::Pokemon::Pokemon(std::string pokemonName, unsigned int level, Alliance
 
     moves[0] = std::make_shared<Gameplay::Move>("tackle");
     moves[1] = std::make_shared<Gameplay::Move>("growl");
-    moves[3] = std::make_shared<Gameplay::Move>();
 }
 
 // Get the number of moves this Pokemon knows. I'm assuming that
