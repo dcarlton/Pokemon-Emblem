@@ -96,6 +96,19 @@ void processInput(std::shared_ptr<State::State> state)
                 state->mouseMoved(event.motion.x, event.motion.y);
                 break;
 
+            case SDL_MOUSEBUTTONDOWN:
+                switch (event.button.button)
+                {
+                    case SDL_BUTTON_LEFT:
+                        state->selectButtonPressed();
+                        break;
+
+                    case SDL_BUTTON_RIGHT:
+                        state->backButtonPressed();
+                        break;
+                }
+                break;
+
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym)
                 {
