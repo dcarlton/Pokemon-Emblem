@@ -89,7 +89,9 @@ void State::PokemonActionState::initMenuItems()
 // Called when the mouse moves. Set the menu cursor to the mouse's location.
 void State::PokemonActionState::mouseMoved(int x, int y)
 {
-	_menuCursorPos = GUI::getMenuItemFromMouse(x, y, _originalPos, _menuTextToAction.size());
+	int newMenuCursorPos = GUI::getMenuItemFromMouse(x, y, _originalPos, _menuTextToAction.size());
+	if (newMenuCursorPos > -1)
+		_menuCursorPos = newMenuCursorPos;
 }
 
 // Called when the user presses a button to move the menu cursor downward.

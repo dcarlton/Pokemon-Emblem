@@ -45,7 +45,9 @@ void State::ChoosingMoveState::draw()
 // mouse is hovering over.
 void State::ChoosingMoveState::mouseMoved(int x, int y)
 {
-    _menuCursorPos = GUI::getMenuItemFromMouse(x, y, _world->getCursorPos(), _numMenuItems);
+    int newMenuCursorPos = GUI::getMenuItemFromMouse(x, y, _world->getCursorPos(), _numMenuItems);
+    if (newMenuCursorPos > -1)
+        _menuCursorPos = newMenuCursorPos;
 }
 
 // Called when the user presses the down button. Either move the
