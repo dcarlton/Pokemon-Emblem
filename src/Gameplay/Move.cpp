@@ -1,5 +1,6 @@
 #include <fstream>
 #include <sstream>
+#include <string>
 
 #include "json.hpp"
 
@@ -51,7 +52,14 @@ Gameplay::Move::Move(std::string name)
     _basePower = movesInfo[name]["basePower"] / 10;
     doesDamage = _basePower > 0;
     _name = movesInfo[name]["name"];
-    _range = 3;
+    
+    std::string targetType = movesInfo[name]["target"];
+    if (targetType == "normal")
+        _range = 1;
+    else if (targetType == "allAdjacentFoes")
+        _range = 2;
+    else
+        _range = 0;
 }
 
 /// Using private variables with get methods because they shouldn't be changed
