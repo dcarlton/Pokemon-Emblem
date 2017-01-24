@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iterator>
 
 #include "ChoosingMoveState.h"
@@ -69,7 +70,15 @@ void State::PokemonActionState::initMenuItems()
 {
 	_menuTextToAction["Wait"] = &waitAction;
 
-	std::vector<Utility::Point> pointsInRange =_world->getPointsInRange(_world->getCursorPos(), 1);
+	// TODO: Clean up this function.
+	unsigned int pokemonRange = 0;
+	std::shared_ptr<Gameplay::Pokemon> selectedPokemon = _world->getPokemonUnderCursor();
+	for (unsigned int i = 0; i < selectedPokemon->getNumMoves(); i++)
+	{
+		pokemonRange = std::max(pokemonRange, selectedPokemon->moves[i]->getRange());
+	}
+
+	std::vector<Utility::Point> pointsInRange =_world->getPointsInRange(_world->getCursorPos(), pokemonRange);
 	std::vector<std::shared_ptr<Gameplay::Pokemon>> pokemonInRange;
 	for (auto iter = pointsInRange.begin(); iter != pointsInRange.end(); iter++)
 	{

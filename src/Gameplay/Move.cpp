@@ -27,6 +27,7 @@ Gameplay::Move::Move()
     _basePower = 0;
     doesDamage = true;
     _name = "???";
+    _range = 0;
 }
 
 // Create a move and use the properties from the moves data file.
@@ -50,6 +51,7 @@ Gameplay::Move::Move(std::string name)
     _basePower = movesInfo[name]["basePower"] / 10;
     doesDamage = _basePower > 0;
     _name = movesInfo[name]["name"];
+    _range = 3;
 }
 
 /// Using private variables with get methods because they shouldn't be changed
@@ -72,4 +74,10 @@ unsigned int Gameplay::Move::getBasePower()
 std::string Gameplay::Move::getName()
 {
     return _name;
+}
+
+// Gets the move's range.
+unsigned int Gameplay::Move::getRange()
+{
+    return _range;
 }

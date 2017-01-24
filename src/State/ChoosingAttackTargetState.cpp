@@ -46,31 +46,31 @@ void State::ChoosingAttackTargetState::draw()
 void State::ChoosingAttackTargetState::mouseMoved(int x, int y)
 {
     Utility::Point cursorPos = GUI::mousePositionToCursorPosition(x, y);
-    _world->setCursorPosIfInRange(_originalPos, cursorPos, 1);
+    _world->setCursorPosIfInRange(_originalPos, cursorPos, _selectedMove.getRange());
 }
 
 // Called when the down button is pressed to move the cursor down.
 void State::ChoosingAttackTargetState::moveDownPressed()
 {
-    _world->moveCursorDownIfInRange(_originalPos, 1);
+    _world->moveCursorDownIfInRange(_originalPos, _selectedMove.getRange());
 }
 
 // Called when the left button is pressed to move the cursor left.
 void State::ChoosingAttackTargetState::moveLeftPressed()
 {
-    _world->moveCursorLeftIfInRange(_originalPos, 1);
+    _world->moveCursorLeftIfInRange(_originalPos, _selectedMove.getRange());
 }
 
 // Called when the right button is pressed to move the cursor right.
 void State::ChoosingAttackTargetState::moveRightPressed()
 {
-    _world->moveCursorRightIfInRange(_originalPos, 1);
+    _world->moveCursorRightIfInRange(_originalPos, _selectedMove.getRange());
 }
 
 // Called when the up button is pressed to move the cursor up.
 void State::ChoosingAttackTargetState::moveUpPressed()
 {
-    _world->moveCursorUpIfInRange(_originalPos, 1);
+    _world->moveCursorUpIfInRange(_originalPos, _selectedMove.getRange());
 }
 
 // Called when the select button is pressed to attack the Pokemon the

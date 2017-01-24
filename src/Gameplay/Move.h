@@ -18,11 +18,13 @@ public:
     unsigned int getAccuracy();
     unsigned int getBasePower();
     std::string getName();
+    unsigned int getRange();
 
 private:
     unsigned int _accuracy;
     unsigned int _basePower;
     std::string _name;
+    unsigned int _range;
 };
 
 }
