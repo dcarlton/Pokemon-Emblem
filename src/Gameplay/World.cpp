@@ -53,6 +53,29 @@ void Gameplay::World::addPokemon(std::shared_ptr<Gameplay::Pokemon> pokemon, Uti
     }
 }
 
+// Returns the distance from the given position, to the current Pokemon that
+// is an enemy of the given alliance.
+int Gameplay::World::distanceFromClosestEnemy(Utility::Point position, Gameplay::AllianceEnum alliance)
+{
+    // TODO: If there's performance issues, it may be right here.
+    for (int i = 1; i <= 60; i++)
+    {
+        std::vector<Utility::Point> pointsInRange = getPointsInRange(position, i);
+        std::vector<std::shared_ptr<Gameplay::Pokemon>> pokemonInRange;
+        
+        for (auto iter = pointsInRange.begin(); iter != pointsInRange.end(); iter++)
+        {
+            std::shared_ptr<Gameplay::Pokemon> pokemon = getPokemonFromPosition(*iter);
+            if (pokemon != NULL && pokemon->alliance != alliance)
+            {
+                return i;
+            }
+        }
+	}
+
+    return -1;
+}
+
 // Draw the current world.
 void Gameplay::World::drawWorld()
 {

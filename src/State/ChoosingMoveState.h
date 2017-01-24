@@ -4,6 +4,7 @@
 
 #include <memory>
 
+#include "../Gameplay/Move.h"
 #include "State.h"
 #include "../Gameplay/World.h"
 
@@ -27,6 +28,7 @@ public:
 
 private:
     unsigned int _menuCursorPos;
+    std::shared_ptr<Gameplay::Move> _moves[4];
     unsigned int _numMenuItems;
     std::shared_ptr<Gameplay::World> _world;
 };

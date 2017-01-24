@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "../Gameplay/AllianceEnum.h"
 #include "../GUI/GUI.h"
 #include "../Utility/Point.h"
 #include "Pokemon.h"
@@ -18,6 +19,7 @@ class World
 public:
     World();
     void addPokemon(std::shared_ptr<Pokemon> pokemon, Utility::Point position);
+    int distanceFromClosestEnemy(Utility::Point position, Gameplay::AllianceEnum alliance);
     void drawWorld();
     Utility::Point getCursorPos();
     std::vector<Utility::Point> getEnemyPokemonPositions();

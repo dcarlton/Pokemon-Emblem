@@ -79,20 +79,8 @@ void State::PokemonActionState::initMenuItems()
 // range of one of its attacks.
 bool State::PokemonActionState::isEnemyInRange()
 {
-	unsigned int maxRange = _world->getPokemonUnderCursor()->getMaxRange();
-	std::vector<Utility::Point> pointsInRange =_world->getPointsInRange(_world->getCursorPos(), maxRange);
-	std::vector<std::shared_ptr<Gameplay::Pokemon>> pokemonInRange;
-	
-	for (auto iter = pointsInRange.begin(); iter != pointsInRange.end(); iter++)
-	{
-		std::shared_ptr<Gameplay::Pokemon> pokemon = _world->getPokemonFromPosition(*iter);
-		if (pokemon != NULL)
-		{
-			pokemonInRange.push_back(pokemon);
-		}
-	}
-
-	return pokemonInRange.size() > 0;
+	int distanceFromEnemy = _world->distanceFromClosestEnemy(_originalPos, _world->getPokemonUnderCursor()->alliance);
+	return distanceFromEnemy > 0 && (unsigned int)distanceFromEnemy <= _world->getPokemonUnderCursor()->getMaxRange();
 }
 
 // Called when the mouse moves. Set the menu cursor to the mouse's location.

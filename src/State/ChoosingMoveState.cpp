@@ -1,7 +1,6 @@
 #include "ChoosingAttackTargetState.h"
 #include "ChoosingMoveState.h"
 #include "../Utility/Log.h"
-#include "../Gameplay/Move.h"
 #include "StateStack.h"
 
 
@@ -12,11 +11,23 @@ State::ChoosingMoveState::ChoosingMoveState(State* prevState, std::shared_ptr<Ga
     _prevState = prevState;
     _world = world;
 
-    _numMenuItems = _world->getPokemonUnderCursor()->getNumMoves();
-    if (_numMenuItems < 1 || _numMenuItems > 4)
+    int minRange = _world->distanceFromClosestEnemy(_world->getCursorPos(), _world->getPokemonUnderCursor()->alliance);
+    if (minRange < 1 || minRange > 4)
     {
         Utility::log("Can't choose a move for this Pokemon, it has no attacks, or too many.");
         exitState();
+    }
+
+    _numMenuItems = 0;
+    std::shared_ptr<Gameplay::Pokemon> selectedPokemon = _world->getPokemonUnderCursor();
+    for (int i = 0; i < 4; i++)
+    {
+        std::shared_ptr<Gameplay::Move> move = selectedPokemon->moves[i];
+        if (move != nullptr && move->getRange() >= (unsigned int)minRange)
+        {
+            _moves[_numMenuItems] = move;
+            _numMenuItems++;
+        }
     }
 }
 
@@ -32,11 +43,10 @@ void State::ChoosingMoveState::draw()
     // TODO: use a different color to mark which item is selected
 	_world->drawWorld();
 
-    std::shared_ptr<Gameplay::Move> *moves = _world->getPokemonUnderCursor()->moves;
 	std::vector<std::string> menuItems;
-	for (int i = 0; i < 4 && moves[i] != nullptr; i++)
+	for (int i = 0; i < 4 && _moves[i] != nullptr; i++)
 	{
-		menuItems.push_back(moves[i]->getName());
+		menuItems.push_back(_moves[i]->getName());
 	}
 	GUI::drawMenu(menuItems, _world->getCursorPos());
 }
@@ -93,7 +103,7 @@ void State::ChoosingMoveState::moveUpPressed()
 // Called when the user presses the select button.
 void State::ChoosingMoveState::selectButtonPressed()
 {
-    Gameplay::Move selectedMove = *(_world->getPokemonUnderCursor()->moves[_menuCursorPos]);
+    Gameplay::Move selectedMove = *(_moves[_menuCursorPos]);
     addState(std::make_shared<ChoosingAttackTargetState>(this, _world, selectedMove));
 }
 
