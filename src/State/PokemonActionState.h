@@ -43,6 +43,7 @@ protected:
     void endPokemonsTurn(std::shared_ptr<Gameplay::Pokemon> pokemon);
 	Utility::Point getMenuPosition();
     void initMenuItems();
+    bool isEnemyInRange();
 };
 
 

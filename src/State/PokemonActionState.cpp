@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <iterator>
 
 #include "ChoosingMoveState.h"
@@ -70,16 +69,20 @@ void State::PokemonActionState::initMenuItems()
 {
 	_menuTextToAction["Wait"] = &waitAction;
 
-	// TODO: Clean up this function.
-	unsigned int pokemonRange = 0;
-	std::shared_ptr<Gameplay::Pokemon> selectedPokemon = _world->getPokemonUnderCursor();
-	for (unsigned int i = 0; i < selectedPokemon->getNumMoves(); i++)
+	if (isEnemyInRange())
 	{
-		pokemonRange = std::max(pokemonRange, selectedPokemon->moves[i]->getRange());
+		_menuTextToAction["Attack"] = &attackAction;
 	}
+}
 
-	std::vector<Utility::Point> pointsInRange =_world->getPointsInRange(_world->getCursorPos(), pokemonRange);
+// Returns true if the selected Pokemon has an enemy within
+// range of one of its attacks.
+bool State::PokemonActionState::isEnemyInRange()
+{
+	unsigned int maxRange = _world->getPokemonUnderCursor()->getMaxRange();
+	std::vector<Utility::Point> pointsInRange =_world->getPointsInRange(_world->getCursorPos(), maxRange);
 	std::vector<std::shared_ptr<Gameplay::Pokemon>> pokemonInRange;
+	
 	for (auto iter = pointsInRange.begin(); iter != pointsInRange.end(); iter++)
 	{
 		std::shared_ptr<Gameplay::Pokemon> pokemon = _world->getPokemonFromPosition(*iter);
@@ -89,10 +92,7 @@ void State::PokemonActionState::initMenuItems()
 		}
 	}
 
-	if (pokemonInRange.size() > 0)
-	{
-		_menuTextToAction["Attack"] = &attackAction;
-	}
+	return pokemonInRange.size() > 0;
 }
 
 // Called when the mouse moves. Set the menu cursor to the mouse's location.
