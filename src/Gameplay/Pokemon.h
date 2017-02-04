@@ -9,6 +9,7 @@
 #include "../Utility/Point.h"
 #include "PokemonEnum.h"
 #include "PokemonStats.h"
+#include "StatEnum.h"
 
 namespace Gameplay
 {
@@ -27,6 +28,7 @@ public:
     Pokemon(std::string pokemonName, unsigned int level, AllianceEnum startingAlliance);
     unsigned int getMaxRange();
     unsigned int getNumMoves();
+    void setStatBoost(Stat stat, int statBoost);
 
 private:
     unsigned int validateLevel(unsigned int level);

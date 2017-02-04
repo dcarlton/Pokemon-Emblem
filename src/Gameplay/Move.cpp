@@ -5,6 +5,7 @@
 #include "json.hpp"
 
 #include "Move.h"
+#include "Pokemon.h"
 
 
 namespace
@@ -53,6 +54,7 @@ Gameplay::Move::Move(std::string name)
     doesDamage = _basePower > 0;
     _name = movesInfo[name]["name"];
     
+    // Determine range.
     std::string targetType = movesInfo[name]["target"];
     if (targetType == "normal")
         _range = 1;
@@ -60,6 +62,42 @@ Gameplay::Move::Move(std::string name)
         _range = 2;
     else
         _range = 0;
+
+    // Determine if the move lowers the opponent's stats.
+    if (movesInfo[name].count("targetBoost") == 1)
+    {
+        nlohmann::json targetBoosts = movesInfo[name]["targetBoost"];
+
+        // This is 6 if's, and not a series of else-ifs, on purpose.
+        if (targetBoosts.count("atk") == 1)
+        {
+            addTargetBoostSideEffect(Gameplay::Stat::ATTACK, targetBoosts["atk"]);
+        }
+        if (targetBoosts.count("def") == 1)
+        {
+            addTargetBoostSideEffect(Gameplay::Stat::DEFENSE, targetBoosts["def"]);
+        }
+        if (targetBoosts.count("spa") == 1)
+        {
+            addTargetBoostSideEffect(Gameplay::Stat::SPECIAL_ATTACK, targetBoosts["spa"]);
+        }
+        if (targetBoosts.count("spd") == 1)
+        {
+            addTargetBoostSideEffect(Gameplay::Stat::SPECIAL_DEFENSE, targetBoosts["spd"]);
+        }
+        if (targetBoosts.count("spe") == 1)
+        {
+            addTargetBoostSideEffect(Gameplay::Stat::SPEED, targetBoosts["spe"]);
+        }
+    }
+}
+
+void Gameplay::Move::addTargetBoostSideEffect(Gameplay::Stat stat, int statBoost)
+{
+    _sideEffects.push_back([stat, statBoost](std::shared_ptr<Gameplay::Pokemon> attackingPokemon, std::shared_ptr<Gameplay::Pokemon> targetPokemon)
+    {
+        targetPokemon->setStatBoost(stat, statBoost);
+    });
 }
 
 /// Using private variables with get methods because they shouldn't be changed

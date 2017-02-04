@@ -45,6 +45,31 @@ unsigned int Gameplay::Pokemon::getNumMoves()
     return 0;
 }
 
+// Set the boost for the given stat.
+void Gameplay::Pokemon::setStatBoost(Gameplay::Stat stat, int statBoost)
+{
+    statBoost;
+    switch (stat)
+    {
+        // TODO: Actually implement stat boosts.
+        case Gameplay::Stat::ATTACK:
+            //stats.attack += statBoost;
+            break;
+
+        case Gameplay::Stat::DEFENSE:
+            //stats.defense += statBoost;
+            break;
+
+        case Gameplay::Stat::SPEED:
+            //stats.speed += statBoost;
+            //stats.movement += statBoost;
+            break;
+
+        default:
+            break;
+    }
+}
+
 // Guarantee that the Pokemon's level is a valid level.
 unsigned int Gameplay::Pokemon::validateLevel(unsigned int level)
 {

@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "StatEnum.h"
+
 
 namespace Gameplay
 {
@@ -32,6 +34,8 @@ private:
     std::string _name;
     unsigned int _range;
     std::vector<std::function<void(std::shared_ptr<Pokemon>, std::shared_ptr<Pokemon>)>> _sideEffects;
+
+    void addTargetBoostSideEffect(Stat stat, int statBoost);
 };
 
 }

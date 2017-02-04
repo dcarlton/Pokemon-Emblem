@@ -11,7 +11,7 @@
 		"pp": 40,
 		"priority": 0,
 		"flags": {"protect": 1, "reflectable": 1, "mirror": 1, "sound": 1, "authentic": 1},
-		"boosts": {
+		"targetBoosts": {
 			"atk": -1
 		},
 		"secondary": false,
@@ -68,7 +68,7 @@
 		"pp": 30,
 		"priority": 0,
 		"flags": {"protect": 1, "reflectable": 1, "mirror": 1},
-		"boosts": {
+		"targetBoosts": {
 			"def": -1
 		},
 		"secondary": false,
