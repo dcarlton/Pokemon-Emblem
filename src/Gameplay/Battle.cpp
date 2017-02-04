@@ -19,19 +19,16 @@ namespace
             if (move.doesDamage)
             {
                 targetPokemon->stats.takeDamage((attackingPokemon->stats.getAttack() + move.getBasePower()) - targetPokemon->stats.getDefense());
-                if (targetPokemon->stats.getCurrentHP() <= 0)
-                {
-                    world->pokemonFainted(targetPosition);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+            }
+            move.runSideEffects(attackingPokemon, targetPokemon);
+
+            if (targetPokemon->stats.getCurrentHP() <= 0)
+            {
+                world->pokemonFainted(targetPosition);
+                return true;
             }
             else
             {
-                // Handle non-damaging moves like Growl.
                 return false;
             }
         }

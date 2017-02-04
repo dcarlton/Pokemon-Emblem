@@ -2,11 +2,16 @@
 #define MOVE_H
 
 
+#include <functional>
+#include <memory>
 #include <string>
+#include <vector>
 
 
 namespace Gameplay
 {
+
+class Pokemon;
 
 class Move
 {
@@ -19,12 +24,14 @@ public:
     unsigned int getBasePower();
     std::string getName();
     unsigned int getRange();
+    void runSideEffects(std::shared_ptr<Pokemon> attackingPokemon, std::shared_ptr<Pokemon> targetPokemon);
 
 private:
     unsigned int _accuracy;
     unsigned int _basePower;
     std::string _name;
     unsigned int _range;
+    std::vector<std::function<void(std::shared_ptr<Pokemon>, std::shared_ptr<Pokemon>)>> _sideEffects;
 };
 
 }

@@ -89,3 +89,13 @@ unsigned int Gameplay::Move::getRange()
 {
     return _range;
 }
+
+// Run all side effects (Non-damaging effects) of this move on the
+// two Pokemon involved.
+void Gameplay::Move::runSideEffects(std::shared_ptr<Gameplay::Pokemon> attackingPokemon, std::shared_ptr<Gameplay::Pokemon> targetPokemon)
+{
+    for (unsigned int i = 0; i < _sideEffects.size(); i++)
+    {
+        _sideEffects[i](attackingPokemon, targetPokemon);
+    }
+}
