@@ -206,6 +206,7 @@ void Gameplay::PokemonStats::setMovementRange(unsigned int baseSpeed)
         movement = 4;
 }
 
+// Adjust this Pokemon's stat boost for the given stat.
 void Gameplay::PokemonStats::setStatBoost(Gameplay::Stat stat, int statBoost)
 {
     int* oldStatBoost = nullptr;
@@ -232,6 +233,7 @@ void Gameplay::PokemonStats::setStatBoost(Gameplay::Stat stat, int statBoost)
     setStatBoost(oldStatBoost, statBoost, statBoostDuration);
 }
 
+// Adjust the given stat boost and set the stat boost's duration.
 void Gameplay::PokemonStats::setStatBoost(int* currentStatBoost, const int newStatBoost, unsigned int* statBoostDuration)
 {
     *currentStatBoost += newStatBoost;

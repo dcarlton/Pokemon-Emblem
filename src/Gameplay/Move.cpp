@@ -92,6 +92,7 @@ Gameplay::Move::Move(std::string name)
     }
 }
 
+// Add a side effect to this move, which gives a stat bonus for the given stat.
 void Gameplay::Move::addTargetBoostSideEffect(Gameplay::Stat stat, int statBoost)
 {
     _sideEffects.push_back([stat, statBoost](std::shared_ptr<Gameplay::Pokemon> attackingPokemon, std::shared_ptr<Gameplay::Pokemon> targetPokemon)
