@@ -64,9 +64,9 @@ Gameplay::Move::Move(std::string name)
         _range = 0;
 
     // Determine if the move lowers the opponent's stats.
-    if (movesInfo[name].count("targetBoost") == 1)
+    if (movesInfo[name].count("targetBoosts") == 1)
     {
-        nlohmann::json targetBoosts = movesInfo[name]["targetBoost"];
+        nlohmann::json targetBoosts = movesInfo[name]["targetBoosts"];
 
         // This is 6 if's, and not a series of else-ifs, on purpose.
         if (targetBoosts.count("atk") == 1)
@@ -96,7 +96,7 @@ void Gameplay::Move::addTargetBoostSideEffect(Gameplay::Stat stat, int statBoost
 {
     _sideEffects.push_back([stat, statBoost](std::shared_ptr<Gameplay::Pokemon> attackingPokemon, std::shared_ptr<Gameplay::Pokemon> targetPokemon)
     {
-        targetPokemon->setStatBoost(stat, statBoost);
+        targetPokemon->stats.setStatBoost(stat, statBoost);
     });
 }
 

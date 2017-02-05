@@ -28,7 +28,6 @@ public:
     Pokemon(std::string pokemonName, unsigned int level, AllianceEnum startingAlliance);
     unsigned int getMaxRange();
     unsigned int getNumMoves();
-    void setStatBoost(Stat stat, int statBoost);
 
 private:
     unsigned int validateLevel(unsigned int level);

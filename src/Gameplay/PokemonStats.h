@@ -5,6 +5,7 @@
 #include <string>
 
 #include "PokemonEnum.h"
+#include "StatEnum.h"
 
 
 namespace Gameplay
@@ -25,24 +26,32 @@ public:
     unsigned int getMaxHP();
     unsigned int getMovementRange();
     unsigned int getSkill();
-    unsigned int getSpeed();
+    int getSpeed();
+    void setStatBoost(Stat stat, int statBoost);
     void takeDamage(int damage);
 
 private:
     int attack;
+    int attackBoost;
+    unsigned int attackBoostDuration;
     int currentHP;
     int defense;
+    int defenseBoost;
+    unsigned int defenseBoostDuration;
     unsigned int level;
     unsigned int luck;
     unsigned int maxHP;
     unsigned int movement;
     unsigned int skill;
-    unsigned int speed;
+    int speed;
+    int speedBoost;
+    unsigned int speedBoostDuration;
 
     void levelUpNormalized(std::string name, unsigned int numLevels);
     unsigned int roundRandomly(double num);
     void setLevelOneStats(std::string name);
     void setMovementRange(unsigned int baseSpeed);
+    void setStatBoost(int* currentStatBoost, const int newStatBoost, unsigned int* statBoostDuration);
 };
 
 }

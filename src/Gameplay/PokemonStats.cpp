@@ -6,18 +6,29 @@
 #include "PokemonStats.h"
 
 
+namespace
+{
+    const int MAX_STAT_BOOST_DURATION = 4;
+}
+
 // Default constructor.
 Gameplay::PokemonStats::PokemonStats()
 {
     attack = 0;
+    attackBoost = 0;
+    attackBoostDuration = 0;
     currentHP = 0;
     defense = 0;
+    defenseBoost = 0;
+    defenseBoostDuration = 0;
     level = 1;
     luck = 0;
     maxHP = 0;
     movement = 0;
     skill = 0;
     speed = 0;
+    speedBoost = 0;
+    speedBoostDuration = 0;
 }
 
 // Initializes the Pokemon's stats, using the Pokemon species
@@ -41,7 +52,7 @@ unsigned int Gameplay::PokemonStats::getAccuracy()
 
 int Gameplay::PokemonStats::getAttack()
 {
-    return attack;
+    return attack + attackBoost;
 }
 
 int Gameplay::PokemonStats::getCurrentHP()
@@ -51,7 +62,7 @@ int Gameplay::PokemonStats::getCurrentHP()
 
 int Gameplay::PokemonStats::getDefense()
 {
-    return defense;
+    return defense + defenseBoost;
 }
 
 unsigned int Gameplay::PokemonStats::getEvasion()
@@ -84,9 +95,9 @@ unsigned int Gameplay::PokemonStats::getSkill()
     return skill;
 }
 
-unsigned int Gameplay::PokemonStats::getSpeed()
+int Gameplay::PokemonStats::getSpeed()
 {
-    return speed;
+    return speed + speedBoost;
 }
 
 // Level up the stats one or more times, using the growth rate of
@@ -141,6 +152,13 @@ void Gameplay::PokemonStats::setLevelOneStats(std::string name)
     defense = baseStats.defense / 20;
 
     setMovementRange(baseStats.speed);
+
+    attackBoost = 0;
+    attackBoostDuration = 0;
+    defenseBoost = 0;
+    defenseBoostDuration = 0;
+    speedBoost = 0;
+    speedBoostDuration = 0;
 }
 
 // Sets the movement range based on the Pokemon's base speed.
@@ -156,6 +174,44 @@ void Gameplay::PokemonStats::setMovementRange(unsigned int baseSpeed)
         movement = 5;
     else
         movement = 4;
+}
+
+void Gameplay::PokemonStats::setStatBoost(Gameplay::Stat stat, int statBoost)
+{
+    int* oldStatBoost = nullptr;
+    unsigned int* statBoostDuration = nullptr;
+
+    switch (stat)
+    {
+        case Gameplay::Stat::ATTACK:
+            oldStatBoost = &attackBoost;
+            statBoostDuration = &attackBoostDuration;
+            break;
+
+        case Gameplay::Stat::DEFENSE:
+            oldStatBoost = &defenseBoost;
+            statBoostDuration = &defenseBoostDuration;
+            break;
+
+        case Gameplay::Stat::SPEED:
+            oldStatBoost = &speedBoost;
+            statBoostDuration = &speedBoostDuration;
+            break;
+    }
+
+    setStatBoost(oldStatBoost, statBoost, statBoostDuration);
+}
+
+void Gameplay::PokemonStats::setStatBoost(int* currentStatBoost, const int newStatBoost, unsigned int* statBoostDuration)
+{
+    *currentStatBoost += newStatBoost;
+    if ((newStatBoost > 0 && *currentStatBoost > newStatBoost) ||
+        (newStatBoost < 0 && *currentStatBoost < newStatBoost))
+    {
+        *currentStatBoost = newStatBoost;
+    }
+
+    *statBoostDuration = MAX_STAT_BOOST_DURATION;
 }
 
 // Remove the amount of damage taken from this Pokemon's current HP.
