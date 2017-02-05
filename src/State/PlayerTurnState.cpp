@@ -23,6 +23,7 @@ Constuctor that takes an existing world
 State::PlayerTurnState::PlayerTurnState(std::shared_ptr<Gameplay::World> world)
 {
     _world = world;
+    _world->onStartPlayerTurn();
 }
 
 void State::PlayerTurnState::draw()

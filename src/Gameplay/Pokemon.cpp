@@ -45,6 +45,14 @@ unsigned int Gameplay::Pokemon::getNumMoves()
     return 0;
 }
 
+// Call at the start of the Pokemon's turn to set hasMoved and
+// handle the stat boosts disappearing over time.
+void Gameplay::Pokemon::onStartTurn()
+{
+    hasMoved = false;
+    stats.onStartTurn();
+}
+
 // Guarantee that the Pokemon's level is a valid level.
 unsigned int Gameplay::Pokemon::validateLevel(unsigned int level)
 {

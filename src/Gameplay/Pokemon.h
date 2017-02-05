@@ -28,6 +28,7 @@ public:
     Pokemon(std::string pokemonName, unsigned int level, AllianceEnum startingAlliance);
     unsigned int getMaxRange();
     unsigned int getNumMoves();
+    void onStartTurn();
 
 private:
     unsigned int validateLevel(unsigned int level);

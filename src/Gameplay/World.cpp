@@ -233,6 +233,21 @@ bool Gameplay::World::movePokemon(Utility::Point oldPosition, Utility::Point new
     return true;
 }
 
+// Call when the player starts their turn to call the onStartTurn function
+// for each Pokemon.
+void Gameplay::World::onStartPlayerTurn()
+{
+    for (unsigned int i = 0; i < _playerPokemon.size(); i++)
+    {
+        _playerPokemon[i]->onStartTurn();
+    }
+
+    for (unsigned int i = 0; i < _enemyPokemon.size(); i++)
+    {
+        _enemyPokemon[i]->onStartTurn();
+    }
+}
+
 // Call when a Pokemon has run out of HP to remove it from the world.
 void Gameplay::World::pokemonFainted(Utility::Point faintedPokemonPosition)
 {

@@ -37,6 +37,7 @@ public:
     void moveCursorUp();
     void moveCursorUpIfInRange(Utility::Point startingPosition, unsigned int maxRange);
     bool movePokemon(Utility::Point oldPosition, Utility::Point newPosition);
+    void onStartPlayerTurn();
     void pokemonFainted(Utility::Point faintedPokemonPosition);
     void resetWhetherEnemyPokemonHaveMoved();
     void resetWhetherPlayerPokemonHaveMoved();

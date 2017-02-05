@@ -27,6 +27,7 @@ public:
     unsigned int getMovementRange();
     unsigned int getSkill();
     int getSpeed();
+    void onStartTurn();
     void setStatBoost(Stat stat, int statBoost);
     void takeDamage(int damage);
 

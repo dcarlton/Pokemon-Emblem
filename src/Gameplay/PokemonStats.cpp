@@ -114,6 +114,36 @@ void Gameplay::PokemonStats::levelUpNormalized(std::string name, unsigned int nu
     defense += roundRandomly(numLevelUps * (evolvedBaseStats.defense / 400.0));
 }
 
+// Called by a Pokemon on the start of its turn to handle the length
+// of stat boosts.
+void Gameplay::PokemonStats::onStartTurn()
+{
+    if (attackBoostDuration > 0)
+    {
+        attackBoostDuration--;
+        if (attackBoostDuration == 0)
+        {
+            attackBoost = 0;
+        }
+    }
+    if (defenseBoostDuration > 0)
+    {
+        defenseBoostDuration--;
+        if (defenseBoostDuration == 0)
+        {
+            defenseBoost = 0;
+        }
+    }
+    if (speedBoostDuration > 0)
+    {
+        speedBoostDuration--;
+        if (speedBoostDuration == 0)
+        {
+            speedBoost = 0;
+        }
+    }
+}
+
 // Round a number up or down at random. The odds that it will round
 // up is equal to the value after the decimal, as a percentage.
 unsigned int Gameplay::PokemonStats::roundRandomly(double num)
