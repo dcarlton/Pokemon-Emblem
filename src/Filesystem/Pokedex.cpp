@@ -11,7 +11,7 @@ namespace
     // Read info on every Pokemon from the file pokedex.json
     nlohmann::json initPokedex()
     {
-        std::ifstream pokedexFile("../pokedex.json");
+        std::ifstream pokedexFile("pokedex.json");
         std::stringstream tempStream;
         tempStream << pokedexFile.rdbuf();
         return nlohmann::json::parse(tempStream.str());

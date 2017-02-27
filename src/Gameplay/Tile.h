@@ -3,11 +3,10 @@
 
 #include <memory>
 
+#include "../Utility/Point.h"
 #include "Pokemon.h"
 #include "Terrain.h"
 
-
-class Utility::Point;
 
 namespace Gameplay
 {

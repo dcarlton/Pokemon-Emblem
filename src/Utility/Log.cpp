@@ -1,5 +1,5 @@
+#include <ctime>
 #include <fstream>
-#include <time.h>
 
 #include "Log.h"
 #include "../GUI/GUI.h"

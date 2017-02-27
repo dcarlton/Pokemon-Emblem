@@ -2,7 +2,7 @@
 
 #include "ChoosingMoveState.h"
 #include "EnemyTurnState.h"
-#include "..\Utility\Point.h"
+#include "../Utility/Point.h"
 #include "PokemonActionState.h"
 #include "Controller/PokemonUtils.h"
 #include "StateStack.h"

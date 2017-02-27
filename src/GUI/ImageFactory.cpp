@@ -15,26 +15,26 @@ GUI::Image GUI::makeImage(GUI::ImageEnum imageEnum)
     switch (imageEnum)
     {
         case GUI::ImageEnum::GameplayCursor:
-            return Image("..\\resources\\GameplayCursor.bmp", whiteColorKey, Utility::Point(24, 24));
+            return Image("resources/GameplayCursor.bmp", whiteColorKey, Utility::Point(24, 24));
             break;
 
         case GUI::ImageEnum::MenuItem:
-            return Image("..\\resources\\MenuItem.bmp", whiteColorKey, Utility::Point(64, 16));
+            return Image("resources/MenuItem.bmp", whiteColorKey, Utility::Point(64, 16));
 
         case GUI::ImageEnum::TestPokemon:
-            return Image("..\\resources\\Pokemon\\TestPokemon.bmp", whiteColorKey, Utility::Point(24, 24));
+            return Image("resources/Pokemon/TestPokemon.bmp", whiteColorKey, Utility::Point(24, 24));
             break;
 
         case GUI::ImageEnum::TestPokemonAlly:
-            return Image("..\\resources\\Pokemon\\TestPokemonAlly.bmp", whiteColorKey, Utility::Point(24, 24));
+            return Image("resources/Pokemon/TestPokemonAlly.bmp", whiteColorKey, Utility::Point(24, 24));
             break;
 
         case GUI::ImageEnum::TestPokemonEnemy:
-            return Image("..\\resources\\Pokemon\\TestPokemonEnemy.bmp", whiteColorKey, Utility::Point(24, 24));
+            return Image("resources/Pokemon/TestPokemonEnemy.bmp", whiteColorKey, Utility::Point(24, 24));
             break;
 
         case GUI::ImageEnum::TestTile:
-            return Image("..\\resources\\Tiles\\TestTile.bmp", blackColorKey, Utility::Point(24, 24));
+            return Image("resources/Tiles/TestTile.bmp", blackColorKey, Utility::Point(24, 24));
             break;
 
         default:

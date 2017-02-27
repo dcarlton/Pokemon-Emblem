@@ -5,14 +5,12 @@
 #include <vector>
 
 #include "../GUI/GUI.h"
+#include "../GUI/Image.h"
+#include "../Utility/Point.h"
 #include "../Gameplay/Pokemon.h"
 #include "State.h"
 #include "../Gameplay/Tile.h"
 #include "../Gameplay/World.h"
-
-
-class GUI::Image;
-class Utility::Point;
 
 
 namespace State

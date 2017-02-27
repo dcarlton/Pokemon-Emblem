@@ -43,7 +43,7 @@ void Audio::playMusic(Music musicToPlay)
             // TODO: Cleanup
             // TODO: Should check if the music already exists and is paused.
             // http://lazyfoo.net/SDL_tutorials/lesson11/
-            currentMusic = Mix_LoadWAV("../resources/Audio/Music/StageMusic.wav");
+            currentMusic = Mix_LoadWAV("resources/Audio/Music/StageMusic.wav");
             if (currentMusic == NULL)
                 Utility::log("Stage music could not be loaded.");
             Mix_PlayChannel(MUSIC_CHANNEL, currentMusic, -1);
@@ -60,7 +60,7 @@ void Audio::playSoundEffect(SoundEffect soundEffectToPlay)
     switch (soundEffectToPlay)
     {
         case SoundEffect::TestSoundEffect:
-            currentSoundEffect = Mix_LoadWAV("../resources/Audio/SoundEffects/TestSoundEffect.wav");
+            currentSoundEffect = Mix_LoadWAV("resources/Audio/SoundEffects/TestSoundEffect.wav");
             if (currentSoundEffect == NULL)
                 Utility::log("Sound effect could not be loaded.");
             
