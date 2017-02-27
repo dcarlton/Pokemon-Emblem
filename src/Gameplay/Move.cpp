@@ -13,7 +13,7 @@ namespace
     // Read info on every move from a file.
     nlohmann::json initMoveInfo()
     {
-        std::ifstream movesFile("../moves.json");
+        std::ifstream movesFile("moves.json");
         std::stringstream tempStream;
         tempStream << movesFile.rdbuf();
         return nlohmann::json::parse(tempStream.str());
@@ -50,7 +50,7 @@ Gameplay::Move::Move(std::string name)
 
     // TODO: Catch errors.
     _accuracy = movesInfo[name]["accuracy"];
-    _basePower = movesInfo[name]["basePower"] / 10;
+    _basePower = ((unsigned int)movesInfo[name]["basePower"]) / 10;
     doesDamage = _basePower > 0;
     _name = movesInfo[name]["name"];
     

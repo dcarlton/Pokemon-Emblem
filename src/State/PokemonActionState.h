@@ -6,8 +6,8 @@
 #include <memory>
 #include <vector>
 
-#include "..\GUI\Image.h"
-#include "..\GUI\ImageEnum.h"
+#include "../GUI/Image.h"
+#include "../GUI/ImageEnum.h"
 #include "../Utility/Point.h"
 #include "../Gameplay/Pokemon.h"
 #include "State.h"
@@ -46,6 +46,8 @@ protected:
     bool isEnemyInRange();
 };
 
+void attackAction(PokemonActionState* state);
+void waitAction(PokemonActionState* state);
 
 }
 

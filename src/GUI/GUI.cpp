@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <memory>
 
-#include "SDL_TTF.h"
+#include "SDL_ttf.h"
 
 #include "../Utility/Color.h"
 #include "GUI.h"
@@ -13,10 +13,7 @@
 namespace
 {
     const SDL_Color BLACK = {0, 0, 0, 0};
-    const GUI::Image CURSOR_IMAGE = GUI::getImage(GUI::ImageEnum::GameplayCursor);
-    const GUI::Image MENU_IMAGE = GUI::getImage(GUI::ImageEnum::MenuItem);
     const int NUM_TILES_TO_DISPLAY = 10;
-    const GUI::Image TEST_TILE_IMAGE = GUI::getImage(GUI::ImageEnum::TestTile);
     const int TILE_HEIGHT = 32;
     const int TILE_WIDTH = 32;
     const SDL_Color WHITE = {255, 255, 255, 0};
@@ -27,8 +24,6 @@ namespace
     static SDL_Surface *windowSurface = nullptr;
 
     Utility::Point camera = Utility::Point(1, 1);
-    GUI::Image cursorImage = GUI::getImage(GUI::ImageEnum::GameplayCursor);
-    GUI::Image pokemonSpriteSheet = GUI::Image("../resources/Pokemon/SpriteSheet.bmp", Utility::Color(0xFF, 0xFF, 0xFF), Utility::Point(610, 1925));
 
     // Move the camera so that the given point is visible.
     void focusCamera(Utility::Point pointToContain)
@@ -156,7 +151,7 @@ void GUI::drawPokemonOnMap(Utility::Point targetPosition, int pokemonOffset, int
     imageRect->w = TILE_WIDTH;
     imageRect->h = TILE_HEIGHT;
 
-    drawImage(pokemonSpriteSheet, imageRect.get(), targetPosition);
+    drawImage(GUI::getImage(GUI::ImageEnum::PokemonSpriteSheet), imageRect.get(), targetPosition);
 }
 
 // Draw the most recently selected Pokemon's HP on the screen.
@@ -168,6 +163,7 @@ void GUI::drawPokemonStats(std::shared_ptr<Gameplay::Pokemon> pokemon)
 
     std::string text = "Level: " + std::to_string(pokemon->stats.getLevel());
     drawText(text, Utility::Point(7, 0), Utility::Point(0, 0), BLACK);
+
     text = "HP: " + std::to_string(pokemon->stats.getCurrentHP()) + "/" + std::to_string(pokemon->stats.getMaxHP());
     drawText(text, Utility::Point(7, 0), Utility::Point(0, 16), BLACK);
     
@@ -216,7 +212,7 @@ void GUI::drawText(std::string text, Utility::Point drawPosition, Utility::Point
 // Draw the Pokemon and terrain of a tile.
 void GUI::drawTile(Gameplay::Tile tile, Utility::Point position)
 {
-    GUI::drawImage(TEST_TILE_IMAGE, position);
+    GUI::drawImage(GUI::getImage(GUI::ImageEnum::TestTile), position);
     if (tile.pokemon)
         GUI::drawPokemon(tile.pokemon, position);
 }
@@ -226,16 +222,15 @@ void GUI::drawWorld(std::vector<std::vector<Gameplay::Tile>> map, Utility::Point
 {
     focusCamera(cursorPos);
 
-    for (unsigned int x = camera.x; x < std::min(map.size(), camera.x + NUM_TILES_TO_DISPLAY); x++)
+    for (unsigned int x = camera.x; x < std::min((unsigned int)map.size(), camera.x + NUM_TILES_TO_DISPLAY); x++)
     {
-        for (unsigned int y = camera.y; y < std::min(map[x].size(), camera.y + NUM_TILES_TO_DISPLAY); y++)
+        for (unsigned int y = camera.y; y < std::min((unsigned int)map[x].size(), camera.y + NUM_TILES_TO_DISPLAY); y++)
         {
             drawTile(map[x][y], Utility::Point(x, y));
         }
     }
 
-    cursorImage = getImage(GUI::ImageEnum::GameplayCursor);
-    drawImage(cursorImage, cursorPos);
+    drawImage(GUI::getImage(GUI::ImageEnum::GameplayCursor), cursorPos);
 }
 
 GUI::Image GUI::getImage(ImageEnum imageEnum)
@@ -253,12 +248,13 @@ GUI::Image GUI::getImage(ImageEnum imageEnum)
 // Return -1 if it isn't over a menu item.
 int GUI::getMenuItemFromMouse(int mouseX, int mouseY, Utility::Point menuPosition, int numMenuItems)
 {
+    Image menuImage = GUI::getImage(GUI::ImageEnum::MenuItem);
     int menuLeftmostPixel = (menuPosition.x - camera.x) * TILE_WIDTH;
     int menuTopmostPixel = (menuPosition.y - camera.y) * TILE_HEIGHT;
 
     if (menuPosition.x < camera.x ||
         mouseX < menuLeftmostPixel ||
-        mouseX > (int)(menuLeftmostPixel + MENU_IMAGE.size.x))
+        mouseX > (int)(menuLeftmostPixel + menuImage.size.x))
     {
         return -1;
     }
@@ -266,7 +262,7 @@ int GUI::getMenuItemFromMouse(int mouseX, int mouseY, Utility::Point menuPositio
     if (menuPosition.y < camera.y || mouseY < menuTopmostPixel)
         return -1;
 
-    int menuItemIndex = ((mouseY - menuTopmostPixel) / MENU_IMAGE.size.y);
+    int menuItemIndex = ((mouseY - menuTopmostPixel) / menuImage.size.y);
     if (menuItemIndex < numMenuItems)
         return menuItemIndex;
     else
@@ -286,7 +282,7 @@ void GUI::loadEngine()
     if (TTF_Init() < 0)
         Utility::log("Unable to initialize SDL_TTF: ");
 
-    font = TTF_OpenFont("../resources/Fonts/cour.ttf", 12);
+    font = TTF_OpenFont("resources/Fonts/cour.ttf", 12);
 }
 
 // Convert the X and Y coordinates of a mouse to the coordinates

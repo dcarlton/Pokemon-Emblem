@@ -7,7 +7,7 @@
 
 namespace
 {
-    const char* configFilename = "../config.ini";
+    const char* configFilename = "config.ini";
     CSimpleIniA configInfo;
 }
 

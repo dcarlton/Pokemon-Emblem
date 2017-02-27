@@ -42,8 +42,7 @@ GUI::Image::Image(const Image& that)
 // nothing is using it
 GUI::Image::~Image()
 {
-    //SDL_FreeSurface(surface);
-    delete surface;
+    //delete surface;
 }
 
 // Rewriting the assignment operator so that a distinct copy

@@ -1,32 +1,37 @@
 // Uncomment this line to ignore all assertions.
 //#define NDEBUG
 
+#ifdef _WIN32
+    #include <windows.h>
+#endif
+
 
 #include <assert.h>
 #include <exception>
 #include <memory>
 #include <stdlib.h>
 #include <time.h>
-#include <windows.h>
 
 #include "SDL.h"
 
 #include "src/Audio/DJ.h"
+
 #include "src/GUI/GUI.h"
 #include "src/Utility/Log.h"
 #include "src/Filesystem/Options.h"
 #include "src/State/PlayerTurnState.h"
 #include "src/Utility/Point.h"
+#include "src/State/State.h"
 #include "src/State/StateStack.h"
 
 
-class State::State;
 class QuitException: public std::exception{};
 
 void loadGame();
 void gameLoop();
 void processInput(std::shared_ptr<State::State> state);
 void cleanup();
+
 
 int main()
 {
@@ -157,8 +162,10 @@ void cleanup()
     GUI::cleanup();
 }
 
-// VS Windows applications need WinMain as an entry point
-int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
-{
-    return main();
-}
+#ifdef _WIN32
+    // VS Windows applications need WinMain as an entry point
+    int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+    {
+        return main();
+    }
+#endif
