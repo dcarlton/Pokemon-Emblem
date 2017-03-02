@@ -8,6 +8,7 @@ enum class ImageEnum
 {
     GameplayCursor,
     MenuItem,
+    PokemonSpriteSheet,
     TestPokemon,
     TestPokemonEnemy,
     TestPokemonAlly,
