@@ -9,6 +9,12 @@ namespace
     const Utility::Color blackColorKey(0, 0, 0);
     const Utility::Color whiteColorKey(0xFF, 0xFF, 0xFF);
 
+    // First image defined in this file will crash.
+    // Second image defined in this file will be transparent.
+    // I have no freaking clue why.
+    const GUI::Image BROKEN_IMAGE = GUI::Image("resources/Pokemon/TestPokemon.bmp", whiteColorKey, Utility::Point(24, 24));
+    const GUI::Image TRANSPARENT_IMAGE = GUI::Image("resources/Pokemon/TestPokemon.bmp", whiteColorKey, Utility::Point(24, 24));
+
     const GUI::Image GAMEPLAY_CURSOR = GUI::Image("resources/GameplayCursor.bmp", whiteColorKey, Utility::Point(24, 24));
     const GUI::Image MENU_ITEM = GUI::Image("resources/MenuItem.bmp", whiteColorKey, Utility::Point(64, 16));
     const GUI::Image POKEMON_SPRITE_SHEET = GUI::Image("resources/Pokemon/SpriteSheet.bmp", whiteColorKey, Utility::Point(1152, 648));

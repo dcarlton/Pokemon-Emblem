@@ -230,7 +230,7 @@ void GUI::drawWorld(std::vector<std::vector<Gameplay::Tile>> map, Utility::Point
         }
     }
 
-    //drawImage(GUI::getImage(GUI::ImageEnum::GameplayCursor), cursorPos);
+    drawImage(GUI::getImage(GUI::ImageEnum::GameplayCursor), cursorPos);
 }
 
 GUI::Image GUI::getImage(ImageEnum imageEnum)
