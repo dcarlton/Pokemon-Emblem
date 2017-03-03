@@ -1,0 +1,1 @@
+g++ -g -std=c++11 Main.cpp src/Audio/*.cpp src/Filesystem/*.cpp src/Gameplay/*.cpp src/GUI/*.cpp src/State/*.cpp src/State/Controller/*.cpp src/Utility/*.cpp -I include -L lib -lSDL2 -lSDL2_mixer -lSDL2_ttf -o PokemonEmblem && ./PokemonEmblem
