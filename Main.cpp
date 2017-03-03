@@ -1,7 +1,7 @@
 // Uncomment this line to ignore all assertions.
 //#define NDEBUG
 
-#ifdef _WIN64
+#ifdef _WIN32
     #include <windows.h>
 #endif
 
@@ -162,7 +162,7 @@ void cleanup()
     GUI::cleanup();
 }
 
-#ifdef _WIN64
+#ifdef _WIN32
     // VS Windows applications need WinMain as an entry point
     int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
     {
