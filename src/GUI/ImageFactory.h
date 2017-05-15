@@ -7,7 +7,7 @@
 
 namespace GUI
 {
-    Image makeImage(ImageEnum imageEnum);
+    const Image* makeImage(ImageEnum imageEnum);
 }
 
 #endif

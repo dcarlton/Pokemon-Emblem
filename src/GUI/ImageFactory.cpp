@@ -24,32 +24,32 @@ namespace
     const GUI::Image TEST_TILE = GUI::Image("resources/Tiles/TestTile.bmp", blackColorKey, Utility::Point(24, 24));
 }
 
-GUI::Image GUI::makeImage(GUI::ImageEnum imageEnum)
+const GUI::Image* GUI::makeImage(GUI::ImageEnum imageEnum)
 {
     switch (imageEnum)
     {
         case GUI::ImageEnum::GameplayCursor:
-            return GAMEPLAY_CURSOR;
+            return &GAMEPLAY_CURSOR;
 
         case GUI::ImageEnum::MenuItem:
-            return MENU_ITEM;
+            return &MENU_ITEM;
 
         case GUI::ImageEnum::PokemonSpriteSheet:
-            return POKEMON_SPRITE_SHEET;
+            return &POKEMON_SPRITE_SHEET;
 
         case GUI::ImageEnum::TestPokemon:
-            return TEST_POKEMON;
+            return &TEST_POKEMON;
 
         case GUI::ImageEnum::TestPokemonAlly:
-            return TEST_POKEMON_ALLY;
+            return &TEST_POKEMON_ALLY;
 
         case GUI::ImageEnum::TestPokemonEnemy:
-            return TEST_POKEMON_ENEMY;
+            return &TEST_POKEMON_ENEMY;
 
         case GUI::ImageEnum::TestTile:
-            return TEST_TILE;
+            return &TEST_TILE;
 
         default:
-            return Image();
+            return NULL;
     }
 }

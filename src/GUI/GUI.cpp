@@ -79,7 +79,7 @@ void GUI::deleteWindow()
     SDL_FreeSurface(windowSurface);
 }
 
-void GUI::drawImage(GUI::Image image, Utility::Point position)
+void GUI::drawImage(const GUI::Image* image, Utility::Point position)
 {
     drawImage(image, NULL, position, Utility::Point(0, 0));
 }
@@ -90,7 +90,7 @@ void GUI::drawImage(GUI::Image image, Utility::Point position)
 //
 // The target position is the position in the map; we need to adjust it based
 // on the camera.
-void GUI::drawImage(GUI::Image image, SDL_Rect* imageRect, Utility::Point targetPosition)
+void GUI::drawImage(const GUI::Image* image, SDL_Rect* imageRect, Utility::Point targetPosition)
 {
     GUI::drawImage(image, imageRect, targetPosition, Utility::Point(0, 0));
 }
@@ -101,9 +101,9 @@ void GUI::drawImage(GUI::Image image, SDL_Rect* imageRect, Utility::Point target
 //
 // The target position is the position in the map; we need to adjust it based
 // on the camera and the given pixel offset.
-void GUI::drawImage(GUI::Image image, SDL_Rect* imageRect, Utility::Point targetPosition, Utility::Point pixelOffset)
+void GUI::drawImage(const GUI::Image* image, SDL_Rect* imageRect, Utility::Point targetPosition, Utility::Point pixelOffset)
 {
-    if (!image.surface || !windowSurface)
+    if (!image->surface || !windowSurface)
         return;
 
     targetPosition -= camera;
@@ -111,20 +111,20 @@ void GUI::drawImage(GUI::Image image, SDL_Rect* imageRect, Utility::Point target
     SDL_Rect targetRect;
     targetRect.x = (targetPosition.x * TILE_WIDTH) + pixelOffset.x;
     targetRect.y = (targetPosition.y * TILE_HEIGHT) + pixelOffset.y;
-    targetRect.h = image.size.y;
-    targetRect.w = image.size.x;
+    targetRect.h = image->size.y;
+    targetRect.w = image->size.x;
 
-    SDL_BlitSurface(image.surface, imageRect, windowSurface, &targetRect);
+    SDL_BlitSurface(image->surface, imageRect, windowSurface, &targetRect);
 }
 
 void GUI::drawMenu(std::vector<std::string> items, Utility::Point position)
 {
-    GUI::Image menuImage = GUI::getImage(GUI::ImageEnum::MenuItem);
+    const GUI::Image* menuImage = GUI::getImage(GUI::ImageEnum::MenuItem);
 
     for (unsigned int i = 0; i < items.size(); i++)
     {
-        GUI::drawImage(menuImage, NULL, position, Utility::Point(0, i * menuImage.size.y));
-        GUI::drawText(items[i], position, Utility::Point(8, 2 + (i * menuImage.size.y)), WHITE);
+        GUI::drawImage(menuImage, NULL, position, Utility::Point(0, i * menuImage->size.y));
+        GUI::drawText(items[i], position, Utility::Point(8, 2 + (i * menuImage->size.y)), WHITE);
     }
 }
 
@@ -207,6 +207,7 @@ void GUI::drawText(std::string text, Utility::Point drawPosition, Utility::Point
     targetRect.w = TILE_WIDTH * 2;
 
     SDL_BlitSurface(textSurface, NULL, windowSurface, &targetRect);
+    SDL_FreeSurface(textSurface);
 }
 
 // Draw the Pokemon and terrain of a tile.
@@ -233,7 +234,7 @@ void GUI::drawWorld(std::vector<std::vector<Gameplay::Tile>> map, Utility::Point
     drawImage(GUI::getImage(GUI::ImageEnum::GameplayCursor), cursorPos);
 }
 
-GUI::Image GUI::getImage(ImageEnum imageEnum)
+const GUI::Image* GUI::getImage(ImageEnum imageEnum)
 {
     return makeImage(imageEnum);
 }
@@ -248,13 +249,13 @@ GUI::Image GUI::getImage(ImageEnum imageEnum)
 // Return -1 if it isn't over a menu item.
 int GUI::getMenuItemFromMouse(int mouseX, int mouseY, Utility::Point menuPosition, int numMenuItems)
 {
-    Image menuImage = GUI::getImage(GUI::ImageEnum::MenuItem);
+    const Image* menuImage = GUI::getImage(GUI::ImageEnum::MenuItem);
     int menuLeftmostPixel = (menuPosition.x - camera.x) * TILE_WIDTH;
     int menuTopmostPixel = (menuPosition.y - camera.y) * TILE_HEIGHT;
 
     if (menuPosition.x < camera.x ||
         mouseX < menuLeftmostPixel ||
-        mouseX > (int)(menuLeftmostPixel + menuImage.size.x))
+        mouseX > (int)(menuLeftmostPixel + menuImage->size.x))
     {
         return -1;
     }
@@ -262,7 +263,7 @@ int GUI::getMenuItemFromMouse(int mouseX, int mouseY, Utility::Point menuPositio
     if (menuPosition.y < camera.y || mouseY < menuTopmostPixel)
         return -1;
 
-    int menuItemIndex = ((mouseY - menuTopmostPixel) / menuImage.size.y);
+    int menuItemIndex = ((mouseY - menuTopmostPixel) / menuImage->size.y);
     if (menuItemIndex < numMenuItems)
         return menuItemIndex;
     else
