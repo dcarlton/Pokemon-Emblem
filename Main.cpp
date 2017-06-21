@@ -18,11 +18,13 @@
 
 #include "src/GUI/GUI.h"
 #include "src/Utility/Log.h"
+#include "src/Filesystem/Maps.h"
 #include "src/Filesystem/Options.h"
 #include "src/State/PlayerTurnState.h"
 #include "src/Utility/Point.h"
 #include "src/State/State.h"
 #include "src/State/StateStack.h"
+#include "src/Gameplay/World.h"
 
 
 class QuitException: public std::exception{};
@@ -63,7 +65,8 @@ void loadGame()
 
 void gameLoop()
 {
-    std::shared_ptr<State::PlayerTurnState> tempState = {std::make_shared<State::PlayerTurnState> ()};
+    std::shared_ptr<Gameplay::World> world = Filesystem::CreateWorld();
+    std::shared_ptr<State::PlayerTurnState> tempState = {std::make_shared<State::PlayerTurnState> (world)};
     State::addState(tempState);
     int frameRate = 0;
     int startTime = 0;

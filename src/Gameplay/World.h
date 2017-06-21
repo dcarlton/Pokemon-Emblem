@@ -18,6 +18,7 @@ class World
 {
 public:
     World();
+    World(std::vector<std::vector<Gameplay::Tile>> tiles, Utility::Point cursorPos);
     void addPokemon(std::shared_ptr<Pokemon> pokemon, Utility::Point position);
     int distanceFromClosestEnemy(Utility::Point position, Gameplay::AllianceEnum alliance);
     void drawWorld();

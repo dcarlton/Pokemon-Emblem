@@ -32,6 +32,25 @@ Gameplay::World::World()
     addPokemon(pokemon, Utility::Point(1, 0));
 }
 
+Gameplay::World::World(std::vector<std::vector<Gameplay::Tile>> tiles, Utility::Point cursorPos)
+{
+    _cursorPos = cursorPos;
+    _map = tiles;
+
+    // All of the Pokemon need to be added to the PlayerPokemon and
+    // EnemyPokemon lists.
+    for (unsigned int i = 0; i < _map.size(); i++)
+    {
+        for (unsigned int j = 0; j < _map[0].size(); j++)
+        {
+            if (_map[i][j].pokemon)
+            {
+                addPokemon(_map[i][j].pokemon, Utility::Point(i, j));
+            }
+        }
+    }
+}
+
 // Add a Pokemon to the world. We need this function to keep
 // track of every Pokemon on each team, to tell when all Pokemon on a
 // team have finished moving.
