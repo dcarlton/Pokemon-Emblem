@@ -907,6 +907,21 @@ const XMLElement* XMLNode::FirstChildElement( const char* name ) const
 }
 
 
+const XMLElement* XMLNode::FirstChildElement( const char* name, const char* attributeName, const char* attributeValue ) const
+{
+    for( const XMLNode* node = _firstChild; node; node = node->_next ) {
+        const XMLElement* element = node->ToElement();
+        if ( element &&
+            (!name || XMLUtil::StringEqual( element->Name(), name ) ) &&
+            element->Attribute(attributeName, attributeValue))
+        {
+            return element;
+        }
+    }
+    return 0;
+}
+
+
 const XMLElement* XMLNode::LastChildElement( const char* name ) const
 {
     for( const XMLNode* node = _lastChild; node; node = node->_prev ) {

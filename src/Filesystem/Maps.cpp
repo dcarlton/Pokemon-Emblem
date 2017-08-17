@@ -5,6 +5,7 @@
 
 #include "../Gameplay/Tile.h"
 #include "Maps.h"
+#include "../Utility/Log.h"
 
 
 std::shared_ptr<Gameplay::World> Filesystem::CreateWorld()
@@ -12,21 +13,11 @@ std::shared_ptr<Gameplay::World> Filesystem::CreateWorld()
     tinyxml2::XMLDocument levelFile;
     levelFile.LoadFile("resources/Maps/Tutorial.tmx");
 
-    tinyxml2::XMLDocument terrainFile;
-    terrainFile.LoadFile("resources/Tiles/Terrain.png");
-
-    // GetText() returns a const char*, but strtok aka split can't
-    // take a const char*.
-    const char* constTerrainLayout = levelFile.FirstChildElement("map")->FirstChildElement("layer")->FirstChildElement("data")->GetText();
-    char tempTerrainLayout[8192];
-    std::strcpy(tempTerrainLayout, constTerrainLayout);
-    char* terrainLayout = std::strtok(tempTerrainLayout, ",");
-    terrainLayout; // TODO: Using this variable
-
     std::vector<std::vector<Gameplay::Tile>> map;
     int mapHeight = levelFile.FirstChildElement("map")->IntAttribute("height");
     int mapWidth = levelFile.FirstChildElement("map")->IntAttribute("width");
-
+    int tileWidth = levelFile.FirstChildElement("map")->IntAttribute("tilewidth");
+    int tileHeight = levelFile.FirstChildElement("map")->IntAttribute("tileheight");
     for (int i = 0; i < mapWidth; i++)
     {
         std::vector<Gameplay::Tile> column;
@@ -36,6 +27,26 @@ std::shared_ptr<Gameplay::World> Filesystem::CreateWorld()
         }
 
         map.push_back(column);
+    }
+
+    tinyxml2::XMLDocument pokemonFile;
+    pokemonFile.LoadFile("resources/Maps/Pokemon.tsx");
+
+    const tinyxml2::XMLElement* pokemonElement = levelFile.FirstChildElement("map")->FirstChildElement("objectgroup", "name", "Pokemon")->FirstChildElement("object");
+    for (; pokemonElement != NULL; pokemonElement = pokemonElement->NextSiblingElement("object"))
+    {
+        int pokemonId = pokemonElement->IntAttribute("gid") - 2;
+        int pokemonXPosition = pokemonElement->IntAttribute("x") / tileWidth;
+        int pokemonYPosition = (pokemonElement->IntAttribute("y") - 1) / tileHeight;
+        int pokemonLevel = pokemonElement->FirstChildElement("properties")->FirstChildElement("property", "name", "Level")->IntAttribute("value");
+        char buffer[10];
+        const char* pokemonName = pokemonFile.FirstChildElement("tileset")
+                                            ->FirstChildElement("tile", "id", itoa(pokemonId, buffer, 10))
+                                            ->FirstChildElement("properties")
+                                            ->FirstChildElement("property", "name", "Name")
+                                            ->Attribute("value");
+        
+        map[pokemonXPosition][pokemonYPosition].pokemon = std::make_shared<Gameplay::Pokemon>(pokemonName, pokemonLevel, Gameplay::AllianceEnum::Player);
     }
 
     return std::make_shared<Gameplay::World>(map, Utility::Point(0, 0));

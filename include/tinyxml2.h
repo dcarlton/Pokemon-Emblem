@@ -724,6 +724,8 @@ public:
         return const_cast<XMLElement*>(const_cast<const XMLNode*>(this)->FirstChildElement( name ));
     }
 
+    const XMLElement* FirstChildElement ( const char* name, const char* attributeName, const char* attributeValue) const;
+
     /// Get the last child node, or null if none exists.
     const XMLNode*	LastChild() const						{
         return _lastChild;

@@ -6,6 +6,7 @@
 #include "StateStack.h"
 #include "../Audio/TrackList.h"
 
+#include "../Filesystem/Maps.h"
 
 /*
 Generic constructor that initializes a default world
@@ -69,6 +70,7 @@ void State::PlayerTurnState::moveUpPressed()
  */
 void State::PlayerTurnState::selectButtonPressed()
 {
+    Filesystem::CreateWorld();
     std::shared_ptr<Gameplay::Pokemon> pokemonToSelect = _world->getPokemonUnderCursor();
     if (pokemonToSelect != NULL &&
         !pokemonToSelect->hasMoved &&

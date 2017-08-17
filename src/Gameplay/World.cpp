@@ -207,7 +207,7 @@ void Gameplay::World::moveCursorLeftIfInRange(Utility::Point startingPosition, u
 // Move the cursor to the right, if it doesn't go outside the map.
 void Gameplay::World::moveCursorRight()
 {
-    _cursorPos.x = State::Controller::moveRight(_cursorPos.x, _map[0].size() - 1);
+    _cursorPos.x = State::Controller::moveRight(_cursorPos.x, _map.size() - 1);
 }
 
 // Move the cursor right, only if it stays in the map and doesn't go
