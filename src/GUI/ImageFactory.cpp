@@ -21,7 +21,7 @@ namespace
     const GUI::Image TEST_POKEMON = GUI::Image("resources/Pokemon/TestPokemon.bmp", whiteColorKey, Utility::Point(24, 24));
     const GUI::Image TEST_POKEMON_ALLY = GUI::Image("resources/Pokemon/TestPokemonAlly.bmp", whiteColorKey, Utility::Point(24, 24));
     const GUI::Image TEST_POKEMON_ENEMY = GUI::Image("resources/Pokemon/TestPokemonEnemy.bmp", whiteColorKey, Utility::Point(24, 24));
-    const GUI::Image TEST_TILE = GUI::Image("resources/Tiles/TestTile.bmp", blackColorKey, Utility::Point(24, 24));
+    const GUI::Image TEST_TILE = GUI::Image("resources/Tiles/Terrain.bmp", blackColorKey, Utility::Point(24, 24));
 }
 
 const GUI::Image* GUI::makeImage(GUI::ImageEnum imageEnum)
