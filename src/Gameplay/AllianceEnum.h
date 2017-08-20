@@ -4,10 +4,10 @@
 namespace Gameplay
 {
 
-enum class AllianceEnum
+enum AllianceEnum
 {
-    Player,
-    Enemy
+    Player = 0,
+    Enemy = 1
 };
 
 }

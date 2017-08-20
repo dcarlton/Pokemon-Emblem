@@ -32,6 +32,8 @@ std::shared_ptr<Gameplay::World> Filesystem::CreateWorld()
     tinyxml2::XMLDocument pokemonFile;
     pokemonFile.LoadFile("resources/Maps/Pokemon.tsx");
 
+    std::shared_ptr<Gameplay::World> world = std::make_shared<Gameplay::World>(map, Utility::Point(0, 0));
+
     const tinyxml2::XMLElement* pokemonElement = levelFile.FirstChildElement("map")->FirstChildElement("objectgroup", "name", "Pokemon")->FirstChildElement("object");
     for (; pokemonElement != NULL; pokemonElement = pokemonElement->NextSiblingElement("object"))
     {
@@ -39,6 +41,7 @@ std::shared_ptr<Gameplay::World> Filesystem::CreateWorld()
         int pokemonXPosition = pokemonElement->IntAttribute("x") / tileWidth;
         int pokemonYPosition = (pokemonElement->IntAttribute("y") - 1) / tileHeight;
         int pokemonLevel = pokemonElement->FirstChildElement("properties")->FirstChildElement("property", "name", "Level")->IntAttribute("value");
+        Gameplay::AllianceEnum pokemonAlliance = static_cast<Gameplay::AllianceEnum>(pokemonElement->FirstChildElement("properties")->FirstChildElement("property", "name", "Alliance")->IntAttribute("value"));
         char buffer[10];
         const char* pokemonName = pokemonFile.FirstChildElement("tileset")
                                             ->FirstChildElement("tile", "id", itoa(pokemonId, buffer, 10))
@@ -46,8 +49,9 @@ std::shared_ptr<Gameplay::World> Filesystem::CreateWorld()
                                             ->FirstChildElement("property", "name", "Name")
                                             ->Attribute("value");
         
-        map[pokemonXPosition][pokemonYPosition].pokemon = std::make_shared<Gameplay::Pokemon>(pokemonName, pokemonLevel, Gameplay::AllianceEnum::Player);
+        std::shared_ptr<Gameplay::Pokemon> pokemon = std::make_shared<Gameplay::Pokemon>(pokemonName, pokemonLevel, pokemonAlliance);
+        world->addPokemon(pokemon, Utility::Point(pokemonXPosition, pokemonYPosition));
     }
 
-    return std::make_shared<Gameplay::World>(map, Utility::Point(0, 0));
+    return world;
 }

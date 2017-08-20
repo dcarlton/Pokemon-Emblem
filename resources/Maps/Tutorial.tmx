@@ -24,11 +24,13 @@
  <objectgroup name="Pokemon">
   <object id="26" gid="2" x="0" y="32" width="32" height="32">
    <properties>
+    <property name="Alliance" type="int" value="0"/>
     <property name="Level" type="int" value="3"/>
    </properties>
   </object>
   <object id="27" gid="110" x="32" y="96" width="32" height="32">
    <properties>
+    <property name="Alliance" type="int" value="1"/>
     <property name="Level" type="int" value="3"/>
    </properties>
   </object>
