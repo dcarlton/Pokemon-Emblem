@@ -9,10 +9,10 @@ enum class ImageEnum
     GameplayCursor,
     MenuItem,
     PokemonSpriteSheet,
+    Terrain,
     TestPokemon,
     TestPokemonEnemy,
-    TestPokemonAlly,
-    TestTile
+    TestPokemonAlly
 };
 
 }

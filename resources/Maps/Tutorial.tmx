@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="10" height="15" tilewidth="32" tileheight="32" nextobjectid="29">
  <tileset firstgid="1" source="Terrain.tsx"/>
- <tileset firstgid="2" source="Pokemon.tsx"/>
+ <tileset firstgid="3" source="Pokemon.tsx"/>
  <layer name="Terrain" width="10" height="15">
   <data encoding="csv">
-1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,
+1,2,2,2,1,1,1,1,1,1,
+2,2,1,1,1,1,1,1,1,1,
 1,1,1,1,1,1,1,1,1,1,
 1,1,1,1,1,1,1,1,1,1,
 1,1,1,1,1,1,1,1,1,1,
@@ -22,13 +22,13 @@
 </data>
  </layer>
  <objectgroup name="Pokemon">
-  <object id="26" gid="2" x="0" y="32" width="32" height="32">
+  <object id="26" gid="3" x="0" y="32" width="32" height="32">
    <properties>
     <property name="Alliance" type="int" value="0"/>
     <property name="Level" type="int" value="3"/>
    </properties>
   </object>
-  <object id="27" gid="110" x="32" y="96" width="32" height="32">
+  <object id="27" gid="111" x="32" y="96" width="32" height="32">
    <properties>
     <property name="Alliance" type="int" value="1"/>
     <property name="Level" type="int" value="3"/>

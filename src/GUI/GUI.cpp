@@ -213,7 +213,13 @@ void GUI::drawText(std::string text, Utility::Point drawPosition, Utility::Point
 // Draw the Pokemon and terrain of a tile.
 void GUI::drawTile(Gameplay::Tile tile, Utility::Point position)
 {
-    GUI::drawImage(GUI::getImage(GUI::ImageEnum::TestTile), position);
+    std::shared_ptr<SDL_Rect> imageRect = std::make_shared<SDL_Rect>();
+    imageRect->x = TILE_WIDTH * tile.terrain.xImageIndex;
+    imageRect->y = TILE_HEIGHT * tile.terrain.yImageIndex;
+    imageRect->w = TILE_WIDTH;
+    imageRect->h = TILE_HEIGHT;
+
+    GUI::drawImage(GUI::getImage(GUI::ImageEnum::Terrain), imageRect.get(), position);
     if (tile.pokemon)
         GUI::drawPokemon(tile.pokemon, position);
 }
