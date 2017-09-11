@@ -162,6 +162,12 @@ std::shared_ptr<Gameplay::Pokemon> Gameplay::World::getPokemonUnderCursor()
     return _map[_cursorPos.x][_cursorPos.y].pokemon;
 }
 
+// Return the terrain at the given coordinate.
+Gameplay::Terrain Gameplay::World::getTerrainFromPosition(Utility::Point position)
+{
+    return _map[position.x][position.y].terrain;
+}
+
 // Returns true if all Pokemon with the Player alliance have moved this turn.
 bool Gameplay::World::hasAllPlayerPokemonMoved()
 {

@@ -9,7 +9,7 @@
 namespace Filesystem
 {
 
-std::shared_ptr<Gameplay::World> CreateWorld();
+std::shared_ptr<Gameplay::World> createWorld();
 
 }
 

@@ -2,6 +2,7 @@
 
 #include "Battle.h"
 #include "../Utility/Point.h"
+#include "Terrain.h"
 
 
 namespace
@@ -13,29 +14,34 @@ namespace
         std::shared_ptr<Gameplay::Pokemon> attackingPokemon = world->getPokemonFromPosition(attackerPosition);
         std::shared_ptr<Gameplay::Pokemon> targetPokemon = world->getPokemonFromPosition(targetPosition);
 
-        if (attackerPosition.distanceFrom(targetPosition) <= move.getRange() &&
-            (rand() % 100) < ((int)move.getAccuracy() + (int)attackingPokemon->stats.getAccuracy() - (int)targetPokemon->stats.getEvasion()))
+        if (attackerPosition.distanceFrom(targetPosition) <= move.getRange())
         {
-            if (move.doesDamage)
+            Gameplay::Terrain targetTerrain = world->getTerrainFromPosition(targetPosition);
+            int accuracy = (int)move.getAccuracy() + (int)attackingPokemon->stats.getAccuracy();
+            int evasion = (int)targetPokemon->stats.getEvasion() + targetTerrain.getAvoid();
+            if ((rand() % 100) < (accuracy - evasion))
             {
-                targetPokemon->stats.takeDamage((attackingPokemon->stats.getAttack() + move.getBasePower()) - targetPokemon->stats.getDefense());
-            }
-            move.runSideEffects(attackingPokemon, targetPokemon);
+                if (move.doesDamage)
+                {
+                    int power = attackingPokemon->stats.getAttack() + move.getBasePower();
+                    int defense = targetPokemon->stats.getDefense() + targetTerrain.getDefense();
+                    targetPokemon->stats.takeDamage(power - defense);
+                }
+                move.runSideEffects(attackingPokemon, targetPokemon);
 
-            if (targetPokemon->stats.getCurrentHP() <= 0)
-            {
-                world->pokemonFainted(targetPosition);
-                return true;
-            }
-            else
-            {
-                return false;
+                if (targetPokemon->stats.getCurrentHP() <= 0)
+                {
+                    world->pokemonFainted(targetPosition);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 }
 

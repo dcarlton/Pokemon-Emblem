@@ -10,7 +10,7 @@ GUI::Image::Image()
 
 GUI::Image::Image(std::string imageFilename, Utility::Color rgb, Utility::Point sizeArg)
 {
-    SDL_FreeSurface(surface);
+    //SDL_FreeSurface(surface);
     *surface = *SDL_LoadBMP(imageFilename.c_str());
     if (!surface)
     {

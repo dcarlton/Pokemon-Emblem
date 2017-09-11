@@ -10,11 +10,16 @@ namespace Gameplay
 class Terrain
 {
 public:
-    int xImageIndex;
-    int yImageIndex;
-
     Terrain();
-    Terrain(Utility::Point imageOffset);
+    Terrain(Utility::Point imageIndex, int avoid, int defense);
+    int getAvoid();
+    int getDefense();
+    Utility::Point getImageIndex();
+
+private:
+    int _avoid;
+    int _defense;
+    Utility::Point _imageIndex;
 };
 
 }

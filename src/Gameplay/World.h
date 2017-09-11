@@ -8,6 +8,7 @@
 #include "../GUI/GUI.h"
 #include "../Utility/Point.h"
 #include "Pokemon.h"
+#include "Terrain.h"
 #include "Tile.h"
 
 namespace Gameplay
@@ -28,6 +29,7 @@ public:
     std::vector<Utility::Point> getPointsInRange(Utility::Point startingPosition, uint32 range);
     std::shared_ptr<Pokemon> getPokemonFromPosition(Utility::Point position);
     std::shared_ptr<Pokemon> getPokemonUnderCursor();
+    Gameplay::Terrain getTerrainFromPosition(Utility::Point position);
     bool hasAllPlayerPokemonMoved();
     void moveCursorDown();
     void moveCursorDownIfInRange(Utility::Point startingPosition, unsigned int maxRange);

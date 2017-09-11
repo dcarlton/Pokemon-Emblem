@@ -7,4 +7,10 @@
    <property name="Defense" type="int" value="0"/>
   </properties>
  </tile>
+ <tile id="1">
+  <properties>
+   <property name="Avoid" type="int" value="50"/>
+   <property name="Defense" type="int" value="2"/>
+  </properties>
+ </tile>
 </tileset>

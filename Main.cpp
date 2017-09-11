@@ -65,7 +65,7 @@ void loadGame()
 
 void gameLoop()
 {
-    std::shared_ptr<Gameplay::World> world = Filesystem::CreateWorld();
+    std::shared_ptr<Gameplay::World> world = Filesystem::createWorld();
     std::shared_ptr<State::PlayerTurnState> tempState = {std::make_shared<State::PlayerTurnState> (world)};
     State::addState(tempState);
     int frameRate = 0;

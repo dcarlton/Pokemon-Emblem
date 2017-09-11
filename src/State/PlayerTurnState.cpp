@@ -70,7 +70,6 @@ void State::PlayerTurnState::moveUpPressed()
  */
 void State::PlayerTurnState::selectButtonPressed()
 {
-    Filesystem::CreateWorld();
     std::shared_ptr<Gameplay::Pokemon> pokemonToSelect = _world->getPokemonUnderCursor();
     if (pokemonToSelect != NULL &&
         !pokemonToSelect->hasMoved &&
