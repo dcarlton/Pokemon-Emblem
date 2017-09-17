@@ -2463,5 +2463,17 @@
 		"weightkg": 4,
 		"color": "Pink",
 		"eggGroups": ["Undiscovered"]
+	},
+	"maletrainer": {
+		"num": 152,
+		"species": "Red",
+		"types": ["Normal"],
+		"gender": "M",
+		"baseStats": {"hp": 60, "atk": 0, "def": 80, "spa": 0, "spd": 80, "spe": 60},
+		"catchRate": 0,
+		"heightm": 1.5,
+		"weightkg": 30,
+		"color": "Red",
+		"eggGroups": ["Undiscovered"]
 	}
 }
