@@ -159,6 +159,10 @@ std::shared_ptr<Gameplay::Pokemon> Gameplay::World::getPokemonFromPosition(Utili
 // Return a pointer to the Pokemon under the map cursor.
 std::shared_ptr<Gameplay::Pokemon> Gameplay::World::getPokemonUnderCursor()
 {
+    if (_cursorPos.x >= _map.size() || _cursorPos.y >= _map[0].size())
+    {
+        return NULL;
+    }
     return _map[_cursorPos.x][_cursorPos.y].pokemon;
 }
 
