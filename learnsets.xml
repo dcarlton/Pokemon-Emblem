@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pokemon id="1" name="bulbasaur">
+    <levelup level="1" move="tackle"/>
+    <levelup level="2" move="growl"/>
+</pokemon>
+<pokemon id="4" name="charmander">
+    <levelup level="1" move="scratch"/>
+    <levelup level="1" move="growl"/>
+</pokemon>
+<pokemon id="152" name="maletrainer">
+    <levelup level="1" move="tackle"/>
+    <levelup level="5" move="tailwhip"/>
+</pokemon>

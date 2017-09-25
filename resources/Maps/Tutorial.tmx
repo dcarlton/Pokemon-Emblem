@@ -37,7 +37,7 @@
   <object id="33" gid="5439" x="32" y="160" width="32" height="32">
    <properties>
     <property name="Alliance" type="int" value="0"/>
-    <property name="Level" type="int" value="2"/>
+    <property name="Level" type="int" value="5"/>
    </properties>
   </object>
  </objectgroup>

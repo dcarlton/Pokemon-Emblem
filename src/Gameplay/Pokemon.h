@@ -1,6 +1,7 @@
 #ifndef POKEMON_H
 #define POKEMON_H
 
+#include <array>
 #include <memory>
 #include <string>
 
@@ -20,7 +21,7 @@ public:
 	AllianceEnum alliance = AllianceEnum::Enemy;
     AnimationState animationState = AnimationState::NEUTRALDOWN;
     bool hasMoved = false;
-    std::shared_ptr<Move> moves[4];
+    std::array<std::shared_ptr<Move>, 4> moves;
     std::string name;
     unsigned int num;
     PokemonStats stats;

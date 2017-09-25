@@ -2,12 +2,21 @@
 #include <sstream>
 
 #include "json.hpp"
+#include "tinyxml2.h"
 
+#include "../Utility/Log.h"
 #include "Pokedex.h"
 
 
 namespace
 {
+    std::shared_ptr<tinyxml2::XMLDocument> initLearnsetsFile()
+    {
+        std::shared_ptr<tinyxml2::XMLDocument> learnsetsFile = std::make_shared<tinyxml2::XMLDocument>();
+        learnsetsFile->LoadFile("learnsets.xml");
+        return learnsetsFile;
+    }
+    
     // Read info on every Pokemon from the file pokedex.json
     nlohmann::json initPokedex()
     {
@@ -17,6 +26,7 @@ namespace
         return nlohmann::json::parse(tempStream.str());
     }
 
+    std::shared_ptr<tinyxml2::XMLDocument> learnsetsFile = initLearnsetsFile();
     nlohmann::json pokedex = initPokedex();
 }
 
@@ -50,6 +60,33 @@ Filesystem::Pokedex::BaseStats Filesystem::Pokedex::getEvolvedBaseStats(std::str
         name = pokedex[name]["evos"][0];
     }
 }
+
+std::array<std::shared_ptr<Gameplay::Move>, 4> Filesystem::Pokedex::getMoves(std::string pokemonName, unsigned int level)
+{
+    std::array<std::shared_ptr<Gameplay::Move>, 4> moves;
+
+    const tinyxml2::XMLElement* pokemonElement = learnsetsFile->FirstChildElement("pokemon", "name", pokemonName.c_str());
+    if (pokemonElement == NULL)
+    {
+        Utility::log("Couldn't find the Pokemon " + pokemonName + " in the learnsets file.");
+        return moves;
+    }
+
+    int i = 0;
+    for (const tinyxml2::XMLElement* moveElement = pokemonElement->FirstChildElement("levelup"); moveElement != NULL; moveElement = moveElement->NextSiblingElement("levelup"))
+    {
+        if (moveElement->UnsignedAttribute("level") > level)
+        {
+            break;
+        }
+
+        moves[i] = std::make_shared<Gameplay::Move>(moveElement->Attribute("move"));
+        i = (++i) % 4;
+    }
+
+    return moves;
+}
+
 
 // Get a Pokemon's Pokedex number from the Pokedex.
 unsigned int Filesystem::Pokedex::getNum(std::string name)
