@@ -1,9 +1,11 @@
+#include <algorithm>
 #include <fstream>
 #include <sstream>
 #include <string>
 
 #include "json.hpp"
 
+#include "../Utility/Log.h"
 #include "Move.h"
 #include "Pokemon.h"
 
@@ -50,18 +52,32 @@ Gameplay::Move::Move(std::string name)
 
     // TODO: Catch errors.
     _accuracy = movesInfo[name]["accuracy"];
-    _basePower = ((unsigned int)movesInfo[name]["basePower"]) / 10;
-    doesDamage = _basePower > 0;
+    _alwaysHits = movesInfo[name]["alwaysHits"];
+    _basePower = (unsigned int)movesInfo[name]["basePower"];
+    _damageType = movesInfo[name]["damageType"];
     _name = movesInfo[name]["name"];
     
     // Determine range.
     std::string targetType = movesInfo[name]["target"];
     if (targetType == "normal")
+    {
         _range = 1;
+        _target = TARGET::ENEMY;
+    }
     else if (targetType == "allAdjacentFoes")
+    {
+        // TODO: This should hit everyone within a radius, instead of one targeted foe.
         _range = 2;
+        _target = TARGET::ENEMY;
+    }
+    else if (targetType == "adjacentAlly")
+    {
+        _range = 1;
+        _target = TARGET::ALLY;
+    }
     else
         _range = 0;
+
 
     // Determine if the move lowers the opponent's stats.
     if (movesInfo[name].count("targetBoosts") == 1)
@@ -101,6 +117,36 @@ void Gameplay::Move::addTargetBoostSideEffect(Gameplay::Stat stat, int statBoost
     });
 }
 
+bool Gameplay::Move::alwaysHits()
+{
+    return _alwaysHits;
+}
+
+int Gameplay::Move::calculateDamage(int attack, int defense)
+{
+    if (_damageType == "noDamage")
+    {
+        // This move does no damage.
+        return 0;
+    }
+    else if (_damageType == "basePower")
+    {
+        // This move does damage based on its power, the user's attack,
+        // and the target's defense.
+        return std::max(0, (attack + (int)_basePower) - defense);
+    }
+    else if (_damageType == "rawHealing")
+    {
+        // This move does a percentage of damage based on the target's health.
+        return -(int)_basePower;
+    }
+    else
+    {
+        Utility::log("Unknown damage type used: " + _damageType);
+        return 0;
+    }
+}
+
 /// Using private variables with get methods because they shouldn't be changed
 /// after the constructor sets them.
 
@@ -127,6 +173,11 @@ std::string Gameplay::Move::getName()
 unsigned int Gameplay::Move::getRange()
 {
     return _range;
+}
+
+unsigned int Gameplay::Move::getTarget()
+{
+    return _target;
 }
 
 // Run all side effects (Non-damaging effects) of this move on the

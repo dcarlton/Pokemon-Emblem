@@ -69,7 +69,7 @@ void State::PokemonActionState::initMenuItems()
 {
 	_menuTextToAction["Wait"] = &waitAction;
 
-	if (isEnemyInRange())
+	if (isAnyoneInRange())
 	{
 		_menuTextToAction["Attack"] = &attackAction;
 	}
@@ -77,10 +77,19 @@ void State::PokemonActionState::initMenuItems()
 
 // Returns true if the selected Pokemon has an enemy within
 // range of one of its attacks.
-bool State::PokemonActionState::isEnemyInRange()
+bool State::PokemonActionState::isAnyoneInRange()
 {
-	int distanceFromEnemy = _world->distanceFromClosestEnemy(_originalPos, _world->getPokemonUnderCursor()->alliance);
-	return distanceFromEnemy > 0 && (unsigned int)distanceFromEnemy <= _world->getPokemonUnderCursor()->getMaxRange();
+	std::shared_ptr<Gameplay::Pokemon> pokemon = _world->getPokemonUnderCursor();
+	Gameplay::AllianceEnum pokemonAlliance = pokemon->alliance;
+	Gameplay::AllianceEnum opposingAlliance = pokemon->getOpposingAlliance();
+
+	int maxAllyRange = pokemon->getMaxRange(pokemonAlliance);
+	int maxEnemyRange = pokemon->getMaxRange(opposingAlliance);
+	int distanceFromAlly = _world->distanceFromClosestPokemon(_originalPos, pokemonAlliance);
+	int distanceFromEnemy = _world->distanceFromClosestPokemon(_originalPos, opposingAlliance);
+
+	return (distanceFromAlly > 0 && distanceFromAlly <= maxAllyRange) ||
+	       (distanceFromEnemy > 0 && distanceFromEnemy <= maxEnemyRange);
 }
 
 // Called when the mouse moves. Set the menu cursor to the mouse's location.

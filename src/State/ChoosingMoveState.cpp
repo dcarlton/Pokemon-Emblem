@@ -11,22 +11,25 @@ State::ChoosingMoveState::ChoosingMoveState(State* prevState, std::shared_ptr<Ga
     _prevState = prevState;
     _world = world;
 
-    int minRange = _world->distanceFromClosestEnemy(_world->getCursorPos(), _world->getPokemonUnderCursor()->alliance);
-    if (minRange < 1 || minRange > 4)
-    {
-        Utility::log("Can't choose a move for this Pokemon, it has no attacks, or too many.");
-        exitState();
-    }
+    std::shared_ptr<Gameplay::Pokemon> selectedPokemon = _world->getPokemonUnderCursor();
+    int minAllyRange = _world->distanceFromClosestPokemon(_world->getCursorPos(), selectedPokemon->alliance);
+    int minEnemyRange = _world->distanceFromClosestPokemon(_world->getCursorPos(), selectedPokemon->getOpposingAlliance());
+    bool foundAlly = minAllyRange > -1;
+    bool foundEnemy = minEnemyRange > -1;
 
     _numMenuItems = 0;
-    std::shared_ptr<Gameplay::Pokemon> selectedPokemon = _world->getPokemonUnderCursor();
     for (int i = 0; i < 4; i++)
     {
         std::shared_ptr<Gameplay::Move> move = selectedPokemon->moves[i];
-        if (move != nullptr && move->getRange() >= (unsigned int)minRange)
+        if (move != nullptr)
         {
-            _moves[_numMenuItems] = move;
-            _numMenuItems++;
+            if ((move->getTarget() & Gameplay::TARGET::SELF) ||
+                (move->getTarget() & Gameplay::TARGET::ALLY && foundAlly && (int)move->getRange() >= minAllyRange) ||
+                (move->getTarget() & Gameplay::TARGET::ENEMY && foundEnemy && (int)move->getRange() >= minEnemyRange))
+            {
+                _moves[_numMenuItems] = move;
+                _numMenuItems++;
+            }
         }
     }
 }

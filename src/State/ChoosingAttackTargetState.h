@@ -30,6 +30,8 @@ protected:
     Utility::Point _originalPos;
     Gameplay::Move _selectedMove;
     std::shared_ptr<Gameplay::World> _world;
+
+    bool isValidTarget(std::shared_ptr<Gameplay::Pokemon> attackingPokemon, std::shared_ptr<Gameplay::Pokemon> targetPokemon);
 };
 
 }

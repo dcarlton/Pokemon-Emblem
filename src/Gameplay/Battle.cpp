@@ -19,14 +19,14 @@ namespace
             Gameplay::Terrain targetTerrain = world->getTerrainFromPosition(targetPosition);
             int accuracy = (int)move.getAccuracy() + (int)attackingPokemon->stats.getAccuracy();
             int evasion = (int)targetPokemon->stats.getEvasion() + targetTerrain.getAvoid();
-            if ((rand() % 100) < (accuracy - evasion))
+
+            if (move.alwaysHits() || (rand() % 100) < (accuracy - evasion))
             {
-                if (move.doesDamage)
-                {
-                    int power = attackingPokemon->stats.getAttack() + move.getBasePower();
-                    int defense = targetPokemon->stats.getDefense() + targetTerrain.getDefense();
-                    targetPokemon->stats.takeDamage(power - defense);
-                }
+                int attack = attackingPokemon->stats.getAttack();
+                int defense = targetPokemon->stats.getDefense() + targetTerrain.getDefense();
+                int damage = move.calculateDamage(attack, defense);  // Note that damage can be negative if the move heals its target.
+                targetPokemon->stats.takeDamage(damage);
+                
                 move.runSideEffects(attackingPokemon, targetPokemon);
 
                 if (targetPokemon->stats.getCurrentHP() <= 0)

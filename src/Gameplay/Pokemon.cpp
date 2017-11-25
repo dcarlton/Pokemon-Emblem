@@ -15,13 +15,19 @@ Gameplay::Pokemon::Pokemon(std::string pokemonName, unsigned int level, Alliance
     stats = Gameplay::PokemonStats(name, level);
 }
 
-// Returns the range of the longest ranged move this Pokemon knows.
-unsigned int Gameplay::Pokemon::getMaxRange()
+// Returns the range of the longest ranged move this Pokemon knows that
+// hits the target alliance.
+int Gameplay::Pokemon::getMaxRange(Gameplay::AllianceEnum targetAlliance)
 {
-    unsigned int maxRange = 0;
+    int allianceBitwiseFlag = alliance == targetAlliance ? Gameplay::TARGET::ALLY : Gameplay::TARGET::ENEMY;
+    int maxRange = -1;
+
 	for (unsigned int i = 0; i < getNumMoves(); i++)
 	{
-		maxRange = std::max(maxRange, moves[i]->getRange());
+        if (moves[i]->getTarget() & allianceBitwiseFlag)
+        {
+            maxRange = std::max(maxRange, (int)moves[i]->getRange());
+        }
 	}
 
     return maxRange;
@@ -41,6 +47,12 @@ unsigned int Gameplay::Pokemon::getNumMoves()
     }
 
     return 0;
+}
+
+// Returns the alliance that this Pokemon is not on.
+Gameplay::AllianceEnum Gameplay::Pokemon::getOpposingAlliance()
+{
+    return (Gameplay::AllianceEnum)((~alliance) & 1);  // Turns 0 to 1 and vice versa.
 }
 
 // Call at the start of the Pokemon's turn to set hasMoved and

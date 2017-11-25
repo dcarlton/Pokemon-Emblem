@@ -41,6 +41,29 @@ void State::ChoosingAttackTargetState::draw()
     _world->drawWorld();
 }
 
+// Return true if the attacking Pokemon can target the defending Pokemon with this move, based on their alliances.
+bool State::ChoosingAttackTargetState::isValidTarget(std::shared_ptr<Gameplay::Pokemon> attackingPokemon,
+                                                     std::shared_ptr<Gameplay::Pokemon> targetPokemon)
+{
+    unsigned int validTargetFlags = _selectedMove.getTarget();
+    if (validTargetFlags & Gameplay::TARGET::SELF && attackingPokemon == targetPokemon)
+    {
+        return true;
+    }
+    else if (validTargetFlags & Gameplay::TARGET::ALLY && attackingPokemon->alliance == targetPokemon->alliance)
+    {
+        return true;
+    }
+    else if (validTargetFlags & Gameplay::TARGET::ENEMY && attackingPokemon->alliance != targetPokemon->alliance)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 // Called when the mouse moves to set the cursor to wherever
 // the mouse is currently.
 void State::ChoosingAttackTargetState::mouseMoved(int x, int y)
@@ -81,7 +104,7 @@ void State::ChoosingAttackTargetState::selectButtonPressed()
     std::shared_ptr<Gameplay::Pokemon> attackingPokemon = _world->getPokemonFromPosition(_originalPos);
     std::shared_ptr<Gameplay::Pokemon> targetPokemon = _world->getPokemonUnderCursor();
 
-    if (targetPokemon != nullptr && targetPokemon->alliance != attackingPokemon->alliance)
+    if (targetPokemon != nullptr && isValidTarget(attackingPokemon, targetPokemon))
     {
         Gameplay::fight(_world, _originalPos, _selectedMove, _world->getCursorPos());
         Audio::playSoundEffect(Audio::SoundEffect::TestSoundEffect);

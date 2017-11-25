@@ -247,13 +247,16 @@ void Gameplay::PokemonStats::setStatBoost(int* currentStatBoost, const int newSt
 }
 
 // Remove the amount of damage taken from this Pokemon's current HP.
-// Don't take any damage if the value is negative.
+// Negative damage heals the Pokemon.
 void Gameplay::PokemonStats::takeDamage(int damage)
 {
-    if (damage < 0)
-        damage = 0;
-    else if (damage > (int)currentHP)
-        damage = currentHP;
-
     currentHP -= damage;
+    if (currentHP < 0)
+    {
+        currentHP = 0;
+    }
+    else if (currentHP > (int)maxHP)
+    {
+        currentHP = maxHP;
+    }
 }
