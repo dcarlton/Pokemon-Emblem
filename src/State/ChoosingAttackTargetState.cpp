@@ -50,7 +50,7 @@ bool State::ChoosingAttackTargetState::isValidTarget(std::shared_ptr<Gameplay::P
     {
         return true;
     }
-    else if (validTargetFlags & Gameplay::TARGET::ALLY && attackingPokemon->alliance == targetPokemon->alliance)
+    else if (validTargetFlags & Gameplay::TARGET::ALLY && attackingPokemon->alliance == targetPokemon->alliance && attackingPokemon != targetPokemon)
     {
         return true;
     }
