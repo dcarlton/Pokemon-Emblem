@@ -52,7 +52,7 @@ unsigned int Gameplay::PokemonStats::getAccuracy()
 
 int Gameplay::PokemonStats::getAttack()
 {
-    return attack + attackBoost;
+    return std::max(0, attack + attackBoost);
 }
 
 int Gameplay::PokemonStats::getCurrentHP()
@@ -62,7 +62,7 @@ int Gameplay::PokemonStats::getCurrentHP()
 
 int Gameplay::PokemonStats::getDefense()
 {
-    return defense + defenseBoost;
+    return std::max(0, defense + defenseBoost);
 }
 
 unsigned int Gameplay::PokemonStats::getEvasion()
@@ -97,7 +97,7 @@ unsigned int Gameplay::PokemonStats::getSkill()
 
 int Gameplay::PokemonStats::getSpeed()
 {
-    return speed + speedBoost;
+    return std::max(0, speed + speedBoost);
 }
 
 // Level up the stats one or more times, using the growth rate of

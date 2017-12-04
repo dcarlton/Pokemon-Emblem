@@ -122,6 +122,36 @@ bool Gameplay::Move::alwaysHits()
     return _alwaysHits;
 }
 
+// Return the accuracy of the attacker using this move against the defender
+// when the defender is standing on the given terrain. Accuracy is 0-100
+// representing 0%-100%.
+int Gameplay::Move::calculateAccuracy(std::shared_ptr<Gameplay::Pokemon> attacker, std::shared_ptr<Gameplay::Pokemon> defender, Gameplay::Terrain terrain)
+{
+    int accuracy = (int)getAccuracy() + (int)attacker->stats.getAccuracy();
+    int evasion = (int)defender->stats.getEvasion() + terrain.getAvoid();
+    int finalAccuracy = accuracy - evasion;
+
+    if (finalAccuracy > 100)
+    {
+        return 100;
+    }
+    else if (finalAccuracy < 0)
+    {
+        return 0;
+    }
+    else
+    {
+        return finalAccuracy;
+    }
+}
+
+int Gameplay::Move::calculateDamage(std::shared_ptr<Gameplay::Pokemon> attacker, std::shared_ptr<Gameplay::Pokemon> defender, Gameplay::Terrain terrain)
+{
+    int attack = attacker->stats.getAttack();
+    int defense = defender->stats.getDefense() + terrain.getDefense();
+    return calculateDamage(attack, defense);
+}
+
 int Gameplay::Move::calculateDamage(int attack, int defense)
 {
     if (_damageType == "noDamage")
@@ -145,6 +175,24 @@ int Gameplay::Move::calculateDamage(int attack, int defense)
         Utility::log("Unknown damage type used: " + _damageType);
         return 0;
     }
+}
+
+bool Gameplay::Move::canTarget(std::shared_ptr<Gameplay::Pokemon> attacker, std::shared_ptr<Gameplay::Pokemon> defender)
+{
+    if (attacker->alliance == defender->alliance && _target & TARGET::ALLY && attacker != defender)
+    {
+        return true;
+    }
+    else if (attacker->alliance != defender->alliance && _target & TARGET::ENEMY)
+    {
+        return true;
+    }
+    else if (_target & TARGET::SELF && attacker == defender)
+    {
+        return true;
+    }
+
+    return false;
 }
 
 /// Using private variables with get methods because they shouldn't be changed

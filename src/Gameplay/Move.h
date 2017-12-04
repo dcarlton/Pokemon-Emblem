@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "StatEnum.h"
+#include "Terrain.h"
 
 
 namespace Gameplay
@@ -31,7 +32,10 @@ public:
     Move();
     Move(std::string name);
     bool alwaysHits();
+    int calculateAccuracy(std::shared_ptr<Pokemon> attacker, std::shared_ptr<Pokemon> defender, Terrain terrain);
+    int calculateDamage(std::shared_ptr<Pokemon> attacker, std::shared_ptr<Pokemon> defender, Terrain terrain);
     int calculateDamage(int attack, int defense);
+    bool canTarget(std::shared_ptr<Pokemon> attacker, std::shared_ptr<Pokemon> defender);
     unsigned int getAccuracy();
     unsigned int getBasePower();
     std::string getName();

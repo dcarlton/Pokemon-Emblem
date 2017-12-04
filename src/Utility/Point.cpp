@@ -32,6 +32,18 @@ bool Utility::Point::operator!=(const Utility::Point& rhs)
     return !(*this == rhs);
 }
 
+Utility::Point Utility::Point::operator+(const Point& rhs)
+{
+    return Utility::Point(x + rhs.x, y + rhs.y);
+}
+
+Utility::Point Utility::Point::operator+=(const Point& rhs)
+{
+    x += rhs.x;
+    y += rhs.y;
+    return *this;
+}
+
 // Subtraction. Will probably fail spectacularly if the second
 // point is larger.
 Utility::Point Utility::Point::operator-(const Point& rhs)
@@ -49,6 +61,13 @@ Utility::Point Utility::Point::operator-=(const Point& rhs)
 Utility::Point Utility::Point::operator*(const uint32 rhs)
 {
     return Utility::Point(x * rhs, y * rhs);
+}
+
+// Assuming this object is the size of a map, return
+// true if the given point parameter is located in the map.
+bool Utility::Point::contains(const Utility::Point& rhs)
+{
+    return rhs.x >= 0 && rhs.y >= 0 && rhs.x < x && rhs.y < y;
 }
 
 // Returns the distance from this point to the parameter.
@@ -79,6 +98,7 @@ std::vector<Utility::Point> Utility::Point::getPointsWithinDistance(uint32 dista
         }
     }
 
+    // TODO: Does this add itself to the list?
     return pointsWithinDistance;
 }
 

@@ -21,10 +21,13 @@ public:
     Point operator=(const Point& rhs);
     bool operator==(const Point& rhs);
     bool operator!=(const Point& rhs);
+    Point operator+(const Point& rhs);
+    Point operator+=(const Point& rhs);
     Point operator-(const Point& rhs);
     Point operator-=(const Point& rhs);
     Point operator*(const uint32 rhs);
 
+    bool contains(const Point& rhs);
     uint32 distanceFrom(const Point& rhs);
     std::vector<Point> getPointsWithinDistance(uint32 distance);
     std::string to_string();
