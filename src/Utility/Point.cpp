@@ -32,6 +32,18 @@ bool Utility::Point::operator!=(const Utility::Point& rhs)
     return !(*this == rhs);
 }
 
+Utility::Point Utility::Point::operator+(const Point& rhs)
+{
+    return Utility::Point(x + rhs.x, y + rhs.y);
+}
+
+Utility::Point Utility::Point::operator+=(const Point& rhs)
+{
+    x += rhs.x;
+    y += rhs.y;
+    return *this;
+}
+
 // Subtraction. Will probably fail spectacularly if the second
 // point is larger.
 Utility::Point Utility::Point::operator-(const Point& rhs)
