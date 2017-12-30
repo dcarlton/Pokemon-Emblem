@@ -2,23 +2,27 @@
 #define TUPLE_H
 
 
-template class T1;
-template class T2;
-
 namespace Utility
 {
 
+template <class T1, class T2>
 class Tuple
 {
+public:
     T1 first;
     T2 second;
+
+    // It needed a default constructor, so sayeth the Great Compiler
+    Tuple()
+    {
+    }
 
     Tuple(T1 first, T2 second)
     {
         this->first = first;
         this->second = second;
     }
-}
+};
 
 }
 

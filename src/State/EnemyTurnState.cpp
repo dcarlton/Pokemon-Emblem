@@ -1,10 +1,20 @@
-#include <vector>
+#include <algorithm>
+#include <array>
+#include <queue>
 
 #include "../Gameplay/Battle.h"
 #include "EnemyTurnState.h"
+#include "../Gameplay/Move.h"
 #include "PlayerTurnState.h"
 #include "../Gameplay/Pokemon.h"
 #include "StateStack.h"
+#include "../Utility/Tuple.h"
+
+
+State::EnemyTurnState::AttackPlan::AttackPlan(Gameplay::Move& move, std::vector<std::vector<Utility::Point>> movementPaths, Utility::Point targetPosition)
+    : move(move), movementPaths(movementPaths), targetPosition(targetPosition)
+{
+}
 
 
 // Generic constructor needed to inherit from State.
@@ -24,15 +34,6 @@ void State::EnemyTurnState::draw()
     _world->drawWorld();
 }
 
-std::vector<State::EnemyTurnState::AttackPlan> State::EnemyTurnState::findAllPossibleAttackPlans(Utility::Point position, std::array<std::shared_ptr<Gameplay::Move>, 4> moves, int numMoves)
-{
-    // TODO: Implement
-    position;
-    moves;
-    numMoves;
-    return std::vector<AttackPlan>();
-}
-
 std::vector<Utility::Point> State::EnemyTurnState::findPathToNearestOpponent(Utility::Point position)
 {
     // TODO: Implement
@@ -42,270 +43,138 @@ std::vector<Utility::Point> State::EnemyTurnState::findPathToNearestOpponent(Uti
 
 // TODO: Account for Pokemon occupying each space
 // Possibly by just returning the table and allowing for more complex calculations elsewhere
-psuedocode round3Baybeeeeeeeeeee(Utility::Point startPos, moves[4], numMoves, speed, attackingAlliance)
+std::vector<State::EnemyTurnState::AttackPlan> State::EnemyTurnState::findAllPossibleAttackPlans(Utility::Point startPos)
 {
-    maxRange = 0
-    foreach (move)
-        maxRange = max(maxRange, move.range)
+    startPos;
+    std::shared_ptr<Gameplay::Pokemon> pokemon = _world->getPokemonFromPosition(startPos);
+    std::array<std::shared_ptr<Gameplay::Move>, 4> moves = pokemon->moves;
+    int numMoves = pokemon->getNumMoves();
+    uint32 speed = pokemon->stats.getSpeed();
 
-    mapSize = world.mapSize
-    vector<vector<Tuple>> map;
-    map.initializeEverything(Tuple(10000, vector<Point>()))
-    map[startPos.x][startPos.y] = 0;
-
-    queue<Tuple> pointsToCheck
-    // NOTE: That vector of points is the spaces to move to reach that point, possibly flying over terrain for long range attacks
-    // There may also be an ally in each space
-    lastPointInfo = Tuple(0, vector<Point>())
-    foreach (first points to check)
-        queue.add(Tuple(pointToCheck, lastPointInfo))
-
-    while (queue not empty)
-    {
-        temp = queue.pop
-        currentPoint = temp.first
-        lastPointInfo = temp.second
-        if its on the map
-            oldDistance = map[x][y].first;
-            newDistance = lastPointInfo.first + terrain > speed ? lastPointInfo.first + 1 : lastPointInfo.first + terrain
-
-            if lastPointInfo.first + terrain < speed
-                newDistance = that
-            elif terrain is impassible by moves
-                continue
-            else
-                newDistance = lastPointInfo.first + 1
-
-            if new < old and new < maxRange
-                map[x][y].first = new
-                map[x][y].second = lastPointInfo.second + currentPoint
-                
-                foreach adjacent point
-                    queue.add(Tuple(adjacentPoint, map[x][y]))
-    }
-
-
-    plans
-    for every space in the map
-        if map[x][y].first > maxRange
-            continue
-
-        if no Pokemon at x, y
-            continue
-
-        foreach move
-            if Pokemon has same alliance and move targets allies and its not the attacker
-            or if Pokemon has different alliance and move targets enemies
-            or if move hits self and Pokemon is self
-                AttackPlan;
-                plan.move = &move
-                foreach space(tempX, tempY) within range of the target:
-                    if pokemon cant move there in one turn or there is another Pokemon in that space
-                        continue
-                    plan.movementPaths.add(map[tempX][tempY].second.remove_from_end(distanceFromTarget))
-                plan.targetPosition = x, y
-                plans.add(plan)
-
-    return plans
-}
-
-std::vector<AttackPlan> State::EnemyTurnState::findAllPossibleAttackPlans(Utility::Point startingPosition, std::array<Gameplay::Move, 4> moves, int numMoves)
-{
-    // TODO: Compress everything
-    // TODO(future): Should account for a Pokemon's movement as well
-    // as the move range, since moves aren't slowed by terrain.
     unsigned int maxRange = 0;
     for (int i = 0; i < numMoves; i++)
     {
-        maxRange = std::max(maxRange, moves[i].getRange());
+        maxRange = std::max(maxRange, moves[i]->getRange());
     }
+    maxRange += speed;
 
+    typedef Utility::Tuple<uint32, std::vector<Utility::Point>> PathInfo;
     Utility::Point mapSize = _world->getMapSize();
-    typedef std::tuple<int, std::vector<Utility::Point>> DistanceInfo;
-    // TODO: Replace C++'s awful Tuple class with my own using Templates
-    std::vector<std::vector<DistanceInfo> mapOfDistances(mapSize.x, std::vector<int>(mapSize.y, DistanceInfo(10000, std::vector<Utility::Point>())));
-    std::get<0>(mapOfDistances[startingPosition.x][startingPosition.y]) = 0;
-
-    // // TODO: Reuse DistanceInfo typedef for PointInfo
-    struct PointInfo
+    std::vector<std::vector<PathInfo>> map;
+    for (uint32 x = 0; x < mapSize.x; x++)
     {
-        Utility::Point point;
-        int distanceOfLastPoint;
-
-        PointInfo(int x, int y, int distanceOfLastPoint)
+        std::vector<PathInfo> column;
+        for (uint32 y = 0; y < mapSize.y; y++)
         {
-            point = Utility::Point(x, y);
-            this->distanceOfLastPoint = distanceOfLastPoint;
+            column.push_back(PathInfo(10000, std::vector<Utility::Point>()));
         }
-    };
+        map.push_back(column);
+    }
+    map[startPos.x][startPos.y].first = 0;
 
-    std::queue<PointInfo> pointsToCheck;
-    pointsToCheck.push(PointInfo(startingPosition.x + 1, startingPosition.y, 0));
-    pointsToCheck.push(PointInfo(startingPosition.x - 1, startingPosition.y, 0));
-    pointsToCheck.push(PointInfo(startingPosition.x, startingPosition.y + 1, 0));
-    pointsToCheck.push(PointInfo(startingPosition.x, startingPosition.y - 1, 0));
-
+    // For each position on the map, we need to check it, while
+    // also tracking the info of the previous position to build up
+    // a path on how to move there.
+    typedef Utility::Tuple<Utility::Point, PathInfo> PointToCheckInfo;
+    std::queue<PointToCheckInfo> pointsToCheck;
+    // NOTE: That vector of points is the spaces to move to reach that point, possibly flying over terrain for long range attacks
+    // That includes the spaces a long range move will pass through, just to be clear.
+    // There may also be an ally in each space
+    PathInfo initPointInfo = PathInfo(0, std::vector<Utility::Point>());
+    pointsToCheck.push(PointToCheckInfo(Utility::Point(startPos.x - 1, startPos.y), initPointInfo));
+    pointsToCheck.push(PointToCheckInfo(Utility::Point(startPos.x + 1, startPos.y), initPointInfo));
+    pointsToCheck.push(PointToCheckInfo(Utility::Point(startPos.x, startPos.y - 1), initPointInfo));
+    pointsToCheck.push(PointToCheckInfo(Utility::Point(startPos.x, startPos.y + 1), initPointInfo));
 
     while (!pointsToCheck.empty())
     {
-        PointInfo currentPointInfo = pointsToCheck.pop();
-        if (currentPointInfo.x < 0 || currentPointInfo.x >= mapSize.x || currentPointInfo.y < 0 || currentPointInfo.y >= mapSize.y)
-        {
-            continue;
-        }
+        Utility::Point currentPoint = pointsToCheck.front().first;
+        PathInfo lastPointInfo = pointsToCheck.front().second;
+        pointsToCheck.pop();
 
-        int newDistance = currentPointInfo.distanceOfLastPoint + 1;
-        int& oldDistance = std::get<0>(mapOfDistances[currentPointInfo.point.x][currentPointInfo.point.y]);
-        if (newDistance < oldDistance && newDistance <= maxRange)
+        if (mapSize.contains(currentPoint))        
         {
-            oldDistance = newDistance;
-            pointsToCheck.push(PointInfo(currentPointInfo.point.x + 1, currentPointInfo.point.y, newDistance));
-            pointsToCheck.push(PointInfo(currentPointInfo.point.x - 1, currentPointInfo.point.y, newDistance));
-            pointsToCheck.push(PointInfo(currentPointInfo.point.x, currentPointInfo.point.y + 1, newDistance));
-            pointsToCheck.push(PointInfo(currentPointInfo.point.x, currentPointInfo.point.y - 1, newDistance));
+            int x = currentPoint.x;
+            int y = currentPoint.y;
+            uint32 oldDistance = map[x][y].first;
+            
+            int terrain = 1; // When implementing terrain slowing you down, add it here.
+            uint32 newDistance = lastPointInfo.first + terrain > speed ? std::max(lastPointInfo.first, speed) + 1 : lastPointInfo.first + terrain;
+
+            if (newDistance < oldDistance && newDistance < maxRange)
+            {
+                map[x][y].first = newDistance;
+                map[x][y].second = std::vector<Utility::Point>(lastPointInfo.second);
+                map[x][y].second.push_back(currentPoint);
+                
+                // TODO: Compress
+                pointsToCheck.push(PointToCheckInfo(Utility::Point(currentPoint.x - 1, currentPoint.y), map[x][y]));
+                pointsToCheck.push(PointToCheckInfo(Utility::Point(currentPoint.x + 1, currentPoint.y), map[x][y]));
+                pointsToCheck.push(PointToCheckInfo(Utility::Point(currentPoint.x, currentPoint.y - 1), map[x][y]));
+                pointsToCheck.push(PointToCheckInfo(Utility::Point(currentPoint.x, currentPoint.y + 1), map[x][y]));
+            }
         }
     }
 
 
-    Gameplay::AllianceEnum attackingAlliance = _world->getPokemonUnderCursor()->alliance;
-    std::vector<AttackPlan> attackPlans;
-    for (int x = 0; x < mapSize.x; x++)
+    std::vector<AttackPlan> plans;
+    for (uint32 x = 0; x < mapSize.x; x++)
     {
-        for (int y = 0; y < mapSize.y; y++)
+        for (uint32 y = 0; y < mapSize.y; y++)
         {
-            if (std::get<0>(mapOfDistances[x][y]) > maxRange)
+            if (map[x][y].first > maxRange)
+            {
+                continue;
+            }
+            
+            Utility::Point targetPosition = Utility::Point(x, y);
+            std::shared_ptr<Gameplay::Pokemon> targetPokemon = _world->getPokemonFromPosition(targetPosition);
+            if (!targetPokemon)
             {
                 continue;
             }
 
-            Utility::Point position = Utility::Point(x, y);
-            std::shared_ptr<Gameplay::Pokemon> pokemon = _world->getPokemonFromPosition(position);
-            if (pokemon == nullptr)
-            {
-                continue;
-            }
-
-            int distance = position.distanceFrom(startingPosition);
             for (int i = 0; i < numMoves; i++)
             {
-                // TODO: For all that is good in the world, make a function out of this.
-                if (moves[i].getTarget & Gameplay::TARGET::ALLY &&
-                    pokemon->alliance == attackingAlliance &&
-                    position != startingPosition)
+                std::shared_ptr<Gameplay::Move> move = moves[i];
+                if (move->canTarget(pokemon, targetPokemon))
                 {
-                    AttackPlan plan;
-                    plan.move = &moves[i];
-                    plan.movementPath = std::get<1>(mapOfDistances[position.x][position.y]);
-                    plan.targetPosition = position;
-                    attackPlans.push_back(plan);
-                }
-                else if (moves[i].getTarget & Gameplay::TARGET::ENEMY &&
-                         pokemon->alliance != attackingAlliance)
-                {
-                    AttackPlan plan;
-                    plan.move = &moves[i];
-                    plan.movementPath = std::get<1>(mapOfDistances[position.x][position.y]);
-                    plan.targetPosition = position;
-                    attackPlans.push_back(plan);
-                }
-                else if (moves[i].getTarget & Gameplay::TARGET::SELF &&
-                    position == startingPosition)
-                {
-                    AttackPlan plan;
-                    plan.move = &moves[i];
-                    plan.movementPath = std::get<1>(mapOfDistances[position.x][position.y]);
-                    plan.targetPosition = position;
-                    attackPlans.push_back(plan);
+                    // Find all points within range of the target position that can be moved to.
+                    // My main concern is if we just pick one at random, it could be
+                    // a space we can't move to because another Pokemon is on it.
+                    // Spaces with Pokemon on them can't be ignored though because you
+                    // can move through spaces with allied Pokemon on them.
+                    std::vector<std::vector<Utility::Point>> movementPaths;
+                    std::vector<Utility::Point> nearbyPoints = targetPosition.getPointsWithinDistance(move->getRange());
+                    for (uint32 j = 0; j < nearbyPoints.size(); j++)
+                    {
+                        Utility::Point point = nearbyPoints[j];
+                        if (map[point.x][point.y].first > speed || _world->getPokemonFromPosition(point))
+                        {
+                            continue;
+                        }
+
+                        movementPaths.push_back(map[point.x][point.y].second);
+                    }
+
+                    if (!movementPaths.empty())
+                    {
+                        plans.push_back(AttackPlan(*move, movementPaths, targetPosition));
+                    }
                 }
             }
         }
     }
 
-    return attackPlans;
+    return plans;
 }
-
-/*
-struct thingy
-{
-    std::vector<std::shared_ptr<Gameplay::Pokemon>> targetsInRange;
-    unsigned int range;
-    unsigned int targetAllianceFlag;
-};
-
-void State::EnemyTurnState::pathfinding(Utility::Point position, std::vector<&thingy> thingies)
-{
-    // TODO: Oh my gosh this code is ugly and unclear.
-    unsigned int maxRange = 0;
-    for (int i = 0; i < thingies.size(); i++)
-    {
-        maxRange = std::max(maxRange, thingies[i].range);
-    }
-    maxRange += _world->getPokemonUnderCursor()->stats.getSpeed();
-
-    Utility::Point mapSize = _world->getMapSize();
-    std::vector<std::vector<int>> map(mapSize.x, std::vector<int>(mapSize.y, 10000));
-    map[position.x][position.y] = 0;
-    for (int i = 0; i < thingies.size(); i++)
-    {
-        if (thingies[i].targetAllianceFlag & Gameplay::TARGET::SELF)
-        {
-            // TODO: Error checking just in case targetsInRange isn't created yet.
-            // Which might not be possible?
-            thingies[i].targetsInRange.push_back(_world->getPokemonUnderCursor());
-        }
-    }
-
-
-    // Make a queue of points on a map to check, plus how much speed
-    // it took to move that far.
-    struct PointInfo
-    {
-        Utility::Point point;
-        int distance;
-
-        PointInfo(Utility::Point point, int distance)
-        {
-            this->point = point;
-            this->distance = distance;
-        }
-    };
-    std::queue<PointInfo> pointsToCheck;
-    pointsToCheck.push(PointInfo(Utility::Point(position.x + 1, position.y), 0));
-    pointsToCheck.push(PointInfo(Utility::Point(position.x - 1, position.y), 0));
-    pointsToCheck.push(PointInfo(Utility::Point(position.x, position.y + 1), 0));
-    pointsToCheck.push(PointInfo(Utility::Point(position.x, position.y - 1), 0));
-
-    while (!pointsToCheck.empty())
-    {
-        PointInfo pointInfo = pointsToCheck.pop();
-        Point point =  pointInfo.point;
-        if (point.x < 0 || point.x >= mapSize.x || point.y < 0 || point.y >= mapSize.y)
-        {
-            continue;
-        }
-
-        // TODO: Terrain movement replaces that 1
-        int newDistance = pointInfo.distance + 1;
-        if (newDistance < map[point.x][point.y] && newDistance <= maxRange)
-        {
-            map[point.x][point.y] = newDistance;
-            pointsToCheck.push(PointInfo(Utility::Point(point.x + 1, point.y), 0));
-            pointsToCheck.push(PointInfo(Utility::Point(point.x - 1, point.y), 0));
-            pointsToCheck.push(PointInfo(Utility::Point(point.x, point.y + 1), 0));
-            pointsToCheck.push(PointInfo(Utility::Point(point.x, point.y - 1), 0));
-        }
-    }
-
-
-    // TODO: Build up the list of Pokemon in range,
-    // and the movement path to reach them.
-}*/
 
 bool State::EnemyTurnState::moveAlongPath(Utility::Point startingPosition, std::vector<Utility::Point> movementPath)
 {
     Utility::Point currentPosition = startingPosition;
     for (unsigned int i = 0; i < movementPath.size(); i++)
     {
+        // TODO: Boolean flag for passing through allied Pokemon
         if (!_world->movePokemon(currentPosition, movementPath[i]))
         {
             return false;
@@ -337,13 +206,13 @@ void State::EnemyTurnState::update()
         // This boolean should never fail.
         if (!pokemon->hasMoved)
         {
-            std::vector<AttackPlan> possibleAttackPlans = findAllPossibleAttackPlans(position, pokemon->moves, pokemon->getNumMoves());
+            std::vector<AttackPlan> possibleAttackPlans = findAllPossibleAttackPlans(position);
             if (!possibleAttackPlans.empty())
             {
                 AttackPlan optimalAttackPlan = pickOptimalAttackPlan(pokemon, possibleAttackPlans);
-                if (moveAlongPath(position, optimalAttackPlan.movementPath))
+                if (moveAlongPath(position, optimalAttackPlan.movementPaths[0]))
                 {
-                    Gameplay::fight(_world, optimalAttackPlan.movementPath.back(), optimalAttackPlan.move, optimalAttackPlan.targetPosition);
+                    Gameplay::fight(_world, optimalAttackPlan.movementPaths[0].back(), optimalAttackPlan.move, optimalAttackPlan.targetPosition);
                 }
             }
             else
@@ -357,20 +226,3 @@ void State::EnemyTurnState::update()
     _world->resetWhetherEnemyPokemonHaveMoved();
     resetState(std::make_shared<PlayerTurnState>(_world));
 }
-
-
-
-/*
-void ThinkingOutLoud()
-{
-    foreach Pokemon
-        Map<Move, Struct<Targets, Vector<Point>>> result = A*(Vector<Moves>);
-        foreach move:
-            foreach target:
-                Calculate (damage done / current health) / accuracy
-                Save that move and target off if it is the max
-
-        Move along the spaces to reach the optimal target
-        Use the move on the target
-}
-*/

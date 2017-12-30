@@ -147,6 +147,24 @@ int Gameplay::Move::calculateDamage(int attack, int defense)
     }
 }
 
+bool Gameplay::Move::canTarget(std::shared_ptr<Gameplay::Pokemon> attacker, std::shared_ptr<Gameplay::Pokemon> defender)
+{
+    if (attacker->alliance == defender->alliance && _target & TARGET::ALLY && attacker != defender)
+    {
+        return true;
+    }
+    else if (attacker->alliance != defender->alliance && _target & TARGET::ENEMY)
+    {
+        return true;
+    }
+    else if (_target & TARGET::SELF && attacker == defender)
+    {
+        return true;
+    }
+
+    return false;
+}
+
 /// Using private variables with get methods because they shouldn't be changed
 /// after the constructor sets them.
 

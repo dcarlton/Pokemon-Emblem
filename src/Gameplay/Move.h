@@ -32,6 +32,7 @@ public:
     Move(std::string name);
     bool alwaysHits();
     int calculateDamage(int attack, int defense);
+    bool canTarget(std::shared_ptr<Pokemon> attacker, std::shared_ptr<Pokemon> defender);
     unsigned int getAccuracy();
     unsigned int getBasePower();
     std::string getName();
