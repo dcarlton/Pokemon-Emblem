@@ -11,6 +11,11 @@
    <property name="Name" value="charmander"/>
   </properties>
  </tile>
+ <tile id="216" type="Pokemon">
+  <properties>
+   <property name="Name" value="squirtle"/>
+  </properties>
+ </tile>
  <tile id="5436" type="Pokemon">
   <properties>
    <property name="Name" value="maletrainer"/>
