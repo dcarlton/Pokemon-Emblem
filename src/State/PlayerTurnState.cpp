@@ -35,6 +35,7 @@ void State::PlayerTurnState::draw()
 // Called when the mouse moves to move the cursor wherever the mouse is.
 // If the mouse is in the left third of the far left tile, top third of the
 // highest tile, etc. then the camera should be moved.
+// x and y are the position of mouse on the screen in pixels.
 void State::PlayerTurnState::mouseMoved(int x, int y)
 {
     Utility::Point newCursorPos = GUI::setCursorFromMouse(x, y, _world->getMapSize());

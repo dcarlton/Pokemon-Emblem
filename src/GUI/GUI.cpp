@@ -302,18 +302,20 @@ Utility::Point GUI::mousePositionToCursorPosition(int x, int y)
 
 // Move the camera if the mouse is at the edge of the screen, and
 // return where the cursor is now.
+// x and y are the position of the mouse in pixels.
 Utility::Point GUI::setCursorFromMouse(int x, int y, Utility::Point mapSize)
 {
     Utility::Point cursorPos = mousePositionToCursorPosition(x, y);
+    Utility::Point relativeCursorPos(x / TILE_WIDTH, y / TILE_WIDTH);
 
-    if (x == 0 && camera.x > 0 && NUM_TILES_TO_DISPLAY < mapSize.x)
+    if (relativeCursorPos.x == 0 && camera.x > 0 && NUM_TILES_TO_DISPLAY < mapSize.x)
         camera.x--;
-    else if (x == ((NUM_TILES_TO_DISPLAY * TILE_WIDTH) - 1) && (camera.x + NUM_TILES_TO_DISPLAY) < (mapSize.x))
+    else if (relativeCursorPos.x == NUM_TILES_TO_DISPLAY - 1 && (camera.x + NUM_TILES_TO_DISPLAY) < (mapSize.x))
         camera.x++;
     
-    if (y == 0 && camera.y > 0 && NUM_TILES_TO_DISPLAY < mapSize.y)
+    if (relativeCursorPos.y == 0 && camera.y > 0 && NUM_TILES_TO_DISPLAY < mapSize.y)
         camera.y--;
-    else if (y == ((NUM_TILES_TO_DISPLAY * TILE_HEIGHT) - 1) && (camera.y + NUM_TILES_TO_DISPLAY) < (mapSize.y))
+    else if (relativeCursorPos.y == NUM_TILES_TO_DISPLAY - 1 && (camera.y + NUM_TILES_TO_DISPLAY) < (mapSize.y))
         camera.y++;
 
     return cursorPos;
