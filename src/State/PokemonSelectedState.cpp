@@ -32,7 +32,7 @@ void State::PokemonSelectedState::draw()
 // x and y position, if it's within range.
 void State::PokemonSelectedState::mouseMoved(int x, int y)
 {
-    Utility::Point cursorPos = GUI::mousePositionToCursorPosition(x, y);
+    Utility::Point cursorPos = GUI::setCursorFromMouse(x, y, _world->getMapSize());
     _world->setCursorPosIfInRange(_originalPos, cursorPos, _world->getPokemonFromPosition(_currentPokemonPos)->stats.getMovementRange());
     moveIfValid();
 }
