@@ -105,6 +105,10 @@ Gameplay::Move::Move(std::string name)
         {
             addTargetBoostSideEffect(Gameplay::Stat::SPEED, targetBoosts["spe"]);
         }
+        if (targetBoosts.count("accuracy") == 1)
+        {
+            addTargetBoostSideEffect(Gameplay::Stat::SKILL, targetBoosts["accuracy"]);
+        }
     }
 }
 

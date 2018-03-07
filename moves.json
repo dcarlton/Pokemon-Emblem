@@ -50,6 +50,29 @@
 		"zMovePower": 100,
 		"contestType": "Tough"
 	},
+	"sandattack": {
+		"num": 28,
+		"accuracy": 100,
+		"alwaysHits": false,
+		"basePower": 0,
+		"category": "Status",
+		"damageType": "noDamage",
+		"desc": "Lowers the target's accuracy by 1 stage.",
+		"shortDesc": "Lowers the target's accuracy by 1.",
+		"id": "sandattack",
+		"name": "Sand Attack",
+		"pp": 15,
+		"priority": 0,
+		"flags": {"protect": 1, "reflectable": 1, "mirror": 1},
+		"targetBoosts": {
+			"accuracy": -1
+		},
+		"secondary": false,
+		"target": "normal",
+		"type": "Ground",
+		"zMoveBoost": {"evasion": 1},
+		"contestType": "Cute"
+	},
     "tackle": {
 		"num": 33,
 		"accuracy": 100,

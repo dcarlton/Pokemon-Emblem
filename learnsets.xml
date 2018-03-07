@@ -11,6 +11,10 @@
     <levelup level="1" move="tackle"/>
     <levelup level="2" move="tailwhip"/>
 </pokemon>
+<pokemon id="16" name="pidgey">
+    <levelup level="1" move="tackle"/>
+    <levelup level="3" move="sandattack"/>
+</pokemon>
 <pokemon id="152" name="maletrainer">
     <levelup level="1" move="potion"/>
 </pokemon>

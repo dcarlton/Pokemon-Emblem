@@ -16,6 +16,11 @@
    <property name="Name" value="squirtle"/>
   </properties>
  </tile>
+ <tile id="540" type="Pokemon">
+  <properties>
+   <property name="Name" value="pidgey"/>
+  </properties>
+ </tile>
  <tile id="5436" type="Pokemon">
   <properties>
    <property name="Name" value="maletrainer"/>

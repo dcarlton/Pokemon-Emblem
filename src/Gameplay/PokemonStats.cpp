@@ -26,6 +26,8 @@ Gameplay::PokemonStats::PokemonStats()
     maxHP = 0;
     movement = 0;
     skill = 0;
+    skillBoost = 0;
+    skillBoostDuration = 0;
     speed = 0;
     speedBoost = 0;
     speedBoostDuration = 0;
@@ -47,7 +49,7 @@ Gameplay::PokemonStats::PokemonStats(std::string name, unsigned int level)
 
 unsigned int Gameplay::PokemonStats::getAccuracy()
 {
-    return skill * 2;
+    return getSkill() * 2;
 }
 
 int Gameplay::PokemonStats::getAttack()
@@ -92,7 +94,7 @@ unsigned int Gameplay::PokemonStats::getMovementRange()
 
 unsigned int Gameplay::PokemonStats::getSkill()
 {
-    return skill;
+    return std::max(0, (int)skill + skillBoost);
 }
 
 int Gameplay::PokemonStats::getSpeed()
@@ -132,6 +134,14 @@ void Gameplay::PokemonStats::onStartTurn()
         if (defenseBoostDuration == 0)
         {
             defenseBoost = 0;
+        }
+    }
+    if (skillBoostDuration > 0)
+    {
+        skillBoostDuration--;
+        if (skillBoostDuration == 0)
+        {
+            skillBoost = 0;
         }
     }
     if (speedBoostDuration > 0)
@@ -187,6 +197,8 @@ void Gameplay::PokemonStats::setLevelOneStats(std::string name)
     attackBoostDuration = 0;
     defenseBoost = 0;
     defenseBoostDuration = 0;
+    skillBoost = 0;
+    skillBoostDuration = 0;
     speedBoost = 0;
     speedBoostDuration = 0;
 }
@@ -222,6 +234,11 @@ void Gameplay::PokemonStats::setStatBoost(Gameplay::Stat stat, int statBoost)
         case Gameplay::Stat::DEFENSE:
             oldStatBoost = &defenseBoost;
             statBoostDuration = &defenseBoostDuration;
+            break;
+
+        case Gameplay::Stat::SKILL:
+            oldStatBoost = &skillBoost;
+            statBoostDuration = &skillBoostDuration;
             break;
 
         case Gameplay::Stat::SPEED:

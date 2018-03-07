@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="2017.05.26" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" nextobjectid="6">
+ <tileset firstgid="1" source="Terrain.tsx"/>
+ <tileset firstgid="3" source="Pokemon.tsx"/>
+ <layer name="Terrain" width="10" height="10">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup name="Pokemon">
+  <object id="3" gid="111" x="0" y="32" width="32" height="32">
+   <properties>
+    <property name="Alliance" type="int" value="0"/>
+    <property name="Level" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="4" gid="543" x="64" y="64" width="32" height="32">
+   <properties>
+    <property name="Alliance" type="int" value="1"/>
+    <property name="Level" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="5" gid="543" x="0" y="96" width="32" height="32">
+   <properties>
+    <property name="Alliance" type="int" value="0"/>
+    <property name="Level" type="int" value="3"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

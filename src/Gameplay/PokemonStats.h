@@ -44,6 +44,8 @@ private:
     unsigned int maxHP;
     unsigned int movement;
     unsigned int skill;
+    int skillBoost;
+    unsigned int skillBoostDuration;
     int speed;
     int speedBoost;
     unsigned int speedBoostDuration;

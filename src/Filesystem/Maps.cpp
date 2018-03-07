@@ -93,7 +93,7 @@ namespace
 std::shared_ptr<Gameplay::World> Filesystem::createWorld()
 {
     tinyxml2::XMLDocument levelFile;
-    levelFile.LoadFile("resources/Maps/Tutorial.tmx");
+    levelFile.LoadFile("resources/Maps/Level1.tmx");
 
     int mapHeight = levelFile.FirstChildElement("map")->IntAttribute("height");
     int mapWidth = levelFile.FirstChildElement("map")->IntAttribute("width");
