@@ -1,3 +1,3 @@
 # Pokemon-Emblem
 
-This project will be a remake of Pokemon Red/Blue, with the gameplay of the Fire Emblem video game franchise. It has not been ongoing for very long, and as of this writing only works well enough to show a grid with a single character that can be moved around.
+This project will be a remake of Pokemon Red/Blue, with the gameplay of the Fire Emblem video game franchise. Last I left off, it could play a single level by reading data for both the Pokemon and the map from config files.
